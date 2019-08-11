@@ -300,18 +300,95 @@
 <span id="300">300</span>
 <span id="301">301</span>
 <span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::{<span class="ident">Convert</span>, <span class="ident">RustBackedValue</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::{<span class="ident">Convert</span>, <span class="ident">RustBackedValue</span>, <span class="ident">TryConvert</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">error</span>::{<span class="ident">ArgumentError</span>, <span class="ident">RubyException</span>, <span class="ident">RuntimeError</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
 
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">env</span>::<span class="ident">backends</span>::<span class="ident">EnvBackend</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">env</span>::<span class="ident">Error</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::<span class="ident">Value</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Artichoke</span>;
-
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">backends</span>::<span class="ident">EnvBackend</span>;
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">errors</span>::<span class="ident">EnvError</span>;
-<span class="kw">use</span> <span class="ident">mruby_sys</span>::<span class="ident">mrb_state</span>;
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">RubyEnvNativeApi</span> {
     <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">initialize</span>(
@@ -337,7 +414,7 @@
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">extract_two_string_args</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-&gt;</span> (<span class="ident">String</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">key</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">mem</span>::<span class="ident">MaybeUninit</span><span class="op">&lt;</span><span class="ident">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;&gt;</span>::<span class="ident">uninit</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">value</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">mem</span>::<span class="ident">MaybeUninit</span><span class="op">&lt;</span><span class="ident">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;&gt;</span>::<span class="ident">uninit</span>();
-        <span class="kw">let</span> <span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_state</span> <span class="op">=</span> (<span class="kw-2">*</span><span class="ident">interp</span>.<span class="ident">as_ptr</span>()).<span class="ident">mrb</span>;
+        <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
 
         <span class="ident">sys</span>::<span class="ident">mrb_get_args</span>(
             <span class="ident">mrb</span>,
@@ -358,43 +435,19 @@
         }
     }
 
-    <span class="comment">// set_env</span>
-    <span class="comment">// This function may panic if key is empty, contains an ASCII equals sign &#39;=&#39;</span>
-    <span class="comment">//      or the NUL character &#39;\0&#39;, or when the value contains the NUL character.</span>
-    <span class="kw">fn</span> <span class="ident">validate_set_args</span>(<span class="ident">key</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">EnvError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">key</span>.<span class="ident">find</span>(<span class="string">&#39;=&#39;</span>).<span class="ident">is_some</span>() <span class="op">||</span> <span class="ident">key</span>.<span class="ident">find</span>(<span class="string">&#39;\0&#39;</span>).<span class="ident">is_some</span>() {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">EnvError</span>::<span class="ident">InvalidSetKey</span>);
-        }
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_internal</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> (<span class="ident">key</span>, <span class="ident">value</span>) <span class="op">=</span> <span class="self">Self</span>::<span class="ident">extract_two_string_args</span>(<span class="ident">interp</span>);
 
-        <span class="kw">if</span> <span class="ident">value</span>.<span class="ident">is_some</span>() <span class="op">&amp;&amp;</span> <span class="ident">value</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>().<span class="ident">find</span>(<span class="string">&#39;\0&#39;</span>).<span class="ident">is_some</span>() {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">EnvError</span>::<span class="ident">InvalidSetValue</span>);
-        }
-
-        <span class="prelude-val">Ok</span>(())
-    }
-
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_internal</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
-        <span class="kw">let</span> (<span class="ident">key</span>, <span class="ident">value</span>) <span class="op">=</span> <span class="self">Self</span>::<span class="ident">extract_two_string_args</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>);
-
-        <span class="kw">match</span> <span class="self">Self</span>::<span class="ident">validate_set_args</span>(<span class="kw-2">&amp;</span><span class="ident">key</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>) {
-            <span class="prelude-val">Ok</span>(<span class="ident">_res</span>) <span class="op">=&gt;</span> {
-                <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">set_value</span>(<span class="kw-2">&amp;</span><span class="ident">key</span>, <span class="ident">value</span>.<span class="ident">as_ref</span>());
-                <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">get_value</span>(<span class="kw-2">&amp;</span><span class="ident">key</span>)).<span class="ident">inner</span>()
-            }
-            <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">error</span> {
-                <span class="ident">EnvError</span>::<span class="ident">InvalidSetKey</span> <span class="op">=&gt;</span> <span class="ident">ArgumentError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;Invalid key for ENV set&quot;</span>),
-                <span class="ident">EnvError</span>::<span class="ident">InvalidSetValue</span> <span class="op">=&gt;</span> {
-                    <span class="ident">ArgumentError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;Invalid value for ENV set&quot;</span>)
-                }
-            },
-        }
+        <span class="self">self</span>.<span class="ident">backend</span>
+            .<span class="ident">set_value</span>(<span class="kw-2">&amp;</span><span class="ident">key</span>, <span class="ident">value</span>.<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="ident">String</span>::<span class="ident">as_str</span>))
+            .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">value</span>))
     }
 
     <span class="kw">const</span> <span class="ident">STRING_SINGLE_ARG_SPEC</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="ident">u8</span>] <span class="op">=</span> <span class="string">b&quot;S\0&quot;</span>;
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">extract_string_arg</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">extract_string_arg</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">other</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">mem</span>::<span class="ident">MaybeUninit</span><span class="op">&lt;</span><span class="ident">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;&gt;</span>::<span class="ident">uninit</span>();
-        <span class="kw">let</span> <span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_state</span> <span class="op">=</span> (<span class="kw-2">*</span><span class="ident">interp</span>.<span class="ident">as_ptr</span>()).<span class="ident">mrb</span>;
+        <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
         <span class="ident">sys</span>::<span class="ident">mrb_get_args</span>(
             <span class="ident">mrb</span>,
             <span class="self">Self</span>::<span class="ident">STRING_SINGLE_ARG_SPEC</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">i8</span>,
@@ -402,27 +455,21 @@
         );
         <span class="kw">let</span> <span class="ident">other</span> <span class="op">=</span> <span class="ident">other</span>.<span class="ident">assume_init</span>();
 
-        <span class="kw">let</span> <span class="ident">arg_value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="ident">interp</span>, <span class="ident">other</span>);
-
-        <span class="prelude-val">Some</span>(<span class="ident">arg_value</span>.<span class="ident">to_s</span>())
+        <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="ident">interp</span>, <span class="ident">other</span>);
+        <span class="comment">// argspec guarantees a String</span>
+        <span class="ident">String</span>::<span class="ident">try_convert</span>(<span class="ident">interp</span>, <span class="ident">name</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">Error</span>::<span class="ident">Fatal</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_internal</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">arg_name</span>) <span class="op">=</span> <span class="self">Self</span>::<span class="ident">extract_string_arg</span>(<span class="ident">interp</span>) {
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">variable_value</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">get_value</span>(<span class="kw-2">&amp;</span><span class="ident">arg_name</span>) {
-                <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="ident">interp</span>, <span class="ident">variable_value</span>).<span class="ident">inner</span>()
-            } <span class="kw">else</span> {
-                <span class="ident">sys</span>::<span class="ident">mrb_sys_nil_value</span>()
-            }
-        } <span class="kw">else</span> {
-            <span class="ident">ArgumentError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>.<span class="ident">to_owned</span>(), <span class="string">&quot;ENV[..] incorrect arguments&quot;</span>)
-        }
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_internal</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">extract_string_arg</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">backend</span>
+            .<span class="ident">get_value</span>(<span class="kw-2">&amp;</span><span class="ident">name</span>)
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">value</span><span class="op">|</span> <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">value</span>))
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">env_to_h_internal</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">env_to_h_internal</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="ident">Value</span> {
         <span class="kw">let</span> <span class="ident">env</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">as_map</span>();
-
-        <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="ident">interp</span>, <span class="ident">env</span>).<span class="ident">inner</span>()
+        <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="ident">interp</span>, <span class="ident">env</span>)
     }
 }
 
@@ -436,45 +483,74 @@
     ) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
 
-        <span class="kw">let</span> <span class="ident">new_object</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">new</span>();
-        <span class="kw">let</span> <span class="ident">this</span> <span class="op">=</span> <span class="ident">new_object</span>.<span class="ident">try_into_ruby</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">slf</span>));
+        <span class="kw">let</span> <span class="ident">backend</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">new</span>();
+        <span class="kw">let</span> <span class="ident">backend</span> <span class="op">=</span> <span class="ident">backend</span>.<span class="ident">try_into_ruby</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">slf</span>));
 
-        <span class="kw">match</span> <span class="ident">this</span> {
-            <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">inner</span>(),
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;Cannot initialize new ENV object&quot;</span>),
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">backend</span>) <span class="op">=</span> <span class="ident">backend</span> {
+            <span class="ident">backend</span>.<span class="ident">inner</span>()
+        } <span class="kw">else</span> {
+            <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;Cannot initialize new ENV object&quot;</span>)
         }
     }
 
     <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">get</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
 
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">this</span>) <span class="op">=</span> <span class="self">Self</span>::<span class="ident">try_from_ruby</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>)) {
-            <span class="kw">let</span> <span class="ident">that</span> <span class="op">=</span> <span class="ident">this</span>.<span class="ident">as_ref</span>().<span class="ident">borrow</span>();
-            <span class="ident">that</span>.<span class="ident">get_internal</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>)
-        } <span class="kw">else</span> {
-            <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;ENV::get Unable to access self object&quot;</span>)
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">try_from_ruby</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>))
+            .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">Error</span>::<span class="ident">Fatal</span>)
+            .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">env</span><span class="op">|</span> {
+                <span class="kw">let</span> <span class="ident">borrow</span> <span class="op">=</span> <span class="ident">env</span>.<span class="ident">borrow</span>();
+                <span class="ident">borrow</span>.<span class="ident">get_internal</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>)
+            });
+        <span class="kw">match</span> <span class="ident">result</span> {
+            <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">inner</span>(),
+            <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Fatal</span>) <span class="op">=&gt;</span> <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;fatal ENV error&quot;</span>),
+            <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">NameContainsNullByte</span>) <span class="op">=&gt;</span> {
+                <span class="ident">ArgumentError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;bad environment variable name: contains null byte&quot;</span>)
+            }
+            <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Os</span>(<span class="ident">arg</span>)) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">fmt</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">arg</span>);
+                <span class="ident">RuntimeError</span>::<span class="ident">raisef</span>(<span class="ident">interp</span>, <span class="string">&quot;invalid argument - setenv(%S)&quot;</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">fmt</span>])
+            }
+            <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">ValueContainsNullByte</span>) <span class="op">=&gt;</span> {
+                <span class="ident">ArgumentError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;bad environment variable value: contains null byte&quot;</span>)
+            }
         }
     }
 
     <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">set</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
-        <span class="kw">let</span> <span class="ident">interp</span>: <span class="ident">Artichoke</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
+        <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
 
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">this</span>) <span class="op">=</span> <span class="self">Self</span>::<span class="ident">try_from_ruby</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>)) {
-            <span class="kw">let</span> <span class="ident">that</span> <span class="op">=</span> <span class="ident">this</span>.<span class="ident">as_ref</span>().<span class="ident">borrow</span>();
-            <span class="ident">that</span>.<span class="ident">set_internal</span>(<span class="ident">interp</span>)
-        } <span class="kw">else</span> {
-            <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;Unable to access self object&quot;</span>)
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">try_from_ruby</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>))
+            .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">Error</span>::<span class="ident">Fatal</span>)
+            .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">env</span><span class="op">|</span> {
+                <span class="kw">let</span> <span class="ident">borrow</span> <span class="op">=</span> <span class="ident">env</span>.<span class="ident">borrow</span>();
+                <span class="ident">borrow</span>.<span class="ident">set_internal</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>)
+            });
+        <span class="kw">match</span> <span class="ident">result</span> {
+            <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">inner</span>(),
+            <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Fatal</span>) <span class="op">=&gt;</span> <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;fatal ENV error&quot;</span>),
+            <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">NameContainsNullByte</span>) <span class="op">=&gt;</span> {
+                <span class="ident">ArgumentError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;bad environment variable name: contains null byte&quot;</span>)
+            }
+            <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Os</span>(<span class="ident">arg</span>)) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">fmt</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">arg</span>);
+                <span class="ident">RuntimeError</span>::<span class="ident">raisef</span>(<span class="ident">interp</span>, <span class="string">&quot;invalid argument - setenv(%S)&quot;</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">fmt</span>])
+            }
+            <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">ValueContainsNullByte</span>) <span class="op">=&gt;</span> {
+                <span class="ident">ArgumentError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;bad environment variable value: contains null byte&quot;</span>)
+            }
         }
     }
 
     <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">env_to_h</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
         <span class="kw">let</span> <span class="ident">interp</span>: <span class="ident">Artichoke</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
 
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">this</span>) <span class="op">=</span> <span class="self">Self</span>::<span class="ident">try_from_ruby</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>)) {
-            <span class="kw">let</span> <span class="ident">that</span> <span class="op">=</span> <span class="ident">this</span>.<span class="ident">as_ref</span>().<span class="ident">borrow</span>();
-            <span class="ident">that</span>.<span class="ident">env_to_h_internal</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>)
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">env</span>) <span class="op">=</span> <span class="self">Self</span>::<span class="ident">try_from_ruby</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>)) {
+            <span class="kw">let</span> <span class="ident">borrow</span> <span class="op">=</span> <span class="ident">env</span>.<span class="ident">borrow</span>();
+            <span class="ident">borrow</span>.<span class="ident">env_to_h_internal</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">inner</span>()
         } <span class="kw">else</span> {
-            <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;Unable to access self object&quot;</span>)
+            <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;fatal ENV error&quot;</span>)
         }
     }
 }
@@ -485,7 +561,8 @@
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">env</span>;
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>;
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::<span class="ident">Value</span>;
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ArtichokeError</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_env_initialized</span>() {
@@ -597,11 +674,92 @@
         <span class="comment">// then</span>
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">first_result</span>.<span class="ident">is_ok</span>());
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">var_value</span>, <span class="ident">first_result</span>.<span class="ident">unwrap</span>());
-        <span class="kw">unsafe</span> {
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">sys</span>::<span class="ident">mrb_sys_value_is_nil</span>(<span class="ident">last_result</span>.<span class="ident">inner</span>()));
-        }
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">last_result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;&gt;</span>().<span class="ident">unwrap</span>().<span class="ident">is_none</span>());
     }
 
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_get_name_with_null_byte</span>() {
+        <span class="comment">// given</span>
+        <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
+        <span class="ident">env</span>::<span class="ident">patch</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
+
+        <span class="comment">// when</span>
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;ENV[&quot;bar\0&quot;]&quot;#</span>);
+
+        <span class="comment">// then</span>
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>.<span class="ident">is_err</span>());
+        <span class="kw">let</span> <span class="ident">expected_backtrace</span> <span class="op">=</span> <span class="string">r#&quot;
+(eval):1: bad environment variable name: contains null byte (ArgumentError)
+(eval):1
+        &quot;#</span>;
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">result</span>.<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ()),
+            <span class="prelude-val">Err</span>(<span class="ident">ArtichokeError</span>::<span class="ident">Exec</span>(<span class="ident">expected_backtrace</span>.<span class="ident">trim</span>().<span class="ident">to_owned</span>()))
+        );
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_set_name_with_null_byte</span>() {
+        <span class="comment">// given</span>
+        <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
+        <span class="ident">env</span>::<span class="ident">patch</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
+
+        <span class="comment">// when</span>
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;ENV[&quot;bar\0&quot;] = &quot;foo&quot;&quot;#</span>);
+
+        <span class="comment">// then</span>
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>.<span class="ident">is_err</span>());
+        <span class="kw">let</span> <span class="ident">expected_backtrace</span> <span class="op">=</span> <span class="string">r#&quot;
+(eval):1: bad environment variable name: contains null byte (ArgumentError)
+(eval):1
+        &quot;#</span>;
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">result</span>.<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ()),
+            <span class="prelude-val">Err</span>(<span class="ident">ArtichokeError</span>::<span class="ident">Exec</span>(<span class="ident">expected_backtrace</span>.<span class="ident">trim</span>().<span class="ident">to_owned</span>()))
+        );
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_set_value_with_null_byte</span>() {
+        <span class="comment">// given</span>
+        <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
+        <span class="ident">env</span>::<span class="ident">patch</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
+
+        <span class="comment">// when</span>
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;ENV[&#39;bar&#39;] = &quot;foo\0&quot;&quot;#</span>);
+
+        <span class="comment">// then</span>
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>.<span class="ident">is_err</span>());
+        <span class="kw">let</span> <span class="ident">expected_backtrace</span> <span class="op">=</span> <span class="string">r#&quot;
+(eval):1: bad environment variable value: contains null byte (ArgumentError)
+(eval):1
+        &quot;#</span>;
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">result</span>.<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ()),
+            <span class="prelude-val">Err</span>(<span class="ident">ArtichokeError</span>::<span class="ident">Exec</span>(<span class="ident">expected_backtrace</span>.<span class="ident">trim</span>().<span class="ident">to_owned</span>()))
+        );
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_set_value_with_equal</span>() {
+        <span class="comment">// given</span>
+        <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
+        <span class="ident">env</span>::<span class="ident">patch</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
+
+        <span class="comment">// when</span>
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;ENV[&#39;bar=&#39;] = &quot;foo&quot;&quot;#</span>);
+
+        <span class="comment">// then</span>
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>.<span class="ident">is_err</span>());
+        <span class="kw">let</span> <span class="ident">expected_backtrace</span> <span class="op">=</span> <span class="string">r#&quot;
+(eval):1: invalid argument - setenv(bar=) (RuntimeError)
+(eval):1
+        &quot;#</span>;
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">result</span>.<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ()),
+            <span class="prelude-val">Err</span>(<span class="ident">ArtichokeError</span>::<span class="ident">Exec</span>(<span class="ident">expected_backtrace</span>.<span class="ident">trim</span>().<span class="ident">to_owned</span>()))
+        );
+    }
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../../../../";window.currentCrate = "artichoke_backend";</script><script src="../../../../../aliases.js"></script><script src="../../../../../main.js"></script><script src="../../../../../source-script.js"></script><script src="../../../../../source-files.js"></script><script defer src="../../../../../search-index.js"></script></body></html>

@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["patch",""]]});
+initSidebarItems({"enum":[["Error",""]],"fn":[["patch",""]]});
