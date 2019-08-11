@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["INPUT_RECORD_SEPARATOR",""],["RUBY_PLATFORM",""]],"fn":[["patch",""]],"mod":[["core",""],["stdlib",""]]});
+initSidebarItems({"constant":[["INPUT_RECORD_SEPARATOR",""],["RUBY_PLATFORM",""]],"fn":[["init",""]],"mod":[["core",""],["stdlib",""]]});

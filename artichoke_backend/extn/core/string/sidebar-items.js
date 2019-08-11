@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["patch",""]],"struct":[["RString",""]]});
+initSidebarItems({"fn":[["init",""]],"struct":[["RString",""]]});

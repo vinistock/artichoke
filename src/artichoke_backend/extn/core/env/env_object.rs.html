@@ -567,14 +567,14 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_env_initialized</span>() {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
-        <span class="ident">env</span>::<span class="ident">patch</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
+        <span class="ident">env</span>::<span class="ident">init</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_env_get_unexisting_variable</span>() {
         <span class="comment">// given</span>
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
-        <span class="ident">env</span>::<span class="ident">patch</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
+        <span class="ident">env</span>::<span class="ident">init</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
 
         <span class="comment">// when</span>
         <span class="kw">let</span> <span class="ident">non_existing_env_variable</span> <span class="op">=</span> (<span class="kw-2">&amp;</span><span class="ident">interp</span>)
@@ -590,7 +590,7 @@
     <span class="kw">fn</span> <span class="ident">test_env_get_with_incorrect_number_of_args</span>() {
         <span class="comment">// given</span>
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
-        <span class="ident">env</span>::<span class="ident">patch</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
+        <span class="ident">env</span>::<span class="ident">init</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
 
         <span class="comment">// when</span>
         <span class="kw">let</span> <span class="ident">env_get_no_args</span> <span class="op">=</span> (<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">eval</span>(<span class="string">r&quot;ENV[]&quot;</span>);
@@ -605,7 +605,7 @@
     <span class="kw">fn</span> <span class="ident">test_env_set</span>() {
         <span class="comment">// given</span>
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
-        <span class="ident">env</span>::<span class="ident">patch</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
+        <span class="ident">env</span>::<span class="ident">init</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
 
         <span class="comment">// when</span>
         <span class="kw">let</span> <span class="ident">env_set_random_var</span> <span class="op">=</span>
@@ -621,7 +621,7 @@
     <span class="kw">fn</span> <span class="ident">test_two_set</span>() {
         <span class="comment">// given</span>
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
-        <span class="ident">env</span>::<span class="ident">patch</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
+        <span class="ident">env</span>::<span class="ident">init</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
 
         <span class="comment">// when</span>
         <span class="kw">let</span> <span class="ident">_env_set_1</span> <span class="op">=</span> (<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">eval</span>(<span class="string">r&quot;ENV[&#39;f38e2156-0633-4b06-80e7-9d5fa4b5a553&#39;] = &#39;val1&#39;&quot;</span>);
@@ -639,7 +639,7 @@
     <span class="kw">fn</span> <span class="ident">test_set_get</span>() {
         <span class="comment">// given</span>
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
-        <span class="ident">env</span>::<span class="ident">patch</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
+        <span class="ident">env</span>::<span class="ident">init</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
         <span class="kw">let</span> <span class="ident">var_name</span> <span class="op">=</span> <span class="string">&quot;81fdf184-01b4-4248-82db-3b3e8482abf6&quot;</span>;
         <span class="kw">let</span> <span class="ident">var_value</span> <span class="op">=</span> <span class="string">&quot;val&quot;</span>;
         <span class="kw">let</span> <span class="ident">set_var_cmd</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">r&quot;ENV[&#39;{0}&#39;] = &#39;{1}&#39;&quot;</span>, <span class="ident">var_name</span>, <span class="ident">var_value</span>);
@@ -658,7 +658,7 @@
     <span class="kw">fn</span> <span class="ident">test_set_nil</span>() {
         <span class="comment">// given</span>
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
-        <span class="ident">env</span>::<span class="ident">patch</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
+        <span class="ident">env</span>::<span class="ident">init</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
         <span class="kw">let</span> <span class="ident">var_name</span> <span class="op">=</span> <span class="string">&quot;9a557fda-73a6-4de8-8999-ddeda18703f2&quot;</span>;
         <span class="kw">let</span> <span class="ident">var_value</span> <span class="op">=</span> <span class="string">&quot;val&quot;</span>;
         <span class="kw">let</span> <span class="ident">set_var_cmd</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">r&quot;ENV[&#39;{0}&#39;] = &#39;{1}&#39;&quot;</span>, <span class="ident">var_name</span>, <span class="ident">var_value</span>);
@@ -681,7 +681,7 @@
     <span class="kw">fn</span> <span class="ident">test_get_name_with_null_byte</span>() {
         <span class="comment">// given</span>
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
-        <span class="ident">env</span>::<span class="ident">patch</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
+        <span class="ident">env</span>::<span class="ident">init</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
 
         <span class="comment">// when</span>
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;ENV[&quot;bar\0&quot;]&quot;#</span>);
@@ -702,7 +702,7 @@
     <span class="kw">fn</span> <span class="ident">test_set_name_with_null_byte</span>() {
         <span class="comment">// given</span>
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
-        <span class="ident">env</span>::<span class="ident">patch</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
+        <span class="ident">env</span>::<span class="ident">init</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
 
         <span class="comment">// when</span>
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;ENV[&quot;bar\0&quot;] = &quot;foo&quot;&quot;#</span>);
@@ -723,7 +723,7 @@
     <span class="kw">fn</span> <span class="ident">test_set_value_with_null_byte</span>() {
         <span class="comment">// given</span>
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
-        <span class="ident">env</span>::<span class="ident">patch</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
+        <span class="ident">env</span>::<span class="ident">init</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
 
         <span class="comment">// when</span>
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;ENV[&#39;bar&#39;] = &quot;foo\0&quot;&quot;#</span>);
@@ -744,7 +744,7 @@
     <span class="kw">fn</span> <span class="ident">test_set_value_with_equal</span>() {
         <span class="comment">// given</span>
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
-        <span class="ident">env</span>::<span class="ident">patch</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
+        <span class="ident">env</span>::<span class="ident">init</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;env init&quot;</span>);
 
         <span class="comment">// when</span>
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;ENV[&#39;bar=&#39;] = &quot;foo&quot;&quot;#</span>);

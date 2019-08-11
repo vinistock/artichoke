@@ -111,11 +111,11 @@
 <span class="kw">use</span> <span class="ident">backends</span>::{<span class="ident">EnvBackend</span>, <span class="ident">EnvStdBackend</span>};
 <span class="kw">use</span> <span class="ident">env_object</span>::{<span class="ident">Env</span>, <span class="ident">RubyEnvNativeApi</span>};
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">patch</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
-    <span class="ident">patch_internal_with_backend</span>::<span class="op">&lt;</span><span class="ident">EnvStdBackend</span><span class="op">&gt;</span>(<span class="ident">interp</span>)
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">init</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
+    <span class="ident">init_internal_with_backend</span>::<span class="op">&lt;</span><span class="ident">EnvStdBackend</span><span class="op">&gt;</span>(<span class="ident">interp</span>)
 }
 
-<span class="kw">fn</span> <span class="ident">patch_internal_with_backend</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">EnvBackend</span><span class="op">&gt;</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ArtichokeError</span><span class="op">&gt;</span>
+<span class="kw">fn</span> <span class="ident">init_internal_with_backend</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">EnvBackend</span><span class="op">&gt;</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ArtichokeError</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="lifetime">&#39;static</span>,
 {
