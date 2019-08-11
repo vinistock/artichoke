@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["patch",""]],"mod":[["delegate",""],["forwardable",""],["json",""],["monitor",""],["ostruct",""],["set",""],["strscan",""],["uri",""]]});
+initSidebarItems({"fn":[["patch",""]],"mod":[["delegate",""],["forwardable",""],["json",""],["monitor",""],["ostruct",""],["set",""],["strscan",""],["uri","URI embeds standard library sources from MRI 2.6.3."]]});
