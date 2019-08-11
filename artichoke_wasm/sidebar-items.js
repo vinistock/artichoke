@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["artichoke_eval",""],["artichoke_string_free",""],["artichoke_string_getch",""],["artichoke_string_getlen",""],["artichoke_string_new",""],["artichoke_string_putch",""],["artichoke_web_repl_init",""]]});

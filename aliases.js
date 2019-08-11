@@ -4,7 +4,6 @@ ALIASES["artichoke_backend"] = {};
 ALIASES["artichoke_core"] = {};
 ALIASES["artichoke_frontend"] = {};
 ALIASES["artichoke_vfs"] = {};
-ALIASES["artichoke_wasm"] = {};
 ALIASES["mruby_sys"] = {};
 ALIASES["spec_runner"] = {};
 ALIASES["string_scan_bench"] = {};
