@@ -4,13 +4,13 @@
     type <a href='#associatedtype.Error' class="type">Error</a>;
     fn <a href='#tymethod.convert' class='fnname'>convert</a>(interp: Self::<a class="type" href="../../artichoke_core/convert/trait.Convert.html#associatedtype.Artichoke" title="type artichoke_core::convert::Convert::Artichoke">Artichoke</a>, value: Self::<a class="type" href="../../artichoke_core/convert/trait.Convert.html#associatedtype.From" title="type artichoke_core::convert::Convert::From">From</a>) -&gt; Self;
 }</pre></div><div class='docblock'><p>Infallible conversion between two types.</p>
-<p>See <a href="https://doc.rust-lang.org/nightly/core/convert/trait.From.html" title="`std::convert::From`"><code>std::convert::From</code></a>.</p>
+<p>See [<code>std::convert::From</code>].</p>
 </div>
             <h2 id='associated-types' class='small-section-header'>Associated Types<a href='#associated-types' class='anchor'></a></h2><div class='methods'><h3 id='associatedtype.Artichoke' class='method'><code id='Artichoke.t'>type <a href='#associatedtype.Artichoke' class="type">Artichoke</a></code></h3><div class='docblock'><p>Concrete type for the interpreter.</p>
 </div><h3 id='associatedtype.From' class='method'><code id='From.t'>type <a href='#associatedtype.From' class="type">From</a></code></h3><div class='docblock'><p>Concrete type for source of the conversion.</p>
 </div><h3 id='associatedtype.Error' class='method'><code id='Error.t'>type <a href='#associatedtype.Error' class="type">Error</a></code></h3><div class='docblock'><p>Concrete type for an error this conversion may produce.</p>
 <p><code>Error</code> is required for infallible conversions so they can be wrapped
-by a <a href="../../artichoke_core/convert/trait.TryConvert.html">fallible conversion</a> blanked implementation.</p>
+by a <a href="TryConvert">fallible conversion</a> blanked implementation.</p>
 </div></div><span class='loading-content'>Loading content...</span>
             <h2 id='required-methods' class='small-section-header'>Required methods<a href='#required-methods' class='anchor'></a></h2><div class='methods'><h3 id='tymethod.convert' class='method'><code id='convert.v'>fn <a href='#tymethod.convert' class='fnname'>convert</a>(interp: Self::<a class="type" href="../../artichoke_core/convert/trait.Convert.html#associatedtype.Artichoke" title="type artichoke_core::convert::Convert::Artichoke">Artichoke</a>, value: Self::<a class="type" href="../../artichoke_core/convert/trait.Convert.html#associatedtype.From" title="type artichoke_core::convert::Convert::From">From</a>) -&gt; Self</code></h3><div class='docblock'><p>Performs the infallible conversion.</p>
 </div></div><span class='loading-content'>Loading content...</span>

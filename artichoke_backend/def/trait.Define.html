@@ -4,8 +4,8 @@
 methods into an mruby interpreter.</p>
 </div>
             <h2 id='required-methods' class='small-section-header'>Required methods<a href='#required-methods' class='anchor'></a></h2><div class='methods'><h3 id='tymethod.define' class='method'><code id='define.v'>fn <a href='#tymethod.define' class='fnname'>define</a>(&amp;self, interp: &amp;<a class="type" href="../../artichoke_backend/type.Artichoke.html" title="type artichoke_backend::Artichoke">Artichoke</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.pointer.html">*mut </a><a class="struct" href="../../mruby_sys/ffi/struct.RClass.html" title="struct mruby_sys::ffi::RClass">RClass</a>, <a class="enum" href="../../artichoke_backend/enum.ArtichokeError.html" title="enum artichoke_backend::ArtichokeError">ArtichokeError</a>&gt;</code></h3><div class='docblock'><p>Define the class or module and all of its methods into the interpreter.</p>
-<p>Returns the <a href="../../mruby_sys/ffi/struct.RClass.html"><code>RClass *</code></a> of the newly defined item.</p>
-<p>This function takes a mutable borrow on the <a href="../../artichoke_backend/type.Artichoke.html" title="`Artichoke`"><code>Artichoke</code></a> interpreter. Ensure
+<p>Returns the <a href="sys::RClass"><code>RClass *</code></a> of the newly defined item.</p>
+<p>This function takes a mutable borrow on the [<code>Artichoke</code>] interpreter. Ensure
 that there are no outstanding borrows on the interpreter or else Rust
 will panic.</p>
 </div></div><span class='loading-content'>Loading content...</span>

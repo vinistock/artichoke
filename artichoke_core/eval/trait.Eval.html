@@ -11,11 +11,11 @@
 <div class='item-spacer'></div>    fn <a href='#tymethod.peek_context' class='fnname'>peek_context</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;Self::<a class="type" href="../../artichoke_core/eval/trait.Eval.html#associatedtype.Context" title="type artichoke_core::eval::Eval::Context">Context</a>&gt;;
 <div class='item-spacer'></div>    fn <a href='#tymethod.push_context' class='fnname'>push_context</a>(&amp;mut self, context: Self::<a class="type" href="../../artichoke_core/eval/trait.Eval.html#associatedtype.Context" title="type artichoke_core::eval::Eval::Context">Context</a>);
 <div class='item-spacer'></div>    fn <a href='#tymethod.pop_context' class='fnname'>pop_context</a>(&amp;mut self);
-}</pre></div><div class='docblock'><p>Interpreters that implement <a href="../../artichoke_core/eval/trait.Eval.html" title="`Eval`"><code>Eval</code></a> expose methods for injecting code and
-extracting <a href="../../artichoke_core/value/trait.Value.html" title="`Value`"><code>Value</code></a>s from the interpereter.</p>
+}</pre></div><div class='docblock'><p>Interpreters that implement [<code>Eval</code>] expose methods for injecting code and
+extracting [<code>Value</code>]s from the interpereter.</p>
 <p>Implementations are expected to maintain a stack of <code>Context</code> objects
 that maintain filename context across nested invocations of
-<a href="../../artichoke_core/eval/trait.Eval.html#tymethod.eval" title="`Eval::eval`"><code>Eval::eval</code></a>.</p>
+[<code>Eval::eval</code>].</p>
 </div>
             <h2 id='associated-types' class='small-section-header'>Associated Types<a href='#associated-types' class='anchor'></a></h2><div class='methods'><h3 id='associatedtype.Context' class='method'><code id='Context.t'>type <a href='#associatedtype.Context' class="type">Context</a>: <a class="trait" href="../../artichoke_core/eval/trait.Context.html" title="trait artichoke_core::eval::Context">Context</a></code></h3><div class='docblock'><p>Concrete type for eval context.</p>
 </div><h3 id='associatedtype.ReturnValue' class='method'><code id='ReturnValue.t'>type <a href='#associatedtype.ReturnValue' class="type">ReturnValue</a>: <a class="trait" href="../../artichoke_core/value/trait.Value.html" title="trait artichoke_core::value::Value">Value</a></code></h3><div class='docblock'><p>Concrete type for return values from eval.</p>
@@ -32,7 +32,7 @@ example, setting the <code>__FILE__</code> magic constant.</p>
 <p><code>Context</code> allows manipulating interpreter state before eval, for
 example, setting the <code>__FILE__</code> magic constant.</p>
 <p>Exceptions will unwind past this call.</p>
-</div><h3 id='tymethod.peek_context' class='method'><code id='peek_context.v'>fn <a href='#tymethod.peek_context' class='fnname'>peek_context</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;Self::<a class="type" href="../../artichoke_core/eval/trait.Eval.html#associatedtype.Context" title="type artichoke_core::eval::Eval::Context">Context</a>&gt;</code></h3><div class='docblock'><p>Peek at the top of the <a href="../../artichoke_core/eval/trait.Context.html" title="`Context`"><code>Context</code></a> stack.</p>
+</div><h3 id='tymethod.peek_context' class='method'><code id='peek_context.v'>fn <a href='#tymethod.peek_context' class='fnname'>peek_context</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;Self::<a class="type" href="../../artichoke_core/eval/trait.Eval.html#associatedtype.Context" title="type artichoke_core::eval::Eval::Context">Context</a>&gt;</code></h3><div class='docblock'><p>Peek at the top of the [<code>Context</code>] stack.</p>
 </div><h3 id='tymethod.push_context' class='method'><code id='push_context.v'>fn <a href='#tymethod.push_context' class='fnname'>push_context</a>(&amp;mut self, context: Self::<a class="type" href="../../artichoke_core/eval/trait.Eval.html#associatedtype.Context" title="type artichoke_core::eval::Eval::Context">Context</a>)</code></h3><div class='docblock'><p>Push an <code>Context</code> onto the stack.</p>
 </div><h3 id='tymethod.pop_context' class='method'><code id='pop_context.v'>fn <a href='#tymethod.pop_context' class='fnname'>pop_context</a>(&amp;mut self)</code></h3><div class='docblock'><p>Pop an <code>Context</code> from the stack.</p>
 </div></div><span class='loading-content'>Loading content...</span>

@@ -10,19 +10,19 @@
 Ruby file is added to the filesystem and <code>require</code> will dynamically
 define Ruby items when invoked via <code>Kernel#require</code>.</p>
 <p>If filename is a relative path, the Ruby source is added to the
-filesystem relative to <a href="../../artichoke_backend/fs/constant.RUBY_LOAD_PATH.html" title="`RUBY_LOAD_PATH`"><code>RUBY_LOAD_PATH</code></a>. If the path is absolute, the
+filesystem relative to [<code>RUBY_LOAD_PATH</code>]. If the path is absolute, the
 file is placed directly on the filesystem. Anscestor directories are
 created automatically.</p>
 </div><h3 id='tymethod.def_file_for_type' class='method'><code id='def_file_for_type.v'>fn <a href='#tymethod.def_file_for_type' class='fnname'>def_file_for_type</a>&lt;T, F&gt;(&amp;self, filename: T) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.unit.html">()</a>, <a class="enum" href="../../artichoke_backend/enum.ArtichokeError.html" title="enum artichoke_backend::ArtichokeError">ArtichokeError</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="../../artichoke_backend/file/trait.File.html" title="trait artichoke_backend::file::File">File</a>,&nbsp;</span></code></h3><div class='docblock'><p>Add a Rust-backed Ruby source file to the virtual filesystem. A stub
-Ruby file is added to the filesystem and <a href="../../artichoke_backend/file/trait.File.html#tymethod.require" title="`File::require`"><code>File::require</code></a> will
+Ruby file is added to the filesystem and [<code>File::require</code>] will
 dynamically define Ruby items when invoked via <code>Kernel#require</code>.</p>
 <p>If filename is a relative path, the Ruby source is added to the
-filesystem relative to <a href="../../artichoke_backend/fs/constant.RUBY_LOAD_PATH.html" title="`RUBY_LOAD_PATH`"><code>RUBY_LOAD_PATH</code></a>. If the path is absolute, the
+filesystem relative to [<code>RUBY_LOAD_PATH</code>]. If the path is absolute, the
 file is placed directly on the filesystem. Anscestor directories are
 created automatically.</p>
 </div><h3 id='tymethod.def_rb_source_file' class='method'><code id='def_rb_source_file.v'>fn <a href='#tymethod.def_rb_source_file' class='fnname'>def_rb_source_file</a>&lt;T, F&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;filename: T, <br>&nbsp;&nbsp;&nbsp;&nbsp;contents: F<br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.unit.html">()</a>, <a class="enum" href="../../artichoke_backend/enum.ArtichokeError.html" title="enum artichoke_backend::ArtichokeError">ArtichokeError</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>&gt;,&nbsp;</span></code></h3><div class='docblock'><p>Add a pure Ruby source file to the virtual filesystem.</p>
 <p>If filename is a relative path, the Ruby source is added to the
-filesystem relative to <a href="../../artichoke_backend/fs/constant.RUBY_LOAD_PATH.html" title="`RUBY_LOAD_PATH`"><code>RUBY_LOAD_PATH</code></a>. If the path is absolute, the
+filesystem relative to [<code>RUBY_LOAD_PATH</code>]. If the path is absolute, the
 file is placed directly on the filesystem. Anscestor directories are
 created automatically.</p>
 </div></div><span class='loading-content'>Loading content...</span>
