@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/circleci/project/target/debug/build/mruby-sys-3ae7daaaad731df9/out/ffi.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>ffi.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../../../../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../../../../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../../../../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../../../../../../../light.css" id="themeStyle"><script src="../../../../../../../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../../../../../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../../../../../../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../../../../../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../../../../../../../../mruby_sys/index.html'><div class='logo-container'><img src='../../../../../../../../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../../../../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../../../../../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../../../../../../../settings.html"><img src="../../../../../../../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/circleci/project/target/debug/build/mruby-sys-ff64dee2baea9d98/out/ffi.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>ffi.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../../../../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../../../../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../../../../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../../../../../../../light.css" id="themeStyle"><script src="../../../../../../../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../../../../../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../../../../../../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../../../../../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../../../../../../../../mruby_sys/index.html'><div class='logo-container'><img src='../../../../../../../../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../../../../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../../../../../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../../../../../../../settings.html"><img src="../../../../../../../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -6572,6 +6572,15 @@
 <span id="6572">6572</span>
 <span id="6573">6573</span>
 <span id="6574">6574</span>
+<span id="6575">6575</span>
+<span id="6576">6576</span>
+<span id="6577">6577</span>
+<span id="6578">6578</span>
+<span id="6579">6579</span>
+<span id="6580">6580</span>
+<span id="6581">6581</span>
+<span id="6582">6582</span>
+<span id="6583">6583</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* automatically generated by rust-bindgen */</span>
 
@@ -6746,11 +6755,13 @@
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MRB_STR_SHARED</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">1</span>;
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MRB_STR_FSHARED</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">2</span>;
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MRB_STR_NOFREE</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">4</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MRB_STR_POOL</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">8</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MRB_STR_ASCII</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">16</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MRB_STR_EMBED</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">32</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MRB_STR_EMBED_LEN_MASK</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">1984</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MRB_STR_EMBED</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">8</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MRB_STR_POOL</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">16</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MRB_STR_ASCII</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">32</span>;
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MRB_STR_EMBED_LEN_SHIFT</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">6</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MRB_STR_EMBED_LEN_BITSIZE</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">5</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MRB_STR_EMBED_LEN_MASK</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">1984</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MRB_STR_TYPE_MASK</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">15</span>;
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">va_list</span> <span class="op">=</span> <span class="ident">__builtin_va_list</span>;
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">__uint8_t</span> <span class="op">=</span> ::<span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::<span class="ident">c_uchar</span>;
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">__uint16_t</span> <span class="op">=</span> ::<span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::<span class="ident">c_ushort</span>;
@@ -6799,9 +6810,10 @@
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RBasic</span> {
-    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">c</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RClass</span>,
     <span class="kw">pub</span> <span class="ident">gcnext</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RBasic</span>,
+    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">__bindgen_padding_0</span>: <span class="ident">u32</span>,
 }
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">bindgen_test_layout_RBasic</span>() {
@@ -6817,12 +6829,12 @@
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RBasic</span><span class="op">&gt;</span>())).<span class="ident">c</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">8usize</span>,
+        <span class="number">0usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(<span class="string">&quot;Offset of field: &quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RBasic</span>), <span class="string">&quot;::&quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">c</span>))
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RBasic</span><span class="op">&gt;</span>())).<span class="ident">gcnext</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">16usize</span>,
+        <span class="number">8usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(
             <span class="string">&quot;Offset of field: &quot;</span>,
             <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RBasic</span>),
@@ -6891,9 +6903,9 @@
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RObject</span> {
-    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">c</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RClass</span>,
     <span class="kw">pub</span> <span class="ident">gcnext</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RBasic</span>,
+    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">iv</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">iv_tbl</span>,
 }
 <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -6910,7 +6922,7 @@
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RObject</span><span class="op">&gt;</span>())).<span class="ident">c</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">8usize</span>,
+        <span class="number">0usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(
             <span class="string">&quot;Offset of field: &quot;</span>,
             <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RObject</span>),
@@ -6920,7 +6932,7 @@
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RObject</span><span class="op">&gt;</span>())).<span class="ident">gcnext</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">16usize</span>,
+        <span class="number">8usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(
             <span class="string">&quot;Offset of field: &quot;</span>,
             <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RObject</span>),
@@ -6999,9 +7011,9 @@
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RFiber</span> {
-    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">c</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RClass</span>,
     <span class="kw">pub</span> <span class="ident">gcnext</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RBasic</span>,
+    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">cxt</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_context</span>,
 }
 <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -7018,12 +7030,12 @@
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RFiber</span><span class="op">&gt;</span>())).<span class="ident">c</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">8usize</span>,
+        <span class="number">0usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(<span class="string">&quot;Offset of field: &quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RFiber</span>), <span class="string">&quot;::&quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">c</span>))
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RFiber</span><span class="op">&gt;</span>())).<span class="ident">gcnext</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">16usize</span>,
+        <span class="number">8usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(
             <span class="string">&quot;Offset of field: &quot;</span>,
             <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RFiber</span>),
@@ -7573,8 +7585,8 @@
     <span class="kw">pub</span> <span class="ident">ridx</span>: <span class="ident">u16</span>,
     <span class="kw">pub</span> <span class="ident">epos</span>: <span class="ident">u16</span>,
     <span class="kw">pub</span> <span class="ident">env</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">REnv</span>,
-    <span class="kw">pub</span> <span class="ident">pc</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_code</span>,
-    <span class="kw">pub</span> <span class="ident">err</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_code</span>,
+    <span class="kw">pub</span> <span class="ident">pc</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">mrb_code</span>,
+    <span class="kw">pub</span> <span class="ident">err</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">mrb_code</span>,
     <span class="kw">pub</span> <span class="ident">argc</span>: ::<span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::<span class="ident">c_int</span>,
     <span class="kw">pub</span> <span class="ident">acc</span>: ::<span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::<span class="ident">c_int</span>,
     <span class="kw">pub</span> <span class="ident">target_class</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RClass</span>,
@@ -8727,7 +8739,7 @@
     ) <span class="op">-&gt;</span> <span class="ident">mrb_value</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_vm_exec</span>(<span class="ident">arg1</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_state</span>, <span class="ident">arg2</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RProc</span>, <span class="ident">arg3</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_code</span>) <span class="op">-&gt;</span> <span class="ident">mrb_value</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_vm_exec</span>(<span class="ident">arg1</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_state</span>, <span class="ident">arg2</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RProc</span>, <span class="ident">arg3</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">mrb_code</span>) <span class="op">-&gt;</span> <span class="ident">mrb_value</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_p</span>(<span class="ident">arg1</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_state</span>, <span class="ident">arg2</span>: <span class="ident">mrb_value</span>);
@@ -9066,15 +9078,16 @@
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RArray</span> {
-    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">c</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RClass</span>,
     <span class="kw">pub</span> <span class="ident">gcnext</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RBasic</span>,
+    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">as_</span>: <span class="ident">RArray__bindgen_ty_1</span>,
 }
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="ident">union</span> <span class="ident">RArray__bindgen_ty_1</span> {
     <span class="kw">pub</span> <span class="ident">heap</span>: <span class="ident">RArray__bindgen_ty_1__bindgen_ty_1</span>,
+    <span class="kw">pub</span> <span class="ident">ary</span>: [<span class="kw-2">*</span><span class="kw-2">mut</span> ::<span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::<span class="ident">c_void</span>; <span class="number">3usize</span>],
     <span class="ident">_bindgen_union_align</span>: [<span class="ident">u64</span>; <span class="number">3usize</span>],
 }
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
@@ -9210,6 +9223,16 @@
             <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">heap</span>)
         )
     );
+    <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RArray__bindgen_ty_1</span><span class="op">&gt;</span>())).<span class="ident">ary</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
+        <span class="number">0usize</span>,
+        <span class="macro">concat</span><span class="macro">!</span>(
+            <span class="string">&quot;Offset of field: &quot;</span>,
+            <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RArray__bindgen_ty_1</span>),
+            <span class="string">&quot;::&quot;</span>,
+            <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">ary</span>)
+        )
+    );
 }
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">bindgen_test_layout_RArray</span>() {
@@ -9225,12 +9248,12 @@
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RArray</span><span class="op">&gt;</span>())).<span class="ident">c</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">8usize</span>,
+        <span class="number">0usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(<span class="string">&quot;Offset of field: &quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RArray</span>), <span class="string">&quot;::&quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">c</span>))
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RArray</span><span class="op">&gt;</span>())).<span class="ident">gcnext</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">16usize</span>,
+        <span class="number">8usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(
             <span class="string">&quot;Offset of field: &quot;</span>,
             <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RArray</span>),
@@ -9385,9 +9408,9 @@
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RClass</span> {
-    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">c</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RClass</span>,
     <span class="kw">pub</span> <span class="ident">gcnext</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RBasic</span>,
+    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">iv</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">iv_tbl</span>,
     <span class="kw">pub</span> <span class="ident">mt</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">kh_mt</span>,
     <span class="kw">pub</span> <span class="ident">super_</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RClass</span>,
@@ -9406,12 +9429,12 @@
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RClass</span><span class="op">&gt;</span>())).<span class="ident">c</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">8usize</span>,
+        <span class="number">0usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(<span class="string">&quot;Offset of field: &quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RClass</span>), <span class="string">&quot;::&quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">c</span>))
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RClass</span><span class="op">&gt;</span>())).<span class="ident">gcnext</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">16usize</span>,
+        <span class="number">8usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(
             <span class="string">&quot;Offset of field: &quot;</span>,
             <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RClass</span>),
@@ -9605,7 +9628,7 @@
     <span class="kw">pub</span> <span class="ident">syms</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_sym</span>,
     <span class="kw">pub</span> <span class="ident">slen</span>: ::<span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::<span class="ident">c_int</span>,
     <span class="kw">pub</span> <span class="ident">filename</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> ::<span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::<span class="ident">c_char</span>,
-    <span class="kw">pub</span> <span class="ident">lineno</span>: ::<span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::<span class="ident">c_short</span>,
+    <span class="kw">pub</span> <span class="ident">lineno</span>: <span class="ident">u16</span>,
     <span class="kw">pub</span> <span class="ident">partial_hook</span>: ::<span class="ident">std</span>::<span class="ident">option</span>::<span class="prelude-ty">Option</span><span class="op">&lt;</span>
         <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>(<span class="ident">arg1</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_parser_state</span>) <span class="op">-&gt;</span> ::<span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::<span class="ident">c_int</span>,
     <span class="op">&gt;</span>,
@@ -9915,7 +9938,7 @@
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">mrb_parser_message</span> {
-    <span class="kw">pub</span> <span class="ident">lineno</span>: ::<span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::<span class="ident">c_int</span>,
+    <span class="kw">pub</span> <span class="ident">lineno</span>: <span class="ident">u16</span>,
     <span class="kw">pub</span> <span class="ident">column</span>: ::<span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::<span class="ident">c_int</span>,
     <span class="kw">pub</span> <span class="ident">message</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> ::<span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::<span class="ident">c_char</span>,
 }
@@ -10089,7 +10112,7 @@
     <span class="kw">pub</span> <span class="ident">send</span>: <span class="kw-2">*</span><span class="kw">const</span> ::<span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::<span class="ident">c_char</span>,
     <span class="kw">pub</span> <span class="ident">cxt</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrbc_context</span>,
     <span class="kw">pub</span> <span class="ident">filename_sym</span>: <span class="ident">mrb_sym</span>,
-    <span class="kw">pub</span> <span class="ident">lineno</span>: ::<span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::<span class="ident">c_int</span>,
+    <span class="kw">pub</span> <span class="ident">lineno</span>: <span class="ident">u16</span>,
     <span class="kw">pub</span> <span class="ident">column</span>: ::<span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::<span class="ident">c_int</span>,
     <span class="kw">pub</span> <span class="ident">lstate</span>: <span class="ident">mrb_lex_state_enum</span>,
     <span class="kw">pub</span> <span class="ident">lex_strterm</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_ast_node</span>,
@@ -10706,9 +10729,9 @@
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RData</span> {
-    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">c</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RClass</span>,
     <span class="kw">pub</span> <span class="ident">gcnext</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RBasic</span>,
+    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">iv</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">iv_tbl</span>,
     <span class="kw">pub</span> <span class="ident">type_</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">mrb_data_type</span>,
     <span class="kw">pub</span> <span class="ident">data</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> ::<span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::<span class="ident">c_void</span>,
@@ -10727,12 +10750,12 @@
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RData</span><span class="op">&gt;</span>())).<span class="ident">c</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">8usize</span>,
+        <span class="number">0usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(<span class="string">&quot;Offset of field: &quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RData</span>), <span class="string">&quot;::&quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">c</span>))
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RData</span><span class="op">&gt;</span>())).<span class="ident">gcnext</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">16usize</span>,
+        <span class="number">8usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(
             <span class="string">&quot;Offset of field: &quot;</span>,
             <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RData</span>),
@@ -10893,7 +10916,7 @@
     <span class="kw">pub</span> <span class="ident">nlocals</span>: <span class="ident">u16</span>,
     <span class="kw">pub</span> <span class="ident">nregs</span>: <span class="ident">u16</span>,
     <span class="kw">pub</span> <span class="ident">flags</span>: <span class="ident">u8</span>,
-    <span class="kw">pub</span> <span class="ident">iseq</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_code</span>,
+    <span class="kw">pub</span> <span class="ident">iseq</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">mrb_code</span>,
     <span class="kw">pub</span> <span class="ident">pool</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_value</span>,
     <span class="kw">pub</span> <span class="ident">syms</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_sym</span>,
     <span class="kw">pub</span> <span class="ident">reps</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_irep</span>,
@@ -11163,7 +11186,7 @@
     );
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_decode_insn</span>(<span class="ident">pc</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_code</span>) <span class="op">-&gt;</span> <span class="ident">mrb_insn_data</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_decode_insn</span>(<span class="ident">pc</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">mrb_code</span>) <span class="op">-&gt;</span> <span class="ident">mrb_insn_data</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_dump_irep</span>(
@@ -11255,9 +11278,9 @@
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RHash</span> {
-    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">c</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RClass</span>,
     <span class="kw">pub</span> <span class="ident">gcnext</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RBasic</span>,
+    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">iv</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">iv_tbl</span>,
     <span class="kw">pub</span> <span class="ident">ht</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">htable</span>,
 }
@@ -11275,12 +11298,12 @@
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RHash</span><span class="op">&gt;</span>())).<span class="ident">c</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">8usize</span>,
+        <span class="number">0usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(<span class="string">&quot;Offset of field: &quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RHash</span>), <span class="string">&quot;::&quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">c</span>))
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RHash</span><span class="op">&gt;</span>())).<span class="ident">gcnext</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">16usize</span>,
+        <span class="number">8usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(
             <span class="string">&quot;Offset of field: &quot;</span>,
             <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RHash</span>),
@@ -11610,9 +11633,9 @@
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">REnv</span> {
-    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">c</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RClass</span>,
     <span class="kw">pub</span> <span class="ident">gcnext</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RBasic</span>,
+    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">stack</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_value</span>,
     <span class="kw">pub</span> <span class="ident">cxt</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_context</span>,
     <span class="kw">pub</span> <span class="ident">mid</span>: <span class="ident">mrb_sym</span>,
@@ -11631,12 +11654,12 @@
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">REnv</span><span class="op">&gt;</span>())).<span class="ident">c</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">8usize</span>,
+        <span class="number">0usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(<span class="string">&quot;Offset of field: &quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">REnv</span>), <span class="string">&quot;::&quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">c</span>))
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">REnv</span><span class="op">&gt;</span>())).<span class="ident">gcnext</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">16usize</span>,
+        <span class="number">8usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(
             <span class="string">&quot;Offset of field: &quot;</span>,
             <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">REnv</span>),
@@ -11728,9 +11751,9 @@
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RProc</span> {
-    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">c</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RClass</span>,
     <span class="kw">pub</span> <span class="ident">gcnext</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RBasic</span>,
+    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">body</span>: <span class="ident">RProc__bindgen_ty_1</span>,
     <span class="kw">pub</span> <span class="ident">upper</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RProc</span>,
     <span class="kw">pub</span> <span class="ident">e</span>: <span class="ident">RProc__bindgen_ty_2</span>,
@@ -11831,12 +11854,12 @@
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RProc</span><span class="op">&gt;</span>())).<span class="ident">c</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">8usize</span>,
+        <span class="number">0usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(<span class="string">&quot;Offset of field: &quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RProc</span>), <span class="string">&quot;::&quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">c</span>))
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RProc</span><span class="op">&gt;</span>())).<span class="ident">gcnext</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">16usize</span>,
+        <span class="number">8usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(
             <span class="string">&quot;Offset of field: &quot;</span>,
             <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RProc</span>),
@@ -12088,9 +12111,9 @@
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RRange</span> {
-    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">c</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RClass</span>,
     <span class="kw">pub</span> <span class="ident">gcnext</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RBasic</span>,
+    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">edges</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_range_edges</span>,
     <span class="kw">pub</span> <span class="ident">excl</span>: <span class="ident">mrb_bool</span>,
 }
@@ -12108,12 +12131,12 @@
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RRange</span><span class="op">&gt;</span>())).<span class="ident">c</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">8usize</span>,
+        <span class="number">0usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(<span class="string">&quot;Offset of field: &quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RRange</span>), <span class="string">&quot;::&quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">c</span>))
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RRange</span><span class="op">&gt;</span>())).<span class="ident">gcnext</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">16usize</span>,
+        <span class="number">8usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(
             <span class="string">&quot;Offset of field: &quot;</span>,
             <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RRange</span>),
@@ -12248,16 +12271,15 @@
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RString</span> {
-    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">c</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RClass</span>,
     <span class="kw">pub</span> <span class="ident">gcnext</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RBasic</span>,
+    <span class="kw">pub</span> <span class="ident">_bitfield_1</span>: <span class="ident">__BindgenBitfieldUnit</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">4usize</span>], <span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">as_</span>: <span class="ident">RString__bindgen_ty_1</span>,
 }
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="ident">union</span> <span class="ident">RString__bindgen_ty_1</span> {
     <span class="kw">pub</span> <span class="ident">heap</span>: <span class="ident">RString__bindgen_ty_1__bindgen_ty_1</span>,
-    <span class="kw">pub</span> <span class="ident">ary</span>: [::<span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::<span class="ident">c_char</span>; <span class="number">24usize</span>],
     <span class="ident">_bindgen_union_align</span>: [<span class="ident">u64</span>; <span class="number">3usize</span>],
 }
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
@@ -12407,16 +12429,6 @@
             <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">heap</span>)
         )
     );
-    <span class="macro">assert_eq</span><span class="macro">!</span>(
-        <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RString__bindgen_ty_1</span><span class="op">&gt;</span>())).<span class="ident">ary</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">0usize</span>,
-        <span class="macro">concat</span><span class="macro">!</span>(
-            <span class="string">&quot;Offset of field: &quot;</span>,
-            <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RString__bindgen_ty_1</span>),
-            <span class="string">&quot;::&quot;</span>,
-            <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">ary</span>)
-        )
-    );
 }
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">bindgen_test_layout_RString</span>() {
@@ -12432,7 +12444,7 @@
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RString</span><span class="op">&gt;</span>())).<span class="ident">c</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">8usize</span>,
+        <span class="number">0usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(
             <span class="string">&quot;Offset of field: &quot;</span>,
             <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RString</span>),
@@ -12442,7 +12454,7 @@
     );
     <span class="macro">assert_eq</span><span class="macro">!</span>(
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>(::<span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">null</span>::<span class="op">&lt;</span><span class="ident">RString</span><span class="op">&gt;</span>())).<span class="ident">gcnext</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> },
-        <span class="number">16usize</span>,
+        <span class="number">8usize</span>,
         <span class="macro">concat</span><span class="macro">!</span>(
             <span class="string">&quot;Offset of field: &quot;</span>,
             <span class="macro">stringify</span><span class="macro">!</span>(<span class="ident">RString</span>),
@@ -12525,7 +12537,10 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_gc_free_str</span>(<span class="ident">arg1</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_state</span>, <span class="ident">arg2</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RString</span>);
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_str_modify</span>(<span class="ident">arg1</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_state</span>, <span class="ident">arg2</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RString</span>);
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_str_modify</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_state</span>, <span class="ident">s</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RString</span>);
+}
+<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_str_modify_keep_ascii</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_state</span>, <span class="ident">s</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">RString</span>);
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_str_index</span>(
@@ -12575,9 +12590,12 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_str_buf_new</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_state</span>, <span class="ident">capa</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">mrb_value</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_string_cstr</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_state</span>, <span class="ident">str</span>: <span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> ::<span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::<span class="ident">c_char</span>;
+}
+<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_string_value_cstr</span>(
         <span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_state</span>,
-        <span class="ident">ptr</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_value</span>,
+        <span class="ident">str</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_value</span>,
     ) <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> ::<span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::<span class="ident">c_char</span>;
 }
 <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
