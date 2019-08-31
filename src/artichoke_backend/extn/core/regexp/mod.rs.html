@@ -446,6 +446,7 @@
 <span id="446">446</span>
 <span id="447">447</span>
 <span id="448">448</span>
+<span id="449">449</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [ruby/spec](https://github.com/ruby/spec) compliant implementation of</span>
 <span class="doccomment">//! [`Regexp`](https://ruby-doc.org/core-2.6.3/Regexp.html).</span>
@@ -494,6 +495,7 @@
     <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="macro">include_str</span><span class="macro">!</span>(<span class="string">&quot;regexp.rb&quot;</span>))<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">regexp</span> <span class="op">=</span>
         <span class="ident">interp</span>
+            .<span class="number">0</span>
             .<span class="ident">borrow_mut</span>()
             .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">Regexp</span><span class="op">&gt;</span>(<span class="string">&quot;Regexp&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="ident">rust_data_free</span>::<span class="op">&lt;</span><span class="ident">Regexp</span><span class="op">&gt;</span>));
     <span class="ident">regexp</span>.<span class="ident">borrow_mut</span>().<span class="ident">mrb_value_is_rust_backed</span>(<span class="bool-val">true</span>);

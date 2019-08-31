@@ -40,7 +40,7 @@ reference to the class spec.</p>
 <span class="kw">fn</span> <span class="ident">main</span>() {
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="ident">artichoke_backend</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
     <span class="kw">let</span> <span class="ident">spec</span> <span class="op">=</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">api</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">borrow_mut</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">api</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>();
         <span class="kw">let</span> <span class="ident">spec</span> <span class="op">=</span> <span class="ident">api</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span>()<span class="op">&gt;</span>(<span class="string">&quot;Container&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
         <span class="ident">spec</span>.<span class="ident">borrow_mut</span>().<span class="ident">add_method</span>(<span class="string">&quot;value&quot;</span>, <span class="ident">value</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_none</span>());
         <span class="ident">spec</span>.<span class="ident">borrow_mut</span>().<span class="ident">add_self_method</span>(<span class="string">&quot;value&quot;</span>, <span class="ident">value</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_none</span>());
@@ -87,7 +87,7 @@ reference to the module spec.</p>
 <span class="kw">fn</span> <span class="ident">main</span>() {
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="ident">artichoke_backend</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
     <span class="kw">let</span> <span class="ident">spec</span> <span class="op">=</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">api</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">borrow_mut</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">api</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>();
         <span class="kw">let</span> <span class="ident">spec</span> <span class="op">=</span> <span class="ident">api</span>.<span class="ident">def_module</span>::<span class="op">&lt;</span>()<span class="op">&gt;</span>(<span class="string">&quot;Container&quot;</span>, <span class="prelude-val">None</span>);
         <span class="ident">spec</span>.<span class="ident">borrow_mut</span>().<span class="ident">add_method</span>(<span class="string">&quot;value&quot;</span>, <span class="ident">value</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_none</span>());
         <span class="ident">spec</span>.<span class="ident">borrow_mut</span>().<span class="ident">add_self_method</span>(<span class="string">&quot;value&quot;</span>, <span class="ident">value</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_none</span>());

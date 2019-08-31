@@ -40,7 +40,7 @@
 
 <span class="kw">impl</span> <span class="ident">TopSelf</span> <span class="kw">for</span> <span class="ident">Artichoke</span> {
     <span class="kw">fn</span> <span class="ident">top_self</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Value</span> {
-        <span class="ident">Value</span>::<span class="ident">new</span>(<span class="self">self</span>, <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_top_self</span>(<span class="self">self</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>) })
+        <span class="ident">Value</span>::<span class="ident">new</span>(<span class="self">self</span>, <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_top_self</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>) })
     }
 }
 </pre></div>

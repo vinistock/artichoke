@@ -35,7 +35,7 @@ class registry:</p>
 <span class="kw">struct</span> <span class="ident">Inner</span>;
 
 <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="ident">artichoke_backend</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">api</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">borrow_mut</span>();
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">api</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>();
 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">scope</span>) <span class="op">=</span> <span class="ident">api</span>.<span class="ident">class_spec</span>::<span class="op">&lt;</span><span class="ident">Fixnum</span><span class="op">&gt;</span>().<span class="ident">map</span>(<span class="ident">EnclosingRubyScope</span>::<span class="ident">class</span>) {
     <span class="ident">api</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">Inner</span><span class="op">&gt;</span>(<span class="string">&quot;Inner&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">scope</span>), <span class="prelude-val">None</span>);
 }</pre></div>
@@ -57,7 +57,7 @@ module registry:</p>
 <span class="kw">struct</span> <span class="ident">Inner</span>;
 
 <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="ident">artichoke_backend</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">api</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">borrow_mut</span>();
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">api</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>();
 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">scope</span>) <span class="op">=</span> <span class="ident">api</span>.<span class="ident">module_spec</span>::<span class="op">&lt;</span><span class="ident">Kernel</span><span class="op">&gt;</span>().<span class="ident">map</span>(<span class="ident">EnclosingRubyScope</span>::<span class="ident">module</span>) {
     <span class="ident">api</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">Inner</span><span class="op">&gt;</span>(<span class="string">&quot;Inner&quot;</span>, <span class="prelude-val">Some</span>(<span class="ident">scope</span>), <span class="prelude-val">None</span>);
 }</pre></div>
@@ -67,7 +67,7 @@ module registry:</p>
   end
 end
 </code></pre>
-</div><h4 id='method.rclass' class="method"><code id='rclass.v'>pub fn <a href='#method.rclass' class='fnname'>rclass</a>(&amp;self, interp: &amp;<a class="type" href="../../artichoke_backend/type.Artichoke.html" title="type artichoke_backend::Artichoke">Artichoke</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.pointer.html">*mut </a><a class="struct" href="../../mruby_sys/ffi/struct.RClass.html" title="struct mruby_sys::ffi::RClass">RClass</a>&gt;</code><a class='srclink' href='../../src/artichoke_backend/def.rs.html#153-158' title='goto source code'>[src]</a></h4><div class='docblock'><p>Resolve the <a href="sys::RClass"><code>RClass *</code></a> of the wrapped [<code>ClassLike</code>].</p>
+</div><h4 id='method.rclass' class="method"><code id='rclass.v'>pub fn <a href='#method.rclass' class='fnname'>rclass</a>(&amp;self, interp: &amp;<a class="struct" href="../../artichoke_backend/struct.Artichoke.html" title="struct artichoke_backend::Artichoke">Artichoke</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.pointer.html">*mut </a><a class="struct" href="../../mruby_sys/ffi/struct.RClass.html" title="struct mruby_sys::ffi::RClass">RClass</a>&gt;</code><a class='srclink' href='../../src/artichoke_backend/def.rs.html#153-158' title='goto source code'>[src]</a></h4><div class='docblock'><p>Resolve the <a href="sys::RClass"><code>RClass *</code></a> of the wrapped [<code>ClassLike</code>].</p>
 <p>Return [<code>None</code>] if the <code>ClassLike</code> has no [<code>EnclosingRubyScope</code>].</p>
 <p>The current implemention results in recursive calls to this function
 for each enclosing scope.</p>

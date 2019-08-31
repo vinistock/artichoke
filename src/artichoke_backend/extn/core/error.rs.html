@@ -216,6 +216,13 @@
 <span id="216">216</span>
 <span id="217">217</span>
 <span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">log</span>::<span class="ident">warn</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">CString</span>;
@@ -229,9 +236,11 @@
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">init</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">exception</span> <span class="op">=</span> <span class="ident">interp</span>
+        .<span class="number">0</span>
         .<span class="ident">borrow_mut</span>()
         .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">Exception</span><span class="op">&gt;</span>(<span class="string">&quot;Exception&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
     <span class="kw">let</span> <span class="ident">scripterror</span> <span class="op">=</span> <span class="ident">interp</span>
+        .<span class="number">0</span>
         .<span class="ident">borrow_mut</span>()
         .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">ScriptError</span><span class="op">&gt;</span>(<span class="string">&quot;ScriptError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
     <span class="ident">scripterror</span>
@@ -242,6 +251,7 @@
         .<span class="ident">define</span>(<span class="ident">interp</span>)
         .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">ArtichokeError</span>::<span class="ident">New</span>)<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">loaderror</span> <span class="op">=</span> <span class="ident">interp</span>
+        .<span class="number">0</span>
         .<span class="ident">borrow_mut</span>()
         .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">LoadError</span><span class="op">&gt;</span>(<span class="string">&quot;LoadError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
     <span class="ident">loaderror</span>
@@ -252,21 +262,27 @@
         .<span class="ident">define</span>(<span class="ident">interp</span>)
         .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">ArtichokeError</span>::<span class="ident">New</span>)<span class="question-mark">?</span>;
     <span class="ident">interp</span>
+        .<span class="number">0</span>
         .<span class="ident">borrow_mut</span>()
         .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">ArgumentError</span><span class="op">&gt;</span>(<span class="string">&quot;ArgumentError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
     <span class="ident">interp</span>
+        .<span class="number">0</span>
         .<span class="ident">borrow_mut</span>()
         .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">IndexError</span><span class="op">&gt;</span>(<span class="string">&quot;IndexError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
     <span class="ident">interp</span>
+        .<span class="number">0</span>
         .<span class="ident">borrow_mut</span>()
         .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">RangeError</span><span class="op">&gt;</span>(<span class="string">&quot;RangeError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
     <span class="ident">interp</span>
+        .<span class="number">0</span>
         .<span class="ident">borrow_mut</span>()
         .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">RuntimeError</span><span class="op">&gt;</span>(<span class="string">&quot;RuntimeError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
     <span class="ident">interp</span>
+        .<span class="number">0</span>
         .<span class="ident">borrow_mut</span>()
         .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">SyntaxError</span><span class="op">&gt;</span>(<span class="string">&quot;SyntaxError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
     <span class="ident">interp</span>
+        .<span class="number">0</span>
         .<span class="ident">borrow_mut</span>()
         .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">TypeError</span><span class="op">&gt;</span>(<span class="string">&quot;TypeError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
     <span class="prelude-val">Ok</span>(())
@@ -296,9 +312,9 @@
         <span class="comment">// Ensure the borrow is out of scope by the time we eval code since</span>
         <span class="comment">// Rust-backed files and types may need to mutably borrow the `Artichoke` to</span>
         <span class="comment">// get access to the underlying `ArtichokeState`.</span>
-        <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
+        <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
 
-        <span class="kw">let</span> <span class="ident">spec</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">spec</span>) <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">borrow</span>().<span class="ident">class_spec</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>() {
+        <span class="kw">let</span> <span class="ident">spec</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">spec</span>) <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">class_spec</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>() {
             <span class="ident">spec</span>
         } <span class="kw">else</span> {
             <span class="kw">return</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_nil_value</span>();
@@ -392,8 +408,6 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">rc</span>::<span class="ident">Rc</span>;
-
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">def</span>::{<span class="ident">ClassLike</span>, <span class="ident">Define</span>};
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">exception</span>::<span class="ident">Exception</span>;
@@ -413,7 +427,7 @@
 
     <span class="kw">impl</span> <span class="ident">File</span> <span class="kw">for</span> <span class="ident">Run</span> {
         <span class="kw">fn</span> <span class="ident">require</span>(<span class="ident">interp</span>: <span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
-            <span class="kw">let</span> <span class="ident">spec</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">borrow_mut</span>().<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>(<span class="string">&quot;Run&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+            <span class="kw">let</span> <span class="ident">spec</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>(<span class="string">&quot;Run&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
             <span class="ident">spec</span>.<span class="ident">borrow_mut</span>()
                 .<span class="ident">add_self_method</span>(<span class="string">&quot;run&quot;</span>, <span class="self">Self</span>::<span class="ident">run</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_none</span>());
             <span class="ident">spec</span>.<span class="ident">borrow</span>().<span class="ident">define</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>)<span class="question-mark">?</span>;
@@ -424,7 +438,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">raise</span>() {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
-        <span class="ident">Run</span>::<span class="ident">require</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>)).<span class="ident">unwrap</span>();
+        <span class="ident">Run</span>::<span class="ident">require</span>(<span class="ident">interp</span>.<span class="ident">clone</span>()).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;Run.run&quot;</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ());
         <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="ident">Exception</span>::<span class="ident">new</span>(
             <span class="string">&quot;RuntimeError&quot;</span>,

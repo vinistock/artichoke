@@ -380,7 +380,7 @@
     <span class="doccomment">/// fn main() {</span>
     <span class="doccomment">///     let interp = artichoke_backend::interpreter().expect(&quot;init&quot;);</span>
     <span class="doccomment">///     let spec = {</span>
-    <span class="doccomment">///         let mut api = interp.borrow_mut();</span>
+    <span class="doccomment">///         let mut api = interp.0.borrow_mut();</span>
     <span class="doccomment">///         let spec = api.def_class::&lt;()&gt;(&quot;Container&quot;, None, None);</span>
     <span class="doccomment">///         spec.borrow_mut().add_method(&quot;value&quot;, value, sys::mrb_args_none());</span>
     <span class="doccomment">///         spec.borrow_mut().add_self_method(&quot;value&quot;, value, sys::mrb_args_none());</span>
@@ -449,7 +449,7 @@
     <span class="doccomment">/// fn main() {</span>
     <span class="doccomment">///     let interp = artichoke_backend::interpreter().expect(&quot;init&quot;);</span>
     <span class="doccomment">///     let spec = {</span>
-    <span class="doccomment">///         let mut api = interp.borrow_mut();</span>
+    <span class="doccomment">///         let mut api = interp.0.borrow_mut();</span>
     <span class="doccomment">///         let spec = api.def_module::&lt;()&gt;(&quot;Container&quot;, None);</span>
     <span class="doccomment">///         spec.borrow_mut().add_method(&quot;value&quot;, value, sys::mrb_args_none());</span>
     <span class="doccomment">///         spec.borrow_mut().add_self_method(&quot;value&quot;, value, sys::mrb_args_none());</span>

@@ -400,10 +400,8 @@
 <span id="400">400</span>
 <span id="401">401</span>
 <span id="402">402</span>
-<span id="403">403</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">log</span>::<span class="ident">trace</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">rc</span>::<span class="ident">Rc</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::<span class="ident">Convert</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">def</span>::{<span class="ident">ClassLike</span>, <span class="ident">Define</span>};
@@ -418,7 +416,7 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">require</span>;
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">init</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">warning</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">borrow_mut</span>().<span class="ident">def_module</span>::<span class="op">&lt;</span><span class="ident">Warning</span><span class="op">&gt;</span>(<span class="string">&quot;Warning&quot;</span>, <span class="prelude-val">None</span>);
+    <span class="kw">let</span> <span class="ident">warning</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">def_module</span>::<span class="op">&lt;</span><span class="ident">Warning</span><span class="op">&gt;</span>(<span class="string">&quot;Warning&quot;</span>, <span class="prelude-val">None</span>);
     <span class="ident">warning</span>
         .<span class="ident">borrow_mut</span>()
         .<span class="ident">add_method</span>(<span class="string">&quot;warn&quot;</span>, <span class="ident">Warning</span>::<span class="ident">warn</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_req</span>(<span class="number">1</span>));
@@ -429,7 +427,7 @@
         .<span class="ident">borrow</span>()
         .<span class="ident">define</span>(<span class="ident">interp</span>)
         .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">ArtichokeError</span>::<span class="ident">New</span>)<span class="question-mark">?</span>;
-    <span class="kw">let</span> <span class="ident">kernel</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">borrow_mut</span>().<span class="ident">def_module</span>::<span class="op">&lt;</span><span class="ident">Kernel</span><span class="op">&gt;</span>(<span class="string">&quot;Kernel&quot;</span>, <span class="prelude-val">None</span>);
+    <span class="kw">let</span> <span class="ident">kernel</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">def_module</span>::<span class="op">&lt;</span><span class="ident">Kernel</span><span class="op">&gt;</span>(<span class="string">&quot;Kernel&quot;</span>, <span class="prelude-val">None</span>);
     <span class="ident">kernel</span>
         .<span class="ident">borrow_mut</span>()
         .<span class="ident">add_method</span>(<span class="string">&quot;require&quot;</span>, <span class="ident">Kernel</span>::<span class="ident">require</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_rest</span>());
@@ -461,7 +459,7 @@
 <span class="kw">impl</span> <span class="ident">Warning</span> {
     <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">warn</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">_slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
-        <span class="kw">let</span> <span class="ident">stderr</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_gv_get</span>(<span class="ident">mrb</span>, <span class="ident">interp</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$stderr&quot;</span>));
+        <span class="kw">let</span> <span class="ident">stderr</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_gv_get</span>(<span class="ident">mrb</span>, <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$stderr&quot;</span>));
         <span class="kw">if</span> <span class="op">!</span><span class="ident">sys</span>::<span class="ident">mrb_sys_value_is_nil</span>(<span class="ident">stderr</span>) {
             <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">args</span>::<span class="ident">Rest</span>::<span class="ident">extract</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>);
             <span class="kw">let</span> <span class="ident">stderr</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">stderr</span>);
@@ -483,7 +481,7 @@
         <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">req</span>) <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">req</span>) <span class="op">=</span> <span class="ident">req</span>.<span class="ident">rust</span> {
-                    <span class="ident">req</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>))
+                    <span class="ident">req</span>(<span class="ident">interp</span>.<span class="ident">clone</span>())
                 } <span class="kw">else</span> {
                     <span class="prelude-val">Ok</span>(())
                 };
@@ -517,7 +515,7 @@
         <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">req</span>) <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">req</span>) <span class="op">=</span> <span class="ident">req</span>.<span class="ident">rust</span> {
-                    <span class="ident">req</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>))
+                    <span class="ident">req</span>(<span class="ident">interp</span>.<span class="ident">clone</span>())
                 } <span class="kw">else</span> {
                     <span class="prelude-val">Ok</span>(())
                 };
@@ -547,7 +545,7 @@
 
         <span class="kw">for</span> <span class="ident">value</span> <span class="kw">in</span> <span class="ident">args</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">args</span><span class="op">|</span> <span class="ident">args</span>.<span class="ident">rest</span>).<span class="ident">unwrap_or_default</span>() {
             <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">to_s</span>();
-            <span class="ident">interp</span>.<span class="ident">borrow_mut</span>().<span class="ident">print</span>(<span class="ident">s</span>.<span class="ident">as_str</span>());
+            <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">print</span>(<span class="ident">s</span>.<span class="ident">as_str</span>());
         }
         <span class="ident">sys</span>::<span class="ident">mrb_sys_nil_value</span>()
     }
@@ -562,7 +560,7 @@
                 }
             } <span class="kw">else</span> {
                 <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">to_s</span>();
-                <span class="ident">interp</span>.<span class="ident">borrow_mut</span>().<span class="ident">puts</span>(<span class="ident">s</span>.<span class="ident">as_str</span>());
+                <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">puts</span>(<span class="ident">s</span>.<span class="ident">as_str</span>());
             }
         }
 
@@ -572,7 +570,7 @@
             .<span class="ident">unwrap_or_default</span>();
 
         <span class="kw">if</span> <span class="ident">rest</span>.<span class="ident">is_empty</span>() {
-            <span class="ident">interp</span>.<span class="ident">borrow_mut</span>().<span class="ident">puts</span>(<span class="string">&quot;&quot;</span>);
+            <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">puts</span>(<span class="string">&quot;&quot;</span>);
         }
         <span class="kw">for</span> <span class="ident">value</span> <span class="kw">in</span> <span class="ident">rest</span> {
             <span class="ident">do_puts</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">value</span>);
