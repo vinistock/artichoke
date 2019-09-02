@@ -165,27 +165,6 @@
 <span id="165">165</span>
 <span id="166">166</span>
 <span id="167">167</span>
-<span id="168">168</span>
-<span id="169">169</span>
-<span id="170">170</span>
-<span id="171">171</span>
-<span id="172">172</span>
-<span id="173">173</span>
-<span id="174">174</span>
-<span id="175">175</span>
-<span id="176">176</span>
-<span id="177">177</span>
-<span id="178">178</span>
-<span id="179">179</span>
-<span id="180">180</span>
-<span id="181">181</span>
-<span id="182">182</span>
-<span id="183">183</span>
-<span id="184">184</span>
-<span id="185">185</span>
-<span id="186">186</span>
-<span id="187">187</span>
-<span id="188">188</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [`Regexp#match`](https://ruby-doc.org/core-2.6.3/Regexp.html#method-i-match)</span>
 
@@ -234,15 +213,14 @@
         <span class="kw">let</span> <span class="ident">string</span> <span class="op">=</span> <span class="ident">string</span>.<span class="ident">assume_init</span>();
         <span class="kw">let</span> <span class="ident">block</span> <span class="op">=</span> <span class="ident">block</span>.<span class="ident">assume_init</span>();
         <span class="kw">let</span> <span class="ident">has_pos</span> <span class="op">=</span> <span class="ident">has_pos</span>.<span class="ident">assume_init</span>() <span class="op">!=</span> <span class="number">0</span>;
-        <span class="kw">let</span> <span class="ident">string</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">string</span>) <span class="op">=</span>
-            <span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">Value</span>::<span class="ident">new</span>(<span class="ident">interp</span>, <span class="ident">string</span>))
-        {
+        <span class="kw">let</span> <span class="ident">string</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">string</span>) <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">try_convert</span>(<span class="ident">Value</span>::<span class="ident">new</span>(<span class="ident">interp</span>, <span class="ident">string</span>)) {
             <span class="ident">string</span>
         } <span class="kw">else</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">StringType</span>);
         };
         <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">has_pos</span> {
-            <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="ident">Int</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">pos</span>.<span class="ident">assume_init</span>()))
+            <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="ident">interp</span>
+                .<span class="ident">try_convert</span>(<span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">pos</span>.<span class="ident">assume_init</span>()))
                 .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">Error</span>::<span class="ident">PosType</span>)<span class="question-mark">?</span>;
             <span class="prelude-val">Some</span>(<span class="ident">pos</span>)
         } <span class="kw">else</span> {
@@ -264,7 +242,7 @@
         <span class="ident">string</span>
     } <span class="kw">else</span> {
         <span class="kw">unsafe</span> {
-            <span class="kw">let</span> <span class="ident">matchdata</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="ident">interp</span>, <span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>);
+            <span class="kw">let</span> <span class="ident">matchdata</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>);
             <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(
                 <span class="ident">mrb</span>,
                 <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$~&quot;</span>),
@@ -278,7 +256,7 @@
         <span class="kw">let</span> <span class="ident">strlen</span> <span class="op">=</span> <span class="ident">Int</span>::<span class="ident">try_from</span>(<span class="ident">string</span>.<span class="ident">chars</span>().<span class="ident">count</span>()).<span class="ident">unwrap_or_default</span>();
         <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="ident">strlen</span> <span class="op">+</span> <span class="ident">pos</span>;
         <span class="kw">if</span> <span class="ident">pos</span> <span class="op">&lt;</span> <span class="number">0</span> {
-            <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Value</span>::<span class="ident">convert</span>(<span class="ident">interp</span>, <span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>));
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>));
         }
         <span class="ident">usize</span>::<span class="ident">try_from</span>(<span class="ident">pos</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">Error</span>::<span class="ident">Fatal</span>)<span class="question-mark">?</span>
     } <span class="kw">else</span> {
@@ -286,7 +264,7 @@
     };
     <span class="comment">// onig will panic if pos is beyond the end of string</span>
     <span class="kw">if</span> <span class="ident">pos</span> <span class="op">&gt;</span> <span class="ident">string</span>.<span class="ident">chars</span>().<span class="ident">count</span>() {
-        <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Value</span>::<span class="ident">convert</span>(<span class="ident">interp</span>, <span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>));
+        <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>));
     }
     <span class="kw">let</span> <span class="ident">byte_offset</span> <span class="op">=</span> <span class="ident">string</span>.<span class="ident">chars</span>().<span class="ident">take</span>(<span class="ident">pos</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>().<span class="ident">len</span>();
 
@@ -308,7 +286,7 @@
                         <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;${}&quot;</span>, <span class="ident">group</span>))
                     };
 
-                    <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">captures</span>.<span class="ident">at</span>(<span class="ident">group</span>));
+                    <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">captures</span>.<span class="ident">at</span>(<span class="ident">group</span>));
                     <span class="kw">unsafe</span> {
                         <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">sym</span>, <span class="ident">value</span>.<span class="ident">inner</span>());
                     }
@@ -322,17 +300,9 @@
                     <span class="kw">let</span> <span class="ident">post_match</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">match_target</span>[<span class="ident">match_pos</span>.<span class="number">1</span>..];
                     <span class="kw">unsafe</span> {
                         <span class="kw">let</span> <span class="ident">pre_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$`&quot;</span>);
-                        <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(
-                            <span class="ident">mrb</span>,
-                            <span class="ident">pre_match_sym</span>,
-                            <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="ident">interp</span>, <span class="ident">pre_match</span>).<span class="ident">inner</span>(),
-                        );
+                        <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">pre_match_sym</span>, <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">pre_match</span>).<span class="ident">inner</span>());
                         <span class="kw">let</span> <span class="ident">post_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$&#39;&quot;</span>);
-                        <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(
-                            <span class="ident">mrb</span>,
-                            <span class="ident">post_match_sym</span>,
-                            <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="ident">interp</span>, <span class="ident">post_match</span>).<span class="ident">inner</span>(),
-                        );
+                        <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">post_match_sym</span>, <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">post_match</span>).<span class="ident">inner</span>());
                     }
                     <span class="ident">matchdata</span>.<span class="ident">set_region</span>(<span class="ident">byte_offset</span> <span class="op">+</span> <span class="ident">match_pos</span>.<span class="number">0</span>, <span class="ident">byte_offset</span> <span class="op">+</span> <span class="ident">match_pos</span>.<span class="number">1</span>);
                 }
@@ -351,25 +321,13 @@
             } <span class="kw">else</span> {
                 <span class="kw">unsafe</span> {
                     <span class="kw">let</span> <span class="ident">last_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$~&quot;</span>);
-                    <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(
-                        <span class="ident">mrb</span>,
-                        <span class="ident">last_match_sym</span>,
-                        <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="ident">interp</span>, <span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>).<span class="ident">inner</span>(),
-                    );
+                    <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">last_match_sym</span>, <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>).<span class="ident">inner</span>());
                     <span class="kw">let</span> <span class="ident">pre_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$`&quot;</span>);
-                    <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(
-                        <span class="ident">mrb</span>,
-                        <span class="ident">pre_match_sym</span>,
-                        <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="ident">interp</span>, <span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>).<span class="ident">inner</span>(),
-                    );
+                    <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">pre_match_sym</span>, <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>).<span class="ident">inner</span>());
                     <span class="kw">let</span> <span class="ident">post_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$&#39;&quot;</span>);
-                    <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(
-                        <span class="ident">mrb</span>,
-                        <span class="ident">post_match_sym</span>,
-                        <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="ident">interp</span>, <span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>).<span class="ident">inner</span>(),
-                    );
+                    <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">post_match_sym</span>, <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>).<span class="ident">inner</span>());
                 }
-                <span class="prelude-val">Ok</span>(<span class="ident">Value</span>::<span class="ident">convert</span>(<span class="ident">interp</span>, <span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>))
+                <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>))
             }
         }
         <span class="ident">Backend</span>::<span class="ident">Rust</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;Rust-backed Regexp&quot;</span>),

@@ -255,100 +255,6 @@
 <span id="255">255</span>
 <span id="256">256</span>
 <span id="257">257</span>
-<span id="258">258</span>
-<span id="259">259</span>
-<span id="260">260</span>
-<span id="261">261</span>
-<span id="262">262</span>
-<span id="263">263</span>
-<span id="264">264</span>
-<span id="265">265</span>
-<span id="266">266</span>
-<span id="267">267</span>
-<span id="268">268</span>
-<span id="269">269</span>
-<span id="270">270</span>
-<span id="271">271</span>
-<span id="272">272</span>
-<span id="273">273</span>
-<span id="274">274</span>
-<span id="275">275</span>
-<span id="276">276</span>
-<span id="277">277</span>
-<span id="278">278</span>
-<span id="279">279</span>
-<span id="280">280</span>
-<span id="281">281</span>
-<span id="282">282</span>
-<span id="283">283</span>
-<span id="284">284</span>
-<span id="285">285</span>
-<span id="286">286</span>
-<span id="287">287</span>
-<span id="288">288</span>
-<span id="289">289</span>
-<span id="290">290</span>
-<span id="291">291</span>
-<span id="292">292</span>
-<span id="293">293</span>
-<span id="294">294</span>
-<span id="295">295</span>
-<span id="296">296</span>
-<span id="297">297</span>
-<span id="298">298</span>
-<span id="299">299</span>
-<span id="300">300</span>
-<span id="301">301</span>
-<span id="302">302</span>
-<span id="303">303</span>
-<span id="304">304</span>
-<span id="305">305</span>
-<span id="306">306</span>
-<span id="307">307</span>
-<span id="308">308</span>
-<span id="309">309</span>
-<span id="310">310</span>
-<span id="311">311</span>
-<span id="312">312</span>
-<span id="313">313</span>
-<span id="314">314</span>
-<span id="315">315</span>
-<span id="316">316</span>
-<span id="317">317</span>
-<span id="318">318</span>
-<span id="319">319</span>
-<span id="320">320</span>
-<span id="321">321</span>
-<span id="322">322</span>
-<span id="323">323</span>
-<span id="324">324</span>
-<span id="325">325</span>
-<span id="326">326</span>
-<span id="327">327</span>
-<span id="328">328</span>
-<span id="329">329</span>
-<span id="330">330</span>
-<span id="331">331</span>
-<span id="332">332</span>
-<span id="333">333</span>
-<span id="334">334</span>
-<span id="335">335</span>
-<span id="336">336</span>
-<span id="337">337</span>
-<span id="338">338</span>
-<span id="339">339</span>
-<span id="340">340</span>
-<span id="341">341</span>
-<span id="342">342</span>
-<span id="343">343</span>
-<span id="344">344</span>
-<span id="345">345</span>
-<span id="346">346</span>
-<span id="347">347</span>
-<span id="348">348</span>
-<span id="349">349</span>
-<span id="350">350</span>
-<span id="351">351</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">clippy</span>::<span class="ident">all</span>, <span class="ident">clippy</span>::<span class="ident">pedantic</span>)]</span>
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">warnings</span>, <span class="ident">intra_doc_link_resolution_failure</span>)]</span>
@@ -477,7 +383,7 @@
 <span class="doccomment">//!         let cont = Self { inner: int };</span>
 <span class="doccomment">//!         cont</span>
 <span class="doccomment">//!             .try_into_ruby(&amp;interp, Some(slf))</span>
-<span class="doccomment">//!             .unwrap_or_else(|_| Value::convert(&amp;interp, None::&lt;Value&gt;))</span>
+<span class="doccomment">//!             .unwrap_or_else(|_| interp.convert(None::&lt;Value&gt;))</span>
 <span class="doccomment">//!             .inner()</span>
 <span class="doccomment">//!     }</span>
 <span class="doccomment">//!</span>
@@ -485,9 +391,9 @@
 <span class="doccomment">//!         let interp = unwrap_interpreter!(mrb);</span>
 <span class="doccomment">//!         if let Ok(cont) = Self::try_from_ruby(&amp;interp, &amp;Value::new(&amp;interp, slf)) {</span>
 <span class="doccomment">//!             let borrow = cont.borrow();</span>
-<span class="doccomment">//!             Value::convert(&amp;interp, borrow.inner).inner()</span>
+<span class="doccomment">//!             interp.convert(borrow.inner).inner()</span>
 <span class="doccomment">//!         } else {</span>
-<span class="doccomment">//!             Value::convert(&amp;interp, None::&lt;Value&gt;).inner()</span>
+<span class="doccomment">//!             interp.convert(None::&lt;Value&gt;).inner()</span>
 <span class="doccomment">//!         }</span>
 <span class="doccomment">//!     }</span>
 <span class="doccomment">//! }</span>
@@ -556,9 +462,6 @@
 <span class="doccomment">//! `unsafe` Rust functions.</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cell</span>::<span class="ident">RefCell</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">error</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">rc</span>::<span class="ident">Rc</span>;
 
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
@@ -592,6 +495,8 @@
 <span class="doccomment">/// artichoke-backend crate.</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">mruby_sys</span> <span class="kw">as</span> <span class="ident">sys</span>;
 
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">ArtichokeError</span>;
+
 <span class="doccomment">/// Interpreter instance.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// The interpreter [`State`](state::State) is wrapped in an `Rc&lt;RefCell&lt;_&gt;&gt;`.</span>
@@ -608,98 +513,5 @@
 <span class="doccomment">/// [garbage collection](gc::MrbGarbageCollection) or [eval](eval::Eval).</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Artichoke</span>(<span class="kw">pub</span> <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">state</span>::<span class="ident">State</span><span class="op">&gt;&gt;</span>); <span class="comment">// TODO: this should not be pub</span>
-
-<span class="doccomment">/// Errors returned by artichoke-backend crate.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ArtichokeError</span> {
-    <span class="doccomment">/// Failed to create an [argspec](sys::args) `CString`.</span>
-    <span class="ident">ArgSpec</span>,
-    <span class="doccomment">/// Failed to convert from a Rust type to a [`sys::mrb_value`].</span>
-    <span class="ident">ConvertToRuby</span>(<span class="ident">convert</span>::<span class="ident">Error</span><span class="op">&lt;</span><span class="ident">types</span>::<span class="ident">Rust</span>, <span class="ident">types</span>::<span class="ident">Ruby</span><span class="op">&gt;</span>),
-    <span class="doccomment">/// Failed to convert from a [`sys::mrb_value`] to a Rust type.</span>
-    <span class="ident">ConvertToRust</span>(<span class="ident">convert</span>::<span class="ident">Error</span><span class="op">&lt;</span><span class="ident">types</span>::<span class="ident">Ruby</span>, <span class="ident">types</span>::<span class="ident">Rust</span><span class="op">&gt;</span>),
-    <span class="doccomment">/// Exception raised during eval.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See [`Eval`](eval::Eval).</span>
-    <span class="comment">// TODO: wrap an `Exception` instead of a `String`, see GH-152.</span>
-    <span class="ident">Exec</span>(<span class="ident">String</span>),
-    <span class="doccomment">/// Unable to initalize interpreter.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See [`sys::mrb_open`], [`interpreter`](interpreter::interpreter).</span>
-    <span class="ident">New</span>,
-    <span class="doccomment">/// Class or module with this name is not defined in the artichoke VM.</span>
-    <span class="ident">NotDefined</span>(<span class="ident">String</span>),
-    <span class="doccomment">/// Unable to load Ruby source file with this path from the embedded</span>
-    <span class="doccomment">/// sources.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See [`rust_embed`](https://docs.rs/rust-embed/).</span>
-    <span class="ident">SourceNotFound</span>(<span class="ident">String</span>),
-    <span class="doccomment">/// Arg count exceeds maximum allowed by artichoke.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Affects [`sys::mrb_funcall`], [`sys::mrb_funcall_argv`],</span>
-    <span class="doccomment">/// [`sys::mrb_funcall_with_block`], [`sys::mrb_yield`], and</span>
-    <span class="doccomment">/// [`sys::mrb_yield_argv`].</span>
-    <span class="ident">TooManyArgs</span> { <span class="ident">given</span>: <span class="ident">usize</span>, <span class="ident">max</span>: <span class="ident">usize</span> },
-    <span class="doccomment">/// Attempted to extract an [`Artichoke`] from a [`sys::mrb_state`] but could not.</span>
-    <span class="ident">Uninitialized</span>,
-    <span class="doccomment">/// Eval or funcall returned an interpreter-internal value.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See [`Value::is_unreachable`](value::Value::is_unreachable).</span>
-    <span class="ident">UnreachableValue</span>(<span class="ident">sys</span>::<span class="ident">mrb_vtype</span>),
-    <span class="doccomment">/// [`io::Error`] when interacting with virtual filesystem.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See [`artichoke_vfs`].</span>
-    <span class="ident">Vfs</span>(<span class="ident">io</span>::<span class="ident">Error</span>),
-}
-
-<span class="kw">impl</span> <span class="ident">Eq</span> <span class="kw">for</span> <span class="ident">ArtichokeError</span> {}
-
-<span class="kw">impl</span> <span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">ArtichokeError</span> {
-    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
-        <span class="comment">// this is a hack because io::Error does not impl PartialEq</span>
-        <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="self">self</span>) <span class="op">==</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">other</span>)
-    }
-}
-
-<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">ArtichokeError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">ArtichokeError</span>::<span class="ident">ArgSpec</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;could not generate argspec&quot;</span>),
-            <span class="ident">ArtichokeError</span>::<span class="ident">ConvertToRuby</span>(<span class="ident">inner</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;conversion error: {}&quot;</span>, <span class="ident">inner</span>),
-            <span class="ident">ArtichokeError</span>::<span class="ident">ConvertToRust</span>(<span class="ident">inner</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;conversion error: {}&quot;</span>, <span class="ident">inner</span>),
-            <span class="ident">ArtichokeError</span>::<span class="ident">Exec</span>(<span class="ident">backtrace</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">backtrace</span>),
-            <span class="ident">ArtichokeError</span>::<span class="ident">New</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;failed to create mrb interpreter&quot;</span>),
-            <span class="ident">ArtichokeError</span>::<span class="ident">NotDefined</span>(<span class="ident">fqname</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{} not defined&quot;</span>, <span class="ident">fqname</span>),
-            <span class="ident">ArtichokeError</span>::<span class="ident">SourceNotFound</span>(<span class="ident">source</span>) <span class="op">=&gt;</span> {
-                <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;Could not load Ruby source {}&quot;</span>, <span class="ident">source</span>)
-            }
-            <span class="ident">ArtichokeError</span>::<span class="ident">TooManyArgs</span> { <span class="ident">given</span>, <span class="ident">max</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
-                <span class="ident">f</span>,
-                <span class="string">&quot;Too many args for funcall. Gave {}, but max is {}&quot;</span>,
-                <span class="ident">given</span>, <span class="ident">max</span>
-            ),
-            <span class="ident">ArtichokeError</span>::<span class="ident">Uninitialized</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;mrb interpreter not initialized&quot;</span>),
-            <span class="ident">ArtichokeError</span>::<span class="ident">UnreachableValue</span>(<span class="ident">tt</span>) <span class="op">=&gt;</span> {
-                <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;extracted unreachable type {:?} from interpreter&quot;</span>, <span class="ident">tt</span>)
-            }
-            <span class="ident">ArtichokeError</span>::<span class="ident">Vfs</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;mrb vfs io error: {}&quot;</span>, <span class="ident">err</span>),
-        }
-    }
-}
-
-<span class="kw">impl</span> <span class="ident">error</span>::<span class="ident">Error</span> <span class="kw">for</span> <span class="ident">ArtichokeError</span> {
-    <span class="kw">fn</span> <span class="ident">description</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
-        <span class="string">&quot;artichoke interpreter error&quot;</span>
-    }
-
-    <span class="kw">fn</span> <span class="ident">cause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">error</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">ArtichokeError</span>::<span class="ident">ConvertToRuby</span>(<span class="ident">inner</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">inner</span>),
-            <span class="ident">ArtichokeError</span>::<span class="ident">ConvertToRust</span>(<span class="ident">inner</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">inner</span>),
-            <span class="ident">ArtichokeError</span>::<span class="ident">Vfs</span>(<span class="ident">inner</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">inner</span>),
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
-        }
-    }
-}
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "artichoke_backend";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

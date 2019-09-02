@@ -307,7 +307,7 @@
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">raisef</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span>(<span class="ident">interp</span>: <span class="ident">Artichoke</span>, <span class="ident">message</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>, <span class="ident">format</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span>
     <span class="kw">where</span>
-        <span class="ident">Value</span>: <span class="ident">Convert</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span>,
+        <span class="ident">Artichoke</span>: <span class="ident">Convert</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">Value</span><span class="op">&gt;</span>,
     {
         <span class="comment">// Ensure the borrow is out of scope by the time we eval code since</span>
         <span class="comment">// Rust-backed files and types may need to mutably borrow the `Artichoke` to</span>
@@ -338,7 +338,7 @@
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">formatargs</span> <span class="op">=</span> <span class="ident">format</span>
             .<span class="ident">into_iter</span>()
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">item</span><span class="op">|</span> <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">item</span>).<span class="ident">inner</span>())
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">item</span><span class="op">|</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">item</span>).<span class="ident">inner</span>())
             .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;&gt;</span>();
         <span class="comment">// `mrb_sys_raise` will call longjmp which will unwind the stack.</span>
         <span class="comment">// Anything we haven&#39;t cleaned up at this point will leak, so drop</span>

@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Error",""]],"trait":[["Convert",""],["RustBackedValue","Provides converters to and from [`Value`] with ruby type of [`Ruby::Data`]."],["TryConvert",""]],"type":[["Float",""]]});
+initSidebarItems({"trait":[["Convert","Infallible conversion between two types."],["RustBackedValue","Provides converters to and from [`Value`] with ruby type of [`Ruby::Data`]."],["TryConvert","Fallible conversions between two types."]],"type":[["Float",""]]});

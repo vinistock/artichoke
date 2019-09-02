@@ -658,7 +658,7 @@
                 <span class="comment">// result in a segfault.</span>
                 <span class="comment">//</span>
                 <span class="comment">// See: https://github.com/mruby/mruby/issues/4460</span>
-                <span class="prelude-val">Err</span>(<span class="ident">ArtichokeError</span>::<span class="ident">UnreachableValue</span>(<span class="ident">value</span>.<span class="ident">inner</span>().<span class="ident">tt</span>))
+                <span class="prelude-val">Err</span>(<span class="ident">ArtichokeError</span>::<span class="ident">UnreachableValue</span>)
             }
             <span class="ident">LastError</span>::<span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">value</span>),
         }
@@ -754,7 +754,7 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::{<span class="ident">Convert</span>, <span class="ident">TryConvert</span>};
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::<span class="ident">Convert</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">def</span>::{<span class="ident">ClassLike</span>, <span class="ident">Define</span>};
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::{<span class="ident">Context</span>, <span class="ident">Eval</span>};
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">file</span>::<span class="ident">File</span>;
@@ -767,8 +767,8 @@
     <span class="kw">fn</span> <span class="ident">root_eval_context</span>() {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;__FILE__&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">String</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">result</span>).<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>) };
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">result</span>, <span class="string">&quot;(eval)&quot;</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="string">&quot;(eval)&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -802,7 +802,7 @@
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;__FILE__&quot;</span>) {
                     <span class="ident">value</span>.<span class="ident">inner</span>()
                 } <span class="kw">else</span> {
-                    <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>).<span class="ident">inner</span>()
+                    <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>).<span class="ident">inner</span>()
                 }
             }
         }
@@ -832,8 +832,8 @@ require &#39;nested_eval&#39;
 NestedEval.file
         &quot;#</span>;
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="ident">code</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">String</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">result</span>).<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>) };
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">result</span>, <span class="string">&quot;/src/lib/nested_eval.rb&quot;</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="string">&quot;/src/lib/nested_eval.rb&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -842,18 +842,18 @@ NestedEval.file
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>
             .<span class="ident">eval_with_context</span>(<span class="string">&quot;__FILE__&quot;</span>, <span class="ident">Context</span>::<span class="ident">new</span>(<span class="string">&quot;source.rb&quot;</span>))
             .<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">String</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">result</span>).<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>) };
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">result</span>, <span class="string">&quot;source.rb&quot;</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="string">&quot;source.rb&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>
             .<span class="ident">eval_with_context</span>(<span class="string">&quot;__FILE__&quot;</span>, <span class="ident">Context</span>::<span class="ident">new</span>(<span class="string">&quot;source.rb&quot;</span>))
             .<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">String</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">result</span>).<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>) };
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">result</span>, <span class="string">&quot;source.rb&quot;</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="string">&quot;source.rb&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>
             .<span class="ident">eval_with_context</span>(<span class="string">&quot;__FILE__&quot;</span>, <span class="ident">Context</span>::<span class="ident">new</span>(<span class="string">&quot;main.rb&quot;</span>))
             .<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">String</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">result</span>).<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>) };
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">result</span>, <span class="string">&quot;main.rb&quot;</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="string">&quot;main.rb&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -876,7 +876,7 @@ NestedEval.file
         );
         <span class="comment">// Ensure interpreter is usable after evaling unparseable code</span>
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;&#39;a&#39; * 10 &quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">String</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">result</span>).<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>) };
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="string">&quot;a&quot;</span>.<span class="ident">repeat</span>(<span class="number">10</span>));
     }
 
@@ -887,8 +887,8 @@ NestedEval.file
             .<span class="ident">def_rb_source_file</span>(<span class="string">&quot;source.rb&quot;</span>, <span class="string">&quot;def file; __FILE__; end&quot;</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;def file&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;require &#39;source&#39;; file&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">String</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">result</span>).<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>) };
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">result</span>, <span class="string">&quot;/src/lib/source.rb&quot;</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="string">&quot;/src/lib/source.rb&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -898,8 +898,8 @@ NestedEval.file
             .<span class="ident">def_rb_source_file</span>(<span class="string">&quot;source.rb&quot;</span>, <span class="string">&quot;def file; __FILE__; end&quot;</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;def file&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;require &#39;source&#39;; __FILE__&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">String</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">result</span>).<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>) };
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">result</span>, <span class="string">&quot;(eval)&quot;</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="string">&quot;(eval)&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>

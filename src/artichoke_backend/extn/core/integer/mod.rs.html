@@ -132,7 +132,7 @@
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::{<span class="ident">Convert</span>, <span class="ident">TryConvert</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::<span class="ident">Convert</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">def</span>::{<span class="ident">ClassLike</span>, <span class="ident">Define</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">error</span>::{<span class="ident">ArgumentError</span>, <span class="ident">RangeError</span>, <span class="ident">RubyException</span>, <span class="ident">RuntimeError</span>};
@@ -207,12 +207,12 @@
                 <span class="comment">//         1: from (irb):9:in `chr&#39;</span>
                 <span class="comment">// RangeError (256 out of char range)</span>
                 <span class="comment">// ```</span>
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">chr</span>) <span class="op">=</span> <span class="ident">Int</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>)) {
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">chr</span>) <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>).<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">Int</span><span class="op">&gt;</span>() {
                     <span class="kw">match</span> <span class="ident">u8</span>::<span class="ident">try_from</span>(<span class="ident">chr</span>) {
                         <span class="prelude-val">Ok</span>(<span class="ident">chr</span> @ <span class="number">0</span>..=<span class="number">127</span>) <span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="ident">chr</span> @ <span class="number">128</span>..=<span class="number">255</span>) <span class="op">=&gt;</span> {
                             <span class="comment">// ASCII encoding | Binary/ASCII-8BIT encoding</span>
                             <span class="comment">// Without `Encoding` support, these two arms are the same</span>
-                            <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">chr</span>]).<span class="ident">inner</span>()
+                            <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="ident">chr</span>]).<span class="ident">inner</span>()
                         }
                         <span class="kw">_</span> <span class="op">=&gt;</span> {
                             <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>);
@@ -233,7 +233,7 @@
                 )
             }
             <span class="ident">n</span> <span class="op">=&gt;</span> {
-                <span class="kw">let</span> <span class="ident">argc</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">n</span>);
+                <span class="kw">let</span> <span class="ident">argc</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">n</span>);
                 <span class="ident">ArgumentError</span>::<span class="ident">raisef</span>(
                     <span class="ident">interp</span>,
                     <span class="string">&quot;wrong number of arguments (given %i, expected 0..1)&quot;</span>,
@@ -245,10 +245,10 @@
 
     <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">size</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">Int</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>));
-        <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">is_ok</span>() {
+        <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>);
+        <span class="kw">if</span> <span class="ident">value</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">Int</span><span class="op">&gt;</span>().<span class="ident">is_ok</span>() {
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">size</span>) <span class="op">=</span> <span class="ident">Int</span>::<span class="ident">try_from</span>(<span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">Int</span><span class="op">&gt;</span>()) {
-                <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">size</span>).<span class="ident">inner</span>()
+                <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">size</span>).<span class="ident">inner</span>()
             } <span class="kw">else</span> {
                 <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;fatal Integer#size error&quot;</span>)
             }

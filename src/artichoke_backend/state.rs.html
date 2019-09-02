@@ -265,6 +265,8 @@
 <span id="265">265</span>
 <span id="266">266</span>
 <span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">any</span>::{<span class="ident">Any</span>, <span class="ident">TypeId</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cell</span>::<span class="ident">RefCell</span>;
@@ -374,7 +376,8 @@
     <span class="doccomment">/// extern &quot;C&quot; fn value(mrb: *mut sys::mrb_state, _slf: sys::mrb_value) -&gt; sys::mrb_value</span>
     <span class="doccomment">/// {</span>
     <span class="doccomment">///     let interp = unsafe { unwrap_interpreter!(mrb) };</span>
-    <span class="doccomment">///     Value::convert(&amp;interp, 29).inner()</span>
+    <span class="doccomment">///     let result: Value = interp.convert(29);</span>
+    <span class="doccomment">///     result.inner()</span>
     <span class="doccomment">/// }</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// fn main() {</span>
@@ -443,7 +446,8 @@
     <span class="doccomment">/// extern &quot;C&quot; fn value(mrb: *mut sys::mrb_state, _slf: sys::mrb_value) -&gt; sys::mrb_value</span>
     <span class="doccomment">/// {</span>
     <span class="doccomment">///     let interp = unsafe { unwrap_interpreter!(mrb) };</span>
-    <span class="doccomment">///     Value::convert(&amp;interp, 29).inner()</span>
+    <span class="doccomment">///     let result: Value = interp.convert(29);</span>
+    <span class="doccomment">///     result.inner()</span>
     <span class="doccomment">/// }</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// fn main() {</span>

@@ -57,10 +57,10 @@
                 <span class="op">&amp;</span> <span class="ident">Regexp</span>::<span class="ident">NOENCODING</span>
                 <span class="op">==</span> <span class="number">0</span> <span class="op">=&gt;</span>
         {
-            <span class="prelude-val">Ok</span>(<span class="ident">Value</span>::<span class="ident">convert</span>(<span class="ident">interp</span>, <span class="bool-val">false</span>))
+            <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="bool-val">false</span>))
         }
-        <span class="ident">Encoding</span>::<span class="ident">Fixed</span> <span class="op">|</span> <span class="ident">Encoding</span>::<span class="ident">No</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Value</span>::<span class="ident">convert</span>(<span class="ident">interp</span>, <span class="bool-val">true</span>)),
-        <span class="ident">Encoding</span>::<span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Value</span>::<span class="ident">convert</span>(<span class="ident">interp</span>, <span class="bool-val">false</span>)),
+        <span class="ident">Encoding</span>::<span class="ident">Fixed</span> <span class="op">|</span> <span class="ident">Encoding</span>::<span class="ident">No</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="bool-val">true</span>)),
+        <span class="ident">Encoding</span>::<span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="bool-val">false</span>)),
     }
 }
 </pre></div>

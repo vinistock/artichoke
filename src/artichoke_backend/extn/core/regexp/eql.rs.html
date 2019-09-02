@@ -107,12 +107,12 @@
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">other</span>) <span class="op">=</span> <span class="ident">args</span>.<span class="ident">other</span> {
         <span class="kw">let</span> <span class="ident">borrow</span> <span class="op">=</span> <span class="ident">other</span>.<span class="ident">borrow</span>();
         <span class="kw">if</span> <span class="ident">slf</span>.<span class="ident">pattern</span> <span class="op">==</span> <span class="ident">borrow</span>.<span class="ident">pattern</span> {
-            <span class="prelude-val">Ok</span>(<span class="ident">Value</span>::<span class="ident">convert</span>(<span class="ident">interp</span>, <span class="ident">slf</span>.<span class="ident">encoding</span> <span class="op">==</span> <span class="ident">borrow</span>.<span class="ident">encoding</span>))
+            <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">slf</span>.<span class="ident">encoding</span> <span class="op">==</span> <span class="ident">borrow</span>.<span class="ident">encoding</span>))
         } <span class="kw">else</span> {
-            <span class="prelude-val">Ok</span>(<span class="ident">Value</span>::<span class="ident">convert</span>(<span class="ident">interp</span>, <span class="bool-val">false</span>))
+            <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="bool-val">false</span>))
         }
     } <span class="kw">else</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">Value</span>::<span class="ident">convert</span>(<span class="ident">interp</span>, <span class="bool-val">false</span>))
+        <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="bool-val">false</span>))
     }
 }
 </pre></div>

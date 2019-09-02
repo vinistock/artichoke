@@ -108,6 +108,20 @@
 <span id="108">108</span>
 <span id="109">109</span>
 <span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">clippy</span>::<span class="ident">all</span>, <span class="ident">clippy</span>::<span class="ident">pedantic</span>)]</span>
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">missing_docs</span>, <span class="ident">warnings</span>, <span class="ident">intra_doc_link_resolution_failure</span>)]</span>
@@ -145,13 +159,24 @@
     <span class="doccomment">/// Failed to create an argspec.</span>
     <span class="ident">ArgSpec</span>,
     <span class="doccomment">/// Failed to convert from a Rust type to a [`Value`](value::Value).</span>
-    <span class="ident">ConvertToRuby</span>(<span class="ident">convert</span>::<span class="ident">Error</span><span class="op">&lt;</span><span class="ident">types</span>::<span class="ident">Rust</span>, <span class="ident">types</span>::<span class="ident">Ruby</span><span class="op">&gt;</span>),
+    <span class="ident">ConvertToRuby</span> {
+        <span class="doccomment">/// Source type of conversion.</span>
+        <span class="ident">from</span>: <span class="ident">types</span>::<span class="ident">Rust</span>,
+        <span class="doccomment">/// Destination type of conversion.</span>
+        <span class="ident">to</span>: <span class="ident">types</span>::<span class="ident">Ruby</span>,
+    },
     <span class="doccomment">/// Failed to convert from a [`Value`](value::Value) to a Rust type.</span>
-    <span class="ident">ConvertToRust</span>(<span class="ident">convert</span>::<span class="ident">Error</span><span class="op">&lt;</span><span class="ident">types</span>::<span class="ident">Ruby</span>, <span class="ident">types</span>::<span class="ident">Rust</span><span class="op">&gt;</span>),
+    <span class="ident">ConvertToRust</span> {
+        <span class="doccomment">/// Source type of conversion.</span>
+        <span class="ident">from</span>: <span class="ident">types</span>::<span class="ident">Ruby</span>,
+        <span class="doccomment">/// Destination type of conversion.</span>
+        <span class="ident">to</span>: <span class="ident">types</span>::<span class="ident">Rust</span>,
+    },
     <span class="doccomment">/// Exception raised during eval.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// See [`Eval`](eval::Eval).</span>
-    <span class="ident">Exec</span>(<span class="ident">exception</span>::<span class="ident">Exception</span>),
+    <span class="comment">// TODO: disabled for migration Exec(exception::Exception),</span>
+    <span class="ident">Exec</span>(<span class="ident">String</span>),
     <span class="doccomment">/// Unable to initalize interpreter.</span>
     <span class="ident">New</span>,
     <span class="doccomment">/// Class or module with this name is not defined in the artichoke VM.</span>
@@ -175,6 +200,7 @@
 
 <span class="kw">impl</span> <span class="ident">Eq</span> <span class="kw">for</span> <span class="ident">ArtichokeError</span> {}
 
+<span class="comment">// TODO: remove this impl. I think this is only a kludge for tests.</span>
 <span class="kw">impl</span> <span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">ArtichokeError</span> {
     <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="comment">// this is a hack because io::Error does not impl PartialEq</span>
@@ -186,8 +212,12 @@
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
             <span class="ident">ArtichokeError</span>::<span class="ident">ArgSpec</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;could not generate argspec&quot;</span>),
-            <span class="ident">ArtichokeError</span>::<span class="ident">ConvertToRuby</span>(<span class="ident">inner</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;conversion error: {}&quot;</span>, <span class="ident">inner</span>),
-            <span class="ident">ArtichokeError</span>::<span class="ident">ConvertToRust</span>(<span class="ident">inner</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;conversion error: {}&quot;</span>, <span class="ident">inner</span>),
+            <span class="ident">ArtichokeError</span>::<span class="ident">ConvertToRuby</span> { <span class="ident">from</span>, <span class="ident">to</span> } <span class="op">=&gt;</span> {
+                <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;failed to convert from {} to {}&quot;</span>, <span class="ident">from</span>, <span class="ident">to</span>)
+            }
+            <span class="ident">ArtichokeError</span>::<span class="ident">ConvertToRust</span> { <span class="ident">from</span>, <span class="ident">to</span> } <span class="op">=&gt;</span> {
+                <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;failed to convert from {} to {}&quot;</span>, <span class="ident">from</span>, <span class="ident">to</span>)
+            }
             <span class="ident">ArtichokeError</span>::<span class="ident">Exec</span>(<span class="ident">backtrace</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">backtrace</span>),
             <span class="ident">ArtichokeError</span>::<span class="ident">New</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;failed to create mrb interpreter&quot;</span>),
             <span class="ident">ArtichokeError</span>::<span class="ident">NotDefined</span>(<span class="ident">fqname</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{} not defined&quot;</span>, <span class="ident">fqname</span>),
@@ -212,8 +242,6 @@
 
     <span class="kw">fn</span> <span class="ident">cause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">error</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">ArtichokeError</span>::<span class="ident">ConvertToRuby</span>(<span class="ident">inner</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">inner</span>),
-            <span class="ident">ArtichokeError</span>::<span class="ident">ConvertToRust</span>(<span class="ident">inner</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">inner</span>),
             <span class="ident">ArtichokeError</span>::<span class="ident">Vfs</span>(<span class="ident">inner</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">inner</span>),
             <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }

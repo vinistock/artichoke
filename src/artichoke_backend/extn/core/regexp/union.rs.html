@@ -190,7 +190,7 @@
             <span class="ident">mrb</span>,
             <span class="ident">sys</span>::<span class="ident">mrb_sys_class_ptr</span>(<span class="ident">slf</span>),
             <span class="number">1</span>,
-            [<span class="ident">Value</span>::<span class="ident">convert</span>(<span class="ident">interp</span>, <span class="ident">pattern</span>).<span class="ident">inner</span>()].<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span>,
+            [<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">pattern</span>).<span class="ident">inner</span>()].<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span>,
         )
     };
     <span class="prelude-val">Ok</span>(<span class="ident">Value</span>::<span class="ident">new</span>(<span class="ident">interp</span>, <span class="ident">value</span>))

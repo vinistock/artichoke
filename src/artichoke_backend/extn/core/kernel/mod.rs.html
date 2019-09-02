@@ -399,7 +399,6 @@
 <span id="399">399</span>
 <span id="400">400</span>
 <span id="401">401</span>
-<span id="402">402</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">log</span>::<span class="ident">trace</span>;
 
@@ -489,12 +488,12 @@
                     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">contents</span>) <span class="op">=</span> <span class="ident">req</span>.<span class="ident">ruby</span> {
                         <span class="ident">interp</span>.<span class="ident">unchecked_eval_with_context</span>(<span class="ident">contents</span>, <span class="ident">Context</span>::<span class="ident">new</span>(<span class="ident">req</span>.<span class="ident">file</span>));
                     }
-                    <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="bool-val">true</span>).<span class="ident">inner</span>()
+                    <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="bool-val">true</span>).<span class="ident">inner</span>()
                 } <span class="kw">else</span> {
                     <span class="ident">LoadError</span>::<span class="ident">raisef</span>(<span class="ident">interp</span>, <span class="string">&quot;cannot load such file -- %S&quot;</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">req</span>.<span class="ident">file</span>])
                 }
             }
-            <span class="prelude-val">Err</span>(<span class="ident">require</span>::<span class="ident">Error</span>::<span class="ident">AlreadyRequired</span>) <span class="op">=&gt;</span> <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="bool-val">false</span>).<span class="ident">inner</span>(),
+            <span class="prelude-val">Err</span>(<span class="ident">require</span>::<span class="ident">Error</span>::<span class="ident">AlreadyRequired</span>) <span class="op">=&gt;</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="bool-val">false</span>).<span class="ident">inner</span>(),
             <span class="prelude-val">Err</span>(<span class="ident">require</span>::<span class="ident">Error</span>::<span class="ident">CannotLoad</span>(<span class="ident">file</span>)) <span class="op">=&gt;</span> {
                 <span class="ident">LoadError</span>::<span class="ident">raisef</span>(<span class="ident">interp</span>, <span class="string">&quot;cannot load such file -- %S&quot;</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">file</span>])
             }
@@ -523,12 +522,12 @@
                     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">contents</span>) <span class="op">=</span> <span class="ident">req</span>.<span class="ident">ruby</span> {
                         <span class="ident">interp</span>.<span class="ident">unchecked_eval_with_context</span>(<span class="ident">contents</span>, <span class="ident">Context</span>::<span class="ident">new</span>(<span class="ident">req</span>.<span class="ident">file</span>));
                     }
-                    <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="bool-val">true</span>).<span class="ident">inner</span>()
+                    <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="bool-val">true</span>).<span class="ident">inner</span>()
                 } <span class="kw">else</span> {
                     <span class="ident">LoadError</span>::<span class="ident">raisef</span>(<span class="ident">interp</span>, <span class="string">&quot;cannot load such file -- %S&quot;</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">req</span>.<span class="ident">file</span>])
                 }
             }
-            <span class="prelude-val">Err</span>(<span class="ident">require</span>::<span class="ident">Error</span>::<span class="ident">AlreadyRequired</span>) <span class="op">=&gt;</span> <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="bool-val">false</span>).<span class="ident">inner</span>(),
+            <span class="prelude-val">Err</span>(<span class="ident">require</span>::<span class="ident">Error</span>::<span class="ident">AlreadyRequired</span>) <span class="op">=&gt;</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="bool-val">false</span>).<span class="ident">inner</span>(),
             <span class="prelude-val">Err</span>(<span class="ident">require</span>::<span class="ident">Error</span>::<span class="ident">CannotLoad</span>(<span class="ident">file</span>)) <span class="op">=&gt;</span> {
                 <span class="ident">LoadError</span>::<span class="ident">raisef</span>(<span class="ident">interp</span>, <span class="string">&quot;cannot load such file -- %S&quot;</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">file</span>])
             }
@@ -587,7 +586,7 @@
             <span class="kw">if</span> <span class="op">!</span><span class="ident">string</span>.<span class="ident">ends_with</span>(<span class="string">&#39;\n&#39;</span>) {
                 <span class="ident">string</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}\n&quot;</span>, <span class="ident">string</span>);
             }
-            <span class="ident">Warning</span>::<span class="ident">warn</span>(<span class="ident">mrb</span>, <span class="ident">Value</span>::<span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">string</span>).<span class="ident">inner</span>());
+            <span class="ident">Warning</span>::<span class="ident">warn</span>(<span class="ident">mrb</span>, <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">string</span>).<span class="ident">inner</span>());
         }
         <span class="ident">sys</span>::<span class="ident">mrb_sys_nil_value</span>()
     }
@@ -595,7 +594,6 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::<span class="ident">TryConvert</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">file</span>::<span class="ident">File</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">load</span>::<span class="ident">LoadSources</span>;
@@ -624,16 +622,16 @@
             .<span class="ident">def_file_for_type</span>::<span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">TestFile</span><span class="op">&gt;</span>(<span class="string">&quot;file.rb&quot;</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;def file&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;require &#39;file&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
-        <span class="kw">let</span> <span class="ident">require_result</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">bool</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">result</span>) };
+        <span class="kw">let</span> <span class="ident">require_result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">require_result</span>, <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>));
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;@i&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
-        <span class="kw">let</span> <span class="ident">i_result</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">i64</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">result</span>) };
+        <span class="kw">let</span> <span class="ident">i_result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">i_result</span>, <span class="prelude-val">Ok</span>(<span class="number">255</span>));
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;@i = 1000; require &#39;file&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
-        <span class="kw">let</span> <span class="ident">second_require_result</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">bool</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">result</span>) };
+        <span class="kw">let</span> <span class="ident">second_require_result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">second_require_result</span>, <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>));
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;@i&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
-        <span class="kw">let</span> <span class="ident">second_i_result</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">i64</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">result</span>) };
+        <span class="kw">let</span> <span class="ident">second_i_result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">second_i_result</span>, <span class="prelude-val">Ok</span>(<span class="number">1000</span>));
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;require &#39;non-existent-source&#39;&quot;</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ());
         <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="string">r#&quot;
@@ -653,9 +651,9 @@
             .<span class="ident">def_rb_source_file</span>(<span class="string">&quot;/foo/bar/source.rb&quot;</span>, <span class="string">&quot;# a source file&quot;</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;def file&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;require &#39;/foo/bar/source.rb&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;value&quot;</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">unsafe</span> { <span class="ident">bool</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">result</span>).<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>) });
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>));
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;require &#39;/foo/bar/source.rb&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;value&quot;</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="kw">unsafe</span> { <span class="ident">bool</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">result</span>).<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>) });
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -668,7 +666,7 @@
             .<span class="ident">def_rb_source_file</span>(<span class="string">&quot;/foo/bar.rb&quot;</span>, <span class="string">&quot;# a source file&quot;</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;def file&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;require &#39;/foo/bar/source.rb&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;value&quot;</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="kw">unsafe</span> { <span class="ident">bool</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">result</span>).<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>) });
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -700,10 +698,10 @@
             .<span class="ident">expect</span>(<span class="string">&quot;def&quot;</span>);
         <span class="ident">interp</span>.<span class="ident">def_file_for_type</span>::<span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">Foo</span><span class="op">&gt;</span>(<span class="string">&quot;foo.rb&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;def&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;require &#39;foo&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">bool</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">result</span>).<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>) };
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="string">&quot;successfully required foo.rb&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;Foo::RUBY + Foo::RUST&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">i64</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">result</span>).<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>) };
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">result</span>, <span class="number">10</span>,
             <span class="string">&quot;defined Ruby and Rust sources from single require&quot;</span>
@@ -725,10 +723,10 @@
             .<span class="ident">def_rb_source_file</span>(<span class="string">&quot;foo.rb&quot;</span>, <span class="string">&quot;module Foo; RUBY = 3; end&quot;</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;def&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;require &#39;foo&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">bool</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">result</span>).<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>) };
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="string">&quot;successfully required foo.rb&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;Foo::RUBY + Foo::RUST&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">i64</span>::<span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">result</span>).<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>) };
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">result</span>, <span class="number">10</span>,
             <span class="string">&quot;defined Ruby and Rust sources from single require&quot;</span>
