@@ -198,6 +198,8 @@
 <span id="198">198</span>
 <span id="199">199</span>
 <span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
 
@@ -289,7 +291,9 @@
             <span class="ident">from</span>: <span class="ident">Rust</span>::<span class="ident">UnsignedInt</span>,
             <span class="ident">to</span>: <span class="ident">Ruby</span>::<span class="ident">Fixnum</span>,
         })<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(<span class="self">Self</span>::<span class="ident">new</span>(<span class="self">self</span>, <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_fixnum_value</span>(<span class="ident">value</span>) }))
+        <span class="prelude-val">Ok</span>(<span class="ident">Value</span>::<span class="ident">new</span>(<span class="self">self</span>, <span class="kw">unsafe</span> {
+            <span class="ident">sys</span>::<span class="ident">mrb_sys_fixnum_value</span>(<span class="ident">value</span>)
+        }))
     }
 }
 
