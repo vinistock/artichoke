@@ -581,78 +581,6 @@
 <span id="581">581</span>
 <span id="582">582</span>
 <span id="583">583</span>
-<span id="584">584</span>
-<span id="585">585</span>
-<span id="586">586</span>
-<span id="587">587</span>
-<span id="588">588</span>
-<span id="589">589</span>
-<span id="590">590</span>
-<span id="591">591</span>
-<span id="592">592</span>
-<span id="593">593</span>
-<span id="594">594</span>
-<span id="595">595</span>
-<span id="596">596</span>
-<span id="597">597</span>
-<span id="598">598</span>
-<span id="599">599</span>
-<span id="600">600</span>
-<span id="601">601</span>
-<span id="602">602</span>
-<span id="603">603</span>
-<span id="604">604</span>
-<span id="605">605</span>
-<span id="606">606</span>
-<span id="607">607</span>
-<span id="608">608</span>
-<span id="609">609</span>
-<span id="610">610</span>
-<span id="611">611</span>
-<span id="612">612</span>
-<span id="613">613</span>
-<span id="614">614</span>
-<span id="615">615</span>
-<span id="616">616</span>
-<span id="617">617</span>
-<span id="618">618</span>
-<span id="619">619</span>
-<span id="620">620</span>
-<span id="621">621</span>
-<span id="622">622</span>
-<span id="623">623</span>
-<span id="624">624</span>
-<span id="625">625</span>
-<span id="626">626</span>
-<span id="627">627</span>
-<span id="628">628</span>
-<span id="629">629</span>
-<span id="630">630</span>
-<span id="631">631</span>
-<span id="632">632</span>
-<span id="633">633</span>
-<span id="634">634</span>
-<span id="635">635</span>
-<span id="636">636</span>
-<span id="637">637</span>
-<span id="638">638</span>
-<span id="639">639</span>
-<span id="640">640</span>
-<span id="641">641</span>
-<span id="642">642</span>
-<span id="643">643</span>
-<span id="644">644</span>
-<span id="645">645</span>
-<span id="646">646</span>
-<span id="647">647</span>
-<span id="648">648</span>
-<span id="649">649</span>
-<span id="650">650</span>
-<span id="651">651</span>
-<span id="652">652</span>
-<span id="653">653</span>
-<span id="654">654</span>
-<span id="655">655</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">log</span>::{<span class="ident">error</span>, <span class="ident">trace</span>, <span class="ident">warn</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
@@ -739,11 +667,14 @@
 
     <span class="kw">fn</span> <span class="ident">interp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>;
 
-    <span class="kw">fn</span> <span class="ident">funcall</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">M</span>, <span class="ident">A</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">func</span>: <span class="ident">M</span>, <span class="ident">args</span>: <span class="ident">A</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">funcall</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">func</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+        <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">Value</span>],
+        <span class="ident">block</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>,
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">Artichoke</span>: <span class="ident">TryConvert</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">T</span><span class="op">&gt;</span>,
-        <span class="ident">M</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span>,
-        <span class="ident">A</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">Value</span>]<span class="op">&gt;</span>,
     {
         <span class="comment">// Ensure the borrow is out of scope by the time we eval code since</span>
         <span class="comment">// Rust-backed files and types may need to mutably borrow the `Artichoke` to</span>
@@ -768,95 +699,20 @@
             });
         }
         <span class="macro">trace</span><span class="macro">!</span>(
-            <span class="string">&quot;Calling {}#{} with {} args&quot;</span>,
+            <span class="string">&quot;Calling {}#{} with {} args{}&quot;</span>,
             <span class="ident">types</span>::<span class="ident">ruby_from_mrb_value</span>(<span class="self">self</span>.<span class="ident">inner</span>()),
-            <span class="ident">func</span>.<span class="ident">as_ref</span>(),
-            <span class="ident">args</span>.<span class="ident">len</span>()
+            <span class="ident">func</span>,
+            <span class="ident">args</span>.<span class="ident">len</span>(),
+            <span class="kw">if</span> <span class="ident">block</span>.<span class="ident">is_some</span>() { <span class="string">&quot; and block&quot;</span> } <span class="kw">else</span> { <span class="string">&quot;&quot;</span> }
         );
-        <span class="kw">let</span> <span class="ident">protect</span> <span class="op">=</span> <span class="ident">Protect</span>::<span class="ident">new</span>(
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">protect</span> <span class="op">=</span> <span class="ident">Protect</span>::<span class="ident">new</span>(
             <span class="self">self</span>.<span class="ident">inner</span>(),
             <span class="self">self</span>.<span class="ident">interp</span>().<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="ident">func</span>.<span class="ident">as_ref</span>()),
             <span class="ident">args</span>.<span class="ident">as_ref</span>(),
         );
-        <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw">unsafe</span> {
-            <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_sys_cptr_value</span>(<span class="ident">mrb</span>, <span class="ident">Box</span>::<span class="ident">into_raw</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">protect</span>)) <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span>);
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">state</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">mem</span>::<span class="ident">MaybeUninit</span><span class="op">&lt;</span><span class="ident">sys</span>::<span class="ident">mrb_bool</span><span class="op">&gt;&gt;</span>::<span class="ident">uninit</span>();
-
-            <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_protect</span>(<span class="ident">mrb</span>, <span class="prelude-val">Some</span>(<span class="ident">Protect</span>::<span class="ident">run</span>), <span class="ident">data</span>, <span class="ident">state</span>.<span class="ident">as_mut_ptr</span>());
-            <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">assume_init</span>() <span class="op">!=</span> <span class="number">0</span> {
-                (<span class="kw-2">*</span><span class="ident">mrb</span>).<span class="ident">exc</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_obj_ptr</span>(<span class="ident">value</span>);
-            }
-            <span class="ident">value</span>
-        };
-        <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">interp</span>(), <span class="ident">value</span>);
-
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">interp</span>().<span class="ident">last_error</span>() {
-            <span class="ident">LastError</span>::<span class="prelude-val">Some</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> {
-                <span class="macro">warn</span><span class="macro">!</span>(<span class="string">&quot;runtime error with exception backtrace: {}&quot;</span>, <span class="ident">exception</span>);
-                <span class="prelude-val">Err</span>(<span class="ident">ArtichokeError</span>::<span class="ident">Exec</span>(<span class="ident">exception</span>.<span class="ident">to_string</span>()))
-            }
-            <span class="ident">LastError</span>::<span class="ident">UnableToExtract</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> {
-                <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;failed to extract exception after runtime error: {}&quot;</span>, <span class="ident">err</span>);
-                <span class="prelude-val">Err</span>(<span class="ident">err</span>)
-            }
-            <span class="ident">LastError</span>::<span class="prelude-val">None</span> <span class="kw">if</span> <span class="ident">value</span>.<span class="ident">is_unreachable</span>() <span class="op">=&gt;</span> {
-                <span class="comment">// Unreachable values are internal to the mruby interpreter and</span>
-                <span class="comment">// interacting with them via the C API is unspecified and may</span>
-                <span class="comment">// result in a segfault.</span>
-                <span class="comment">//</span>
-                <span class="comment">// See: https://github.com/mruby/mruby/issues/4460</span>
-                <span class="prelude-val">Err</span>(<span class="ident">ArtichokeError</span>::<span class="ident">UnreachableValue</span>)
-            }
-            <span class="ident">LastError</span>::<span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">interp</span>().<span class="ident">try_convert</span>(<span class="ident">value</span>),
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">block</span>) <span class="op">=</span> <span class="ident">block</span> {
+            <span class="ident">protect</span> <span class="op">=</span> <span class="ident">protect</span>.<span class="ident">with_block</span>(<span class="ident">block</span>.<span class="ident">inner</span>());
         }
-    }
-
-    <span class="kw">fn</span> <span class="ident">funcall_with_block</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">M</span>, <span class="ident">A</span><span class="op">&gt;</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">func</span>: <span class="ident">M</span>,
-        <span class="ident">args</span>: <span class="ident">A</span>,
-        <span class="ident">block</span>: <span class="ident">Value</span>,
-    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">Artichoke</span>: <span class="ident">TryConvert</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">T</span><span class="op">&gt;</span>,
-        <span class="ident">M</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span>,
-        <span class="ident">A</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">Value</span>]<span class="op">&gt;</span>,
-    {
-        <span class="comment">// Ensure the borrow is out of scope by the time we eval code since</span>
-        <span class="comment">// Rust-backed files and types may need to mutably borrow the `Artichoke` to</span>
-        <span class="comment">// get access to the underlying `ArtichokeState`.</span>
-        <span class="kw">let</span> (<span class="ident">mrb</span>, <span class="ident">_ctx</span>) <span class="op">=</span> {
-            <span class="kw">let</span> <span class="ident">borrow</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">interp</span>().<span class="number">0</span>.<span class="ident">borrow</span>();
-            (<span class="ident">borrow</span>.<span class="ident">mrb</span>, <span class="ident">borrow</span>.<span class="ident">ctx</span>)
-        };
-
-        <span class="kw">let</span> <span class="ident">_arena</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">interp</span>().<span class="ident">create_arena_savepoint</span>();
-
-        <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">args</span>.<span class="ident">as_ref</span>().<span class="ident">iter</span>().<span class="ident">map</span>(<span class="ident">Value</span>::<span class="ident">inner</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;&gt;</span>();
-        <span class="kw">if</span> <span class="ident">args</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="ident">MRB_FUNCALL_ARGC_MAX</span> {
-            <span class="macro">warn</span><span class="macro">!</span>(
-                <span class="string">&quot;Too many args supplied to funcall_with_block: given {}, max {}.&quot;</span>,
-                <span class="ident">args</span>.<span class="ident">len</span>(),
-                <span class="ident">MRB_FUNCALL_ARGC_MAX</span>
-            );
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ArtichokeError</span>::<span class="ident">TooManyArgs</span> {
-                <span class="ident">given</span>: <span class="ident">args</span>.<span class="ident">len</span>(),
-                <span class="ident">max</span>: <span class="ident">MRB_FUNCALL_ARGC_MAX</span>,
-            });
-        }
-        <span class="macro">trace</span><span class="macro">!</span>(
-            <span class="string">&quot;Calling {}#{} with {} args and block&quot;</span>,
-            <span class="ident">types</span>::<span class="ident">ruby_from_mrb_value</span>(<span class="self">self</span>.<span class="ident">inner</span>()),
-            <span class="ident">func</span>.<span class="ident">as_ref</span>(),
-            <span class="ident">args</span>.<span class="ident">len</span>()
-        );
-        <span class="kw">let</span> <span class="ident">protect</span> <span class="op">=</span> <span class="ident">Protect</span>::<span class="ident">new</span>(
-            <span class="self">self</span>.<span class="ident">inner</span>(),
-            <span class="self">self</span>.<span class="ident">interp</span>().<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="ident">func</span>.<span class="ident">as_ref</span>()),
-            <span class="ident">args</span>.<span class="ident">as_ref</span>(),
-        )
-        .<span class="ident">with_block</span>(<span class="ident">block</span>.<span class="ident">inner</span>());
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span>
                 <span class="ident">sys</span>::<span class="ident">mrb_sys_cptr_value</span>(<span class="ident">mrb</span>, <span class="ident">Box</span>::<span class="ident">into_raw</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">protect</span>)) <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span>);
@@ -893,7 +749,7 @@
 
     <span class="kw">fn</span> <span class="ident">respond_to</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">method</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">method</span>: <span class="ident">Value</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">interp</span>().<span class="ident">convert</span>(<span class="ident">method</span>);
-        <span class="self">self</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">bool</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;respond_to?&quot;</span>, <span class="kw-2">&amp;</span>[<span class="ident">method</span>])
+        <span class="self">self</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>(<span class="string">&quot;respond_to?&quot;</span>, <span class="kw-2">&amp;</span>[<span class="ident">method</span>], <span class="prelude-val">None</span>)
     }
 }
 
@@ -954,7 +810,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This function can never fail.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_s</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
-        <span class="self">self</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">String</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;to_s&quot;</span>, <span class="kw-2">&amp;</span>[])
+        <span class="self">self</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>(<span class="string">&quot;to_s&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="prelude-val">None</span>)
             .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="string">&quot;&lt;unknown&gt;&quot;</span>.<span class="ident">to_owned</span>())
     }
 
@@ -975,7 +831,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This function can never fail.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">inspect</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
-        <span class="self">self</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">String</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;inspect&quot;</span>, <span class="kw-2">&amp;</span>[])
+        <span class="self">self</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>(<span class="string">&quot;inspect&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="prelude-val">None</span>)
             .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="string">&quot;&lt;unknown&gt;&quot;</span>.<span class="ident">to_owned</span>())
     }
 
@@ -1004,7 +860,7 @@
 
     <span class="doccomment">/// Call `#freeze` on this [`Value`] and consume `self`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">freeze</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">frozen</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="self">Self</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;freeze&quot;</span>, <span class="kw-2">&amp;</span>[])<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">frozen</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>(<span class="string">&quot;freeze&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
         <span class="ident">frozen</span>.<span class="ident">protect</span>();
         <span class="prelude-val">Ok</span>(<span class="ident">frozen</span>)
     }
@@ -1262,14 +1118,14 @@
     <span class="kw">fn</span> <span class="ident">funcall</span>() {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="kw">let</span> <span class="ident">nil</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">nil</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">bool</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;nil?&quot;</span>, <span class="kw-2">&amp;</span>[]).<span class="ident">expect</span>(<span class="string">&quot;nil?&quot;</span>));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">nil</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>(<span class="string">&quot;nil?&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="prelude-val">None</span>).<span class="ident">expect</span>(<span class="string">&quot;nil?&quot;</span>));
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="string">&quot;foo&quot;</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">s</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">bool</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;nil?&quot;</span>, <span class="kw-2">&amp;</span>[]).<span class="ident">expect</span>(<span class="string">&quot;nil?&quot;</span>));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">s</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>(<span class="string">&quot;nil?&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="prelude-val">None</span>).<span class="ident">expect</span>(<span class="string">&quot;nil?&quot;</span>));
         <span class="kw">let</span> <span class="ident">delim</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="string">&quot;&quot;</span>);
         <span class="kw">let</span> <span class="ident">split</span> <span class="op">=</span> <span class="ident">s</span>
-            .<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;split&quot;</span>, <span class="kw-2">&amp;</span>[<span class="ident">delim</span>])
+            .<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;&gt;</span>(<span class="string">&quot;split&quot;</span>, <span class="kw-2">&amp;</span>[<span class="ident">delim</span>], <span class="prelude-val">None</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;split&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">split</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;f&quot;</span>.<span class="ident">to_owned</span>(), <span class="string">&quot;o&quot;</span>.<span class="ident">to_owned</span>(), <span class="string">&quot;o&quot;</span>.<span class="ident">to_owned</span>()])
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">split</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;f&quot;</span>, <span class="string">&quot;o&quot;</span>, <span class="string">&quot;o&quot;</span>])
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -1277,7 +1133,7 @@
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="kw">let</span> <span class="ident">nil</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>);
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="string">&quot;foo&quot;</span>);
-        <span class="kw">let</span> <span class="ident">eql</span> <span class="op">=</span> <span class="ident">nil</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">bool</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;==&quot;</span>, <span class="kw-2">&amp;</span>[<span class="ident">s</span>]);
+        <span class="kw">let</span> <span class="ident">eql</span> <span class="op">=</span> <span class="ident">nil</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>(<span class="string">&quot;==&quot;</span>, <span class="kw-2">&amp;</span>[<span class="ident">s</span>], <span class="prelude-val">None</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">eql</span>, <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>));
     }
 
@@ -1286,7 +1142,7 @@
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="kw">let</span> <span class="ident">nil</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>);
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="string">&quot;foo&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">String</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;+&quot;</span>, <span class="kw-2">&amp;</span>[<span class="ident">nil</span>]);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>(<span class="string">&quot;+&quot;</span>, <span class="kw-2">&amp;</span>[<span class="ident">nil</span>], <span class="prelude-val">None</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">result</span>,
             <span class="prelude-val">Err</span>(<span class="ident">ArtichokeError</span>::<span class="ident">Exec</span>(
@@ -1300,7 +1156,7 @@
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="kw">let</span> <span class="ident">nil</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>);
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="string">&quot;foo&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">nil</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">bool</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;garbage_method_name&quot;</span>, <span class="kw-2">&amp;</span>[<span class="ident">s</span>]);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">nil</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>(<span class="string">&quot;garbage_method_name&quot;</span>, <span class="kw-2">&amp;</span>[<span class="ident">s</span>], <span class="prelude-val">None</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">result</span>,
             <span class="prelude-val">Err</span>(<span class="ident">ArtichokeError</span>::<span class="ident">Exec</span>(
