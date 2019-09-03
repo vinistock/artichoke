@@ -387,7 +387,7 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">env</span>::<span class="ident">backends</span>::<span class="ident">EnvBackend</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">env</span>::<span class="ident">Error</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::<span class="ident">Value</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::{<span class="ident">Value</span>, <span class="ident">ValueLike</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Artichoke</span>;
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">RubyEnvNativeApi</span> {
@@ -428,7 +428,7 @@
         <span class="kw">let</span> <span class="ident">key_v</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="ident">interp</span>, <span class="ident">key</span>);
         <span class="kw">let</span> <span class="ident">value_v</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="ident">interp</span>, <span class="ident">value</span>);
 
-        <span class="kw">if</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_value_is_nil</span>(<span class="ident">value_v</span>.<span class="ident">inner</span>()) {
+        <span class="kw">if</span> <span class="ident">value_v</span>.<span class="ident">is_nil</span>() {
             (<span class="ident">key_v</span>.<span class="ident">to_s</span>(), <span class="prelude-val">None</span>)
         } <span class="kw">else</span> {
             (<span class="ident">key_v</span>.<span class="ident">to_s</span>(), <span class="prelude-val">Some</span>(<span class="ident">value_v</span>.<span class="ident">to_s</span>()))
@@ -561,7 +561,7 @@
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">env</span>;
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::<span class="ident">Value</span>;
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::{<span class="ident">Value</span>, <span class="ident">ValueLike</span>};
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ArtichokeError</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>

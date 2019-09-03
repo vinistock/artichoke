@@ -154,6 +154,7 @@
 <span id="154">154</span>
 <span id="155">155</span>
 <span id="156">156</span>
+<span id="157">157</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>))]</span>
 
@@ -168,6 +169,7 @@
 <span class="kw">use</span> <span class="ident">artichoke_backend</span>::<span class="ident">gc</span>::<span class="ident">MrbGarbageCollection</span>;
 <span class="kw">use</span> <span class="ident">artichoke_backend</span>::<span class="ident">sys</span>;
 <span class="kw">use</span> <span class="ident">artichoke_backend</span>::<span class="ident">ArtichokeError</span>;
+<span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">value</span>::<span class="ident">Value</span>;
 <span class="kw">use</span> <span class="ident">rustyline</span>::<span class="ident">error</span>::<span class="ident">ReadlineError</span>;
 <span class="kw">use</span> <span class="ident">rustyline</span>::<span class="ident">Editor</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="self">self</span>, <span class="ident">Write</span>};

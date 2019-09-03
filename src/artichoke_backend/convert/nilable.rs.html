@@ -407,7 +407,6 @@
 <span id="407">407</span>
 <span id="408">408</span>
 <span id="409">409</span>
-<span id="410">410</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Converters for nilable primitive Ruby types. Excludes collection types</span>
 <span class="doccomment">//! Array and Hash.</span>
@@ -418,7 +417,7 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::{<span class="ident">Convert</span>, <span class="ident">TryConvert</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::{<span class="ident">Int</span>, <span class="ident">Ruby</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::<span class="ident">Value</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::{<span class="ident">Value</span>, <span class="ident">ValueLike</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Artichoke</span>, <span class="ident">ArtichokeError</span>};
 
 <span class="comment">// bail out implementation for mixed-type collections</span>
@@ -462,8 +461,7 @@
         <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">TryConvert</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">elem</span><span class="op">&gt;&gt;</span> <span class="kw">for</span> <span class="ident">Artichoke</span> {
             <span class="kw">fn</span> <span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="ident">Value</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">elem</span><span class="op">&gt;</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">convert</span>(<span class="ident">value</span>) {
-                    <span class="kw">let</span> <span class="ident">result</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">elem</span>, <span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">try_convert</span>(<span class="ident">value</span>);
-                    <span class="ident">result</span>.<span class="ident">map</span>(<span class="prelude-val">Some</span>)
+                    <span class="ident">value</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">elem</span><span class="op">&gt;</span>().<span class="ident">map</span>(<span class="prelude-val">Some</span>)
                 } <span class="kw">else</span> {
                     <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
                 }

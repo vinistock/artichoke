@@ -255,6 +255,9 @@
 <span id="255">255</span>
 <span id="256">256</span>
 <span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">clippy</span>::<span class="ident">all</span>, <span class="ident">clippy</span>::<span class="ident">pedantic</span>)]</span>
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">warnings</span>, <span class="ident">intra_doc_link_resolution_failure</span>)]</span>
@@ -278,6 +281,7 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ```rust</span>
 <span class="doccomment">//! use artichoke_backend::eval::Eval;</span>
+<span class="doccomment">//! use artichoke_core::value::Value as ValueLike;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! let interp = artichoke_backend::interpreter().unwrap();</span>
 <span class="doccomment">//! let result = interp.eval(&quot;10 * 10&quot;).unwrap();</span>
@@ -314,6 +318,7 @@
 <span class="doccomment">//! ```rust</span>
 <span class="doccomment">//! use artichoke_backend::eval::Eval;</span>
 <span class="doccomment">//! use artichoke_backend::load::LoadSources;</span>
+<span class="doccomment">//! use artichoke_core::value::Value as ValueLike;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! let mut interp = artichoke_backend::interpreter().unwrap();</span>
 <span class="doccomment">//! let code = &quot;</span>
@@ -324,8 +329,8 @@
 <span class="doccomment">//! interp.def_rb_source_file(&quot;source.rb&quot;, code).unwrap();</span>
 <span class="doccomment">//! interp.eval(&quot;require &#39;source&#39;&quot;).unwrap();</span>
 <span class="doccomment">//! let result = interp.eval(&quot;source_location&quot;).unwrap();</span>
-<span class="doccomment">//! let result = result.try_into::&lt;String&gt;().unwrap();</span>
-<span class="doccomment">//! assert_eq!(&amp;result, &quot;/src/lib/source.rb&quot;);</span>
+<span class="doccomment">//! let result = result.try_into::&lt;&amp;str&gt;().unwrap();</span>
+<span class="doccomment">//! assert_eq!(result, &quot;/src/lib/source.rb&quot;);</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ## Embed Rust Objects in `mrb_value`</span>
@@ -367,6 +372,7 @@
 <span class="doccomment">//! use artichoke_backend::sys;</span>
 <span class="doccomment">//! use artichoke_backend::value::Value;</span>
 <span class="doccomment">//! use artichoke_backend::{Artichoke, ArtichokeError};</span>
+<span class="doccomment">//! use artichoke_core::value::Value as ValueLike;</span>
 <span class="doccomment">//! use std::io::Write;</span>
 <span class="doccomment">//! use std::mem;</span>
 <span class="doccomment">//!</span>
