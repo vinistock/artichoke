@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["require",""],["require_relative",""]]});
+initSidebarItems({"fn":[["load",""],["require",""],["require_relative",""]]});

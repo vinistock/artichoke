@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Error",""]],"mod":[["method",""]],"struct":[["Args",""],["Require",""]]});
+initSidebarItems({"enum":[["ErrorLoad",""],["ErrorReq",""]],"mod":[["method",""]],"struct":[["Args",""],["Require",""]]});
