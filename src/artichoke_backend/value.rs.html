@@ -560,19 +560,49 @@
 <span id="560">560</span>
 <span id="561">561</span>
 <span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">c_void</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::{<span class="ident">Convert</span>, <span class="ident">TryConvert</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::{<span class="ident">Convert</span>, <span class="ident">RustBackedValue</span>, <span class="ident">TryConvert</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">exception</span>::{<span class="ident">ExceptionHandler</span>, <span class="ident">LastError</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">array</span>::<span class="ident">Array</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">gc</span>::<span class="ident">MrbGarbageCollection</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::{<span class="self">self</span>, <span class="ident">Int</span>, <span class="ident">Ruby</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Artichoke</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ArtichokeError</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Artichoke</span>, <span class="ident">ArtichokeError</span>};
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">value</span>::<span class="ident">Value</span> <span class="kw">as</span> <span class="ident">ValueLike</span>;
 
@@ -665,6 +695,26 @@
         <span class="ident">types</span>::<span class="ident">ruby_from_mrb_value</span>(<span class="self">self</span>.<span class="ident">value</span>)
     }
 
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pretty_name</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>) <span class="op">=</span> <span class="self">Self</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">interp</span>, <span class="self">self</span>.<span class="ident">value</span>).<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>() {
+            <span class="string">&quot;true&quot;</span>
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>) <span class="op">=</span> <span class="self">Self</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">interp</span>, <span class="self">self</span>.<span class="ident">value</span>).<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>() {
+            <span class="string">&quot;false&quot;</span>
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) <span class="op">=</span> <span class="self">Self</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">interp</span>, <span class="self">self</span>.<span class="ident">value</span>).<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;&gt;</span>() {
+            <span class="string">&quot;nil&quot;</span>
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">ruby_type</span>() <span class="op">==</span> <span class="ident">Ruby</span>::<span class="ident">Data</span> {
+            <span class="kw">if</span> <span class="kw">unsafe</span> { <span class="ident">Array</span>::<span class="ident">try_from_ruby</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">interp</span>, <span class="self">self</span>) }.<span class="ident">is_ok</span>() {
+                <span class="string">&quot;Array&quot;</span>
+            } <span class="kw">else</span> {
+                <span class="self">self</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>(<span class="string">&quot;class&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="prelude-val">None</span>)
+                    .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">class</span><span class="op">|</span> <span class="ident">class</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>(<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="prelude-val">None</span>))
+                    .<span class="ident">unwrap_or_default</span>()
+            }
+        } <span class="kw">else</span> {
+            <span class="self">self</span>.<span class="ident">ruby_type</span>().<span class="ident">class_name</span>()
+        }
+    }
+
     <span class="doccomment">/// Some type tags like [`MRB_TT_UNDEF`](sys::mrb_vtype::MRB_TT_UNDEF) are</span>
     <span class="doccomment">/// internal to the mruby VM and manipulating them with the [`sys`] API is</span>
     <span class="doccomment">/// unspecified and may result in a segfault.</span>
@@ -685,12 +735,14 @@
     <span class="doccomment">/// [`ArenaIndex::restore`](crate::gc::ArenaIndex::restore) restores the</span>
     <span class="doccomment">/// arena to an index before this call to protect.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">protect</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
-        <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_gc_protect</span>(<span class="self">self</span>.<span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>, <span class="self">self</span>.<span class="ident">value</span>) }
+        <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
+        <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_gc_protect</span>(<span class="ident">mrb</span>, <span class="self">self</span>.<span class="ident">value</span>) }
     }
 
     <span class="doccomment">/// Return whether this object is unreachable by any GC roots.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_dead</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
-        <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_value_is_dead</span>(<span class="self">self</span>.<span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>, <span class="self">self</span>.<span class="ident">value</span>) }
+        <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
+        <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_value_is_dead</span>(<span class="ident">mrb</span>, <span class="self">self</span>.<span class="ident">value</span>) }
     }
 
     <span class="doccomment">/// Generate a debug representation of self.</span>
@@ -721,6 +773,7 @@
     <span class="kw">where</span>
         <span class="self">Self</span>::<span class="ident">Artichoke</span>: <span class="ident">TryConvert</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>,
     {
+        <span class="self">self</span>.<span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>();
         <span class="comment">// Ensure the borrow is out of scope by the time we eval code since</span>
         <span class="comment">// Rust-backed files and types may need to mutably borrow the `Artichoke` to</span>
         <span class="comment">// get access to the underlying `ArtichokeState`.</span>
@@ -750,11 +803,8 @@
             <span class="ident">args</span>.<span class="ident">len</span>(),
             <span class="kw">if</span> <span class="ident">block</span>.<span class="ident">is_some</span>() { <span class="string">&quot; and block&quot;</span> } <span class="kw">else</span> { <span class="string">&quot;&quot;</span> }
         );
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">protect</span> <span class="op">=</span> <span class="ident">Protect</span>::<span class="ident">new</span>(
-            <span class="self">self</span>.<span class="ident">inner</span>(),
-            <span class="self">self</span>.<span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="ident">func</span>.<span class="ident">as_ref</span>()),
-            <span class="ident">args</span>.<span class="ident">as_ref</span>(),
-        );
+        <span class="kw">let</span> <span class="ident">func</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="ident">func</span>.<span class="ident">as_ref</span>());
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">protect</span> <span class="op">=</span> <span class="ident">Protect</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">inner</span>(), <span class="ident">func</span>, <span class="ident">args</span>.<span class="ident">as_ref</span>());
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">block</span>) <span class="op">=</span> <span class="ident">block</span> {
             <span class="ident">protect</span> <span class="op">=</span> <span class="ident">protect</span>.<span class="ident">with_block</span>(<span class="ident">block</span>.<span class="ident">inner</span>());
         }
@@ -809,9 +859,14 @@
     }
 
     <span class="kw">fn</span> <span class="ident">freeze</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">frozen</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>(<span class="string">&quot;freeze&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
-        <span class="ident">frozen</span>.<span class="ident">protect</span>();
+        <span class="self">self</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>(<span class="string">&quot;freeze&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="kw">fn</span> <span class="ident">is_frozen</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
+        <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>();
+        <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_obj_frozen</span>(<span class="ident">mrb</span>, <span class="ident">inner</span>) }
     }
 
     <span class="kw">fn</span> <span class="ident">inspect</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
@@ -854,13 +909,18 @@
 
 <span class="kw">impl</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">Value</span> {
     <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">ruby_type</span>() <span class="op">==</span> <span class="ident">Ruby</span>::<span class="ident">Data</span> {
-            <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Cannot safely clone a Value with type tag Ruby::Data.&quot;</span>);
-        }
         <span class="self">Self</span> {
             <span class="ident">interp</span>: <span class="self">self</span>.<span class="ident">interp</span>.<span class="ident">clone</span>(),
             <span class="ident">value</span>: <span class="self">self</span>.<span class="ident">value</span>,
         }
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">Value</span> {
+    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">eq</span>(<span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="self">self</span>.<span class="ident">inner</span>()) }, <span class="kw">unsafe</span> {
+            <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">other</span>.<span class="ident">inner</span>())
+        })
     }
 }
 

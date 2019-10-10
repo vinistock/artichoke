@@ -254,6 +254,13 @@
 <span id="254">254</span>
 <span id="255">255</span>
 <span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Artichoke</span>;
@@ -287,7 +294,8 @@
 
 <span class="kw">impl</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">ArenaIndex</span> {
     <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
-        <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_gc_arena_restore</span>(<span class="self">self</span>.<span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>, <span class="self">self</span>.<span class="ident">index</span>) };
+        <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
+        <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_gc_arena_restore</span>(<span class="ident">mrb</span>, <span class="self">self</span>.<span class="ident">index</span>) };
     }
 }
 
@@ -338,30 +346,36 @@
 
 <span class="kw">impl</span> <span class="ident">MrbGarbageCollection</span> <span class="kw">for</span> <span class="ident">Artichoke</span> {
     <span class="kw">fn</span> <span class="ident">create_arena_savepoint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ArenaIndex</span> {
+        <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
         <span class="ident">ArenaIndex</span> {
-            <span class="ident">index</span>: <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_gc_arena_save</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>) },
+            <span class="ident">index</span>: <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_gc_arena_save</span>(<span class="ident">mrb</span>) },
             <span class="ident">interp</span>: <span class="self">self</span>.<span class="ident">clone</span>(),
         }
     }
 
     <span class="kw">fn</span> <span class="ident">live_object_count</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">i32</span> {
-        <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_gc_live_objects</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>) }
+        <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
+        <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_gc_live_objects</span>(<span class="ident">mrb</span>) }
     }
 
     <span class="kw">fn</span> <span class="ident">incremental_gc</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
-        <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_incremental_gc</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>) };
+        <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
+        <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_incremental_gc</span>(<span class="ident">mrb</span>) };
     }
 
     <span class="kw">fn</span> <span class="ident">full_gc</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
-        <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_full_gc</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>) };
+        <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
+        <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_full_gc</span>(<span class="ident">mrb</span>) };
     }
 
     <span class="kw">fn</span> <span class="ident">enable_gc</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
-        <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_gc_enable</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>) }
+        <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
+        <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_gc_enable</span>(<span class="ident">mrb</span>) }
     }
 
     <span class="kw">fn</span> <span class="ident">disable_gc</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
-        <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_gc_disable</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>) }
+        <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
+        <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_gc_disable</span>(<span class="ident">mrb</span>) }
     }
 }
 

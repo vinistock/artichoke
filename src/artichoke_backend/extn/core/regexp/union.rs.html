@@ -95,16 +95,15 @@
 <span id="95">95</span>
 <span id="96">96</span>
 <span id="97">97</span>
-<span id="98">98</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [`Regexp::union`](https://ruby-doc.org/core-2.6.3/Regexp.html#method-c-union)</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::{<span class="ident">Convert</span>, <span class="ident">RustBackedValue</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">array</span>::<span class="ident">Array</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">regexp</span>::{<span class="ident">syntax</span>, <span class="ident">Regexp</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">Ruby</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::{<span class="ident">Value</span>, <span class="ident">ValueLike</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Artichoke</span>;
 
@@ -123,10 +122,11 @@
     <span class="kw">const</span> <span class="ident">ARGSPEC</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="ident">u8</span>] <span class="op">=</span> <span class="string">b&quot;*\0&quot;</span>;
 
     <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">extract</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">args</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">mem</span>::<span class="ident">MaybeUninit</span><span class="op">&lt;</span><span class="kw-2">*</span><span class="kw">const</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;&gt;</span>::<span class="ident">uninit</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">count</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">mem</span>::<span class="ident">MaybeUninit</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;&gt;</span>::<span class="ident">uninit</span>();
         <span class="ident">sys</span>::<span class="ident">mrb_get_args</span>(
-            <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>,
+            <span class="ident">mrb</span>,
             <span class="self">Self</span>::<span class="ident">ARGSPEC</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">i8</span>,
             <span class="ident">args</span>.<span class="ident">as_mut_ptr</span>(),
             <span class="ident">count</span>.<span class="ident">as_mut_ptr</span>(),
@@ -146,13 +146,11 @@
         <span class="string">&quot;(?!)&quot;</span>.<span class="ident">to_owned</span>()
     } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">args</span>.<span class="ident">rest</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">1</span> {
         <span class="kw">let</span> <span class="ident">arg</span> <span class="op">=</span> <span class="ident">args</span>.<span class="ident">rest</span>.<span class="ident">into_iter</span>().<span class="ident">nth</span>(<span class="number">0</span>).<span class="ident">unwrap</span>();
-        <span class="kw">if</span> <span class="ident">arg</span>.<span class="ident">ruby_type</span>() <span class="op">==</span> <span class="ident">Ruby</span>::<span class="ident">Array</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">ary</span>) <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">Array</span>::<span class="ident">try_from_ruby</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">arg</span>) } {
+            <span class="kw">let</span> <span class="ident">borrow</span> <span class="op">=</span> <span class="ident">ary</span>.<span class="ident">borrow</span>();
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">patterns</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
-            <span class="kw">for</span> <span class="ident">pattern</span> <span class="kw">in</span> <span class="ident">arg</span>
-                .<span class="ident">itself</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;&gt;</span>()
-                .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">Error</span>::<span class="ident">NoImplicitConversionToString</span>)<span class="question-mark">?</span>
-            {
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">regexp</span>) <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">Regexp</span>::<span class="ident">try_from_ruby</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">pattern</span>) } {
+            <span class="kw">for</span> <span class="ident">pattern</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="ident">borrow</span>.<span class="ident">buffer</span> {
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">regexp</span>) <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">Regexp</span>::<span class="ident">try_from_ruby</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">pattern</span>) } {
                     <span class="ident">patterns</span>.<span class="ident">push</span>(<span class="ident">regexp</span>.<span class="ident">borrow</span>().<span class="ident">pattern</span>.<span class="ident">clone</span>());
                 } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">pattern</span>) <span class="op">=</span> <span class="ident">pattern</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>(<span class="string">&quot;to_str&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="prelude-val">None</span>) {
                     <span class="ident">patterns</span>.<span class="ident">push</span>(<span class="ident">syntax</span>::<span class="ident">escape</span>(<span class="ident">pattern</span>));

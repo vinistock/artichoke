@@ -20,6 +20,7 @@
 <span id="20">20</span>
 <span id="21">21</span>
 <span id="22">22</span>
+<span id="23">23</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::<span class="ident">Value</span>;
@@ -40,7 +41,8 @@
 
 <span class="kw">impl</span> <span class="ident">TopSelf</span> <span class="kw">for</span> <span class="ident">Artichoke</span> {
     <span class="kw">fn</span> <span class="ident">top_self</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Value</span> {
-        <span class="ident">Value</span>::<span class="ident">new</span>(<span class="self">self</span>, <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_top_self</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>) })
+        <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
+        <span class="ident">Value</span>::<span class="ident">new</span>(<span class="self">self</span>, <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_top_self</span>(<span class="ident">mrb</span>) })
     }
 }
 </pre></div>

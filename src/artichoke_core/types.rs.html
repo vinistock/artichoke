@@ -135,13 +135,17 @@
 <span id="135">135</span>
 <span id="136">136</span>
 <span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Artichoke Ruby and Rust type mappings.</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
 
 <span class="doccomment">/// Classes of Rust types.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Rust</span> {
     <span class="doccomment">/// Rust `bool` type.</span>
     <span class="ident">Bool</span>,
@@ -176,7 +180,7 @@
 }
 
 <span class="doccomment">/// Classes of Ruby types.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Ruby</span> {
     <span class="doccomment">/// Ruby `Array` type.</span>
     <span class="ident">Array</span>,
@@ -238,11 +242,14 @@
     <span class="doccomment">/// Unreachable interpreter value. Receiving one of these from the</span>
     <span class="doccomment">/// interpreter is a bug.</span>
     <span class="ident">Unreachable</span>,
+    <span class="doccomment">/// A special `Value` that is a placeholder for collections that own</span>
+    <span class="doccomment">/// themselves.</span>
+    <span class="ident">RecursiveSelfOwnership</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Ruby</span> {
     <span class="doccomment">/// Ruby `Class` name for VM type.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">class_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">class_name</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
         <span class="kw">match</span> <span class="self">self</span> {
             <span class="ident">Ruby</span>::<span class="ident">Array</span> <span class="op">=&gt;</span> <span class="string">&quot;Array&quot;</span>,
             <span class="ident">Ruby</span>::<span class="ident">Bool</span> <span class="op">=&gt;</span> <span class="string">&quot;Boolean&quot;</span>,
@@ -264,6 +271,7 @@
             <span class="ident">Ruby</span>::<span class="ident">String</span> <span class="op">=&gt;</span> <span class="string">&quot;String&quot;</span>,
             <span class="ident">Ruby</span>::<span class="ident">Symbol</span> <span class="op">=&gt;</span> <span class="string">&quot;Symbol&quot;</span>,
             <span class="ident">Ruby</span>::<span class="ident">Unreachable</span> <span class="op">=&gt;</span> <span class="string">&quot;internal and unreachable&quot;</span>,
+            <span class="ident">Ruby</span>::<span class="ident">RecursiveSelfOwnership</span> <span class="op">=&gt;</span> <span class="string">&quot;recursive self ownership&quot;</span>,
         }
     }
 }

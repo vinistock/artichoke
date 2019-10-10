@@ -569,6 +569,7 @@
 <span id="569">569</span>
 <span id="570">570</span>
 <span id="571">571</span>
+<span id="572">572</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
@@ -576,6 +577,7 @@
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::<span class="ident">float</span>::<span class="ident">Float</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::{<span class="ident">Convert</span>, <span class="ident">TryConvert</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">array</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::{<span class="ident">Int</span>, <span class="ident">Ruby</span>, <span class="ident">Rust</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::{<span class="ident">Value</span>, <span class="ident">ValueLike</span>};
@@ -615,7 +617,7 @@
                 <span class="kw">for</span> <span class="ident">idx</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">size</span> {
                     <span class="comment">// Doing a `hash[key]` access is guaranteed to succeed since</span>
                     <span class="comment">// we&#39;re iterating over the keys in the hash.</span>
-                    <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_ary_ref</span>(<span class="ident">mrb</span>, <span class="ident">keys</span>, <span class="ident">idx</span>) };
+                    <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">array</span>::<span class="ident">mruby</span>::<span class="ident">artichoke_ary_ref</span>(<span class="ident">mrb</span>, <span class="ident">keys</span>, <span class="ident">idx</span>) };
                     <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_hash_get</span>(<span class="ident">mrb</span>, <span class="ident">hash</span>, <span class="ident">key</span>) };
                     <span class="ident">pairs</span>.<span class="ident">push</span>((<span class="ident">Value</span>::<span class="ident">new</span>(<span class="self">self</span>, <span class="ident">key</span>), <span class="ident">Value</span>::<span class="ident">new</span>(<span class="self">self</span>, <span class="ident">value</span>)));
                 }
