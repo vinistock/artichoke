@@ -265,10 +265,6 @@
 <span id="265">265</span>
 <span id="266">266</span>
 <span id="267">267</span>
-<span id="268">268</span>
-<span id="269">269</span>
-<span id="270">270</span>
-<span id="271">271</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">clippy</span>::<span class="ident">all</span>, <span class="ident">clippy</span>::<span class="ident">pedantic</span>)]</span>
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">warnings</span>, <span class="ident">intra_doc_link_resolution_failure</span>)]</span>
@@ -277,7 +273,8 @@
 <span class="doccomment">//! # artichoke-backend</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! artichoke-backend crate provides a Ruby interpreter. It currently is</span>
-<span class="doccomment">//! implemented with [`mruby-sys`](mruby_sys).</span>
+<span class="doccomment">//! implemented with [mruby](https://github.com/mruby/mruby) bindings exported</span>
+<span class="doccomment">//! by the [`sys`] module.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ## Execute Ruby Code</span>
 <span class="doccomment">//!</span>
@@ -391,13 +388,11 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! impl Container {</span>
 <span class="doccomment">//!     unsafe extern &quot;C&quot; fn initialize(mrb: *mut sys::mrb_state, mut slf: sys::mrb_value) -&gt; sys::mrb_value {</span>
+<span class="doccomment">//!         let inner = mrb_get_args!(mrb, required = 1);</span>
 <span class="doccomment">//!         let interp = unwrap_interpreter!(mrb);</span>
-<span class="doccomment">//!         let api = interp.0.borrow();</span>
-<span class="doccomment">//!         let int = mem::uninitialized::&lt;sys::mrb_int&gt;();</span>
-<span class="doccomment">//!         let mut argspec = vec![];</span>
-<span class="doccomment">//!         argspec.write_all(format!(&quot;{}\0&quot;, sys::specifiers::INTEGER).as_bytes()).unwrap();</span>
-<span class="doccomment">//!         sys::mrb_get_args(mrb, argspec.as_ptr() as *const i8, &amp;int);</span>
-<span class="doccomment">//!         let cont = Self { inner: int };</span>
+<span class="doccomment">//!         let inner = Value::new(&amp;interp, inner);</span>
+<span class="doccomment">//!         let inner = inner.try_into::&lt;i64&gt;().unwrap_or_default();</span>
+<span class="doccomment">//!         let cont = Self { inner };</span>
 <span class="doccomment">//!         cont</span>
 <span class="doccomment">//!             .try_into_ruby(&amp;interp, Some(slf))</span>
 <span class="doccomment">//!             .unwrap_or_else(|_| interp.convert(None::&lt;Value&gt;))</span>
@@ -406,7 +401,8 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     unsafe extern &quot;C&quot; fn value(mrb: *mut sys::mrb_state, slf: sys::mrb_value) -&gt; sys::mrb_value {</span>
 <span class="doccomment">//!         let interp = unwrap_interpreter!(mrb);</span>
-<span class="doccomment">//!         if let Ok(cont) = Self::try_from_ruby(&amp;interp, &amp;Value::new(&amp;interp, slf)) {</span>
+<span class="doccomment">//!         let container = Value::new(&amp;interp, slf);</span>
+<span class="doccomment">//!         if let Ok(cont) = Self::try_from_ruby(&amp;interp, &amp;container) {</span>
 <span class="doccomment">//!             let borrow = cont.borrow();</span>
 <span class="doccomment">//!             interp.convert(borrow.inner).inner()</span>
 <span class="doccomment">//!         } else {</span>
@@ -503,19 +499,15 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">method</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">module</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">state</span>;
+<span class="doccomment">/// C bindings for mruby, customized for Artichoke.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">sys</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">top_self</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">types</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">value</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">warn</span>;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">interpreter</span>::<span class="ident">interpreter</span>;
-<span class="doccomment">/// Re-exported bindings from [`mruby_sys`].</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Useful for referring to [`mruby_sys`] from macros defined in</span>
-<span class="doccomment">/// artichoke-backend crate.</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">mruby_sys</span> <span class="kw">as</span> <span class="ident">sys</span>;
-
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">ArtichokeError</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">interpreter</span>::<span class="ident">interpreter</span>;
 
 <span class="doccomment">/// Interpreter instance.</span>
 <span class="doccomment">///</span>

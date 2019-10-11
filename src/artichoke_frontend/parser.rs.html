@@ -215,7 +215,7 @@
     <span class="ident">Fatal</span>(<span class="ident">String</span>),
 }
 
-<span class="doccomment">/// Wraps a `mruby_sys` mruby parser.</span>
+<span class="doccomment">/// Wraps a [`artihcoke_backend`] mruby parser.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Parser</span> {
     <span class="ident">parser</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_parser_state</span>,
     <span class="ident">context</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrbc_context</span>,

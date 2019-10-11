@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Error","Errors encountered during parsing some Ruby code."],["State","State shows whether artichoke can parse some code or why it cannot."]],"struct":[["Parser","Wraps a `mruby_sys` mruby parser."]]});
+initSidebarItems({"enum":[["Error","Errors encountered during parsing some Ruby code."],["State","State shows whether artichoke can parse some code or why it cannot."]],"struct":[["Parser","Wraps a [`artihcoke_backend`] mruby parser."]]});
