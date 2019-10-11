@@ -120,23 +120,23 @@
 <span class="kw">impl</span> <span class="ident">Encoding</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flags</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Int</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">Encoding</span>::<span class="ident">Fixed</span> <span class="op">=&gt;</span> <span class="ident">Regexp</span>::<span class="ident">FIXEDENCODING</span>,
-            <span class="ident">Encoding</span>::<span class="ident">No</span> <span class="op">=&gt;</span> <span class="ident">Regexp</span>::<span class="ident">NOENCODING</span>,
-            <span class="ident">Encoding</span>::<span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="number">0</span>,
+            <span class="self">Self</span>::<span class="ident">Fixed</span> <span class="op">=&gt;</span> <span class="ident">Regexp</span>::<span class="ident">FIXEDENCODING</span>,
+            <span class="self">Self</span>::<span class="ident">No</span> <span class="op">=&gt;</span> <span class="ident">Regexp</span>::<span class="ident">NOENCODING</span>,
+            <span class="self">Self</span>::<span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="number">0</span>,
         }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">string</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">Encoding</span>::<span class="ident">Fixed</span> <span class="op">|</span> <span class="ident">Encoding</span>::<span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="string">&quot;&quot;</span>,
-            <span class="ident">Encoding</span>::<span class="ident">No</span> <span class="op">=&gt;</span> <span class="string">&quot;n&quot;</span>,
+            <span class="self">Self</span>::<span class="ident">Fixed</span> <span class="op">|</span> <span class="self">Self</span>::<span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="string">&quot;&quot;</span>,
+            <span class="self">Self</span>::<span class="ident">No</span> <span class="op">=&gt;</span> <span class="string">&quot;n&quot;</span>,
         }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">Encoding</span> {
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="ident">Encoding</span>::<span class="prelude-val">None</span>
+        <span class="self">Self</span>::<span class="prelude-val">None</span>
     }
 }
 
@@ -149,11 +149,11 @@
 <span class="kw">impl</span> <span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">Encoding</span> {
     <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> (<span class="self">self</span>, <span class="ident">other</span>) {
-            (<span class="ident">Encoding</span>::<span class="ident">No</span>, <span class="ident">Encoding</span>::<span class="prelude-val">None</span>)
-            <span class="op">|</span> (<span class="ident">Encoding</span>::<span class="prelude-val">None</span>, <span class="ident">Encoding</span>::<span class="ident">No</span>)
-            <span class="op">|</span> (<span class="ident">Encoding</span>::<span class="ident">No</span>, <span class="ident">Encoding</span>::<span class="ident">No</span>)
-            <span class="op">|</span> (<span class="ident">Encoding</span>::<span class="prelude-val">None</span>, <span class="ident">Encoding</span>::<span class="prelude-val">None</span>)
-            <span class="op">|</span> (<span class="ident">Encoding</span>::<span class="ident">Fixed</span>, <span class="ident">Encoding</span>::<span class="ident">Fixed</span>) <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+            (<span class="self">Self</span>::<span class="ident">No</span>, <span class="self">Self</span>::<span class="prelude-val">None</span>)
+            <span class="op">|</span> (<span class="self">Self</span>::<span class="prelude-val">None</span>, <span class="self">Self</span>::<span class="ident">No</span>)
+            <span class="op">|</span> (<span class="self">Self</span>::<span class="ident">No</span>, <span class="self">Self</span>::<span class="ident">No</span>)
+            <span class="op">|</span> (<span class="self">Self</span>::<span class="prelude-val">None</span>, <span class="self">Self</span>::<span class="prelude-val">None</span>)
+            <span class="op">|</span> (<span class="self">Self</span>::<span class="ident">Fixed</span>, <span class="self">Self</span>::<span class="ident">Fixed</span>) <span class="op">=&gt;</span> <span class="bool-val">true</span>,
             <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
         }
     }

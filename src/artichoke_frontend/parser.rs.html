@@ -194,7 +194,7 @@
     <span class="doccomment">/// whether to buffer code before attempting to eval it on the interpreter.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_code_block_open</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">State</span>::<span class="ident">Valid</span> <span class="op">|</span> <span class="ident">State</span>::<span class="ident">UnexpectedEnd</span> <span class="op">|</span> <span class="ident">State</span>::<span class="ident">UnexpectedRegexpBegin</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+            <span class="self">Self</span>::<span class="ident">Valid</span> <span class="op">|</span> <span class="self">Self</span>::<span class="ident">UnexpectedEnd</span> <span class="op">|</span> <span class="self">Self</span>::<span class="ident">UnexpectedRegexpBegin</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
             <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
         }
     }
@@ -202,7 +202,7 @@
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">State</span> {
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
-        <span class="ident">State</span>::<span class="ident">Valid</span>
+        <span class="self">Self</span>::<span class="ident">Valid</span>
     }
 }
 

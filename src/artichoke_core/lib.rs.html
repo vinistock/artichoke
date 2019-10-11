@@ -120,8 +120,6 @@
 <span id="120">120</span>
 <span id="121">121</span>
 <span id="122">122</span>
-<span id="123">123</span>
-<span id="124">124</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">clippy</span>::<span class="ident">all</span>, <span class="ident">clippy</span>::<span class="ident">pedantic</span>)]</span>
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">missing_docs</span>, <span class="ident">warnings</span>, <span class="ident">intra_doc_link_resolution_failure</span>)]</span>
@@ -211,26 +209,24 @@
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">ArtichokeError</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">ArtichokeError</span>::<span class="ident">ArgSpec</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;could not generate argspec&quot;</span>),
-            <span class="ident">ArtichokeError</span>::<span class="ident">ConvertToRuby</span> { <span class="ident">from</span>, <span class="ident">to</span> } <span class="op">=&gt;</span> {
+            <span class="self">Self</span>::<span class="ident">ArgSpec</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;could not generate argspec&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">ConvertToRuby</span> { <span class="ident">from</span>, <span class="ident">to</span> } <span class="op">=&gt;</span> {
                 <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;failed to convert from {} to {}&quot;</span>, <span class="ident">from</span>, <span class="ident">to</span>)
             }
-            <span class="ident">ArtichokeError</span>::<span class="ident">ConvertToRust</span> { <span class="ident">from</span>, <span class="ident">to</span> } <span class="op">=&gt;</span> {
+            <span class="self">Self</span>::<span class="ident">ConvertToRust</span> { <span class="ident">from</span>, <span class="ident">to</span> } <span class="op">=&gt;</span> {
                 <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;failed to convert from {} to {}&quot;</span>, <span class="ident">from</span>, <span class="ident">to</span>)
             }
-            <span class="ident">ArtichokeError</span>::<span class="ident">Exec</span>(<span class="ident">backtrace</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">backtrace</span>),
-            <span class="ident">ArtichokeError</span>::<span class="ident">New</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;failed to create mrb interpreter&quot;</span>),
-            <span class="ident">ArtichokeError</span>::<span class="ident">NotDefined</span>(<span class="ident">fqname</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{} not defined&quot;</span>, <span class="ident">fqname</span>),
-            <span class="ident">ArtichokeError</span>::<span class="ident">TooManyArgs</span> { <span class="ident">given</span>, <span class="ident">max</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="self">Self</span>::<span class="ident">Exec</span>(<span class="ident">backtrace</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">backtrace</span>),
+            <span class="self">Self</span>::<span class="ident">New</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;failed to create mrb interpreter&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">NotDefined</span>(<span class="ident">fqname</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{} not defined&quot;</span>, <span class="ident">fqname</span>),
+            <span class="self">Self</span>::<span class="ident">TooManyArgs</span> { <span class="ident">given</span>, <span class="ident">max</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;Too many args for funcall. Gave {}, but max is {}&quot;</span>,
                 <span class="ident">given</span>, <span class="ident">max</span>
             ),
-            <span class="ident">ArtichokeError</span>::<span class="ident">Uninitialized</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;mrb interpreter not initialized&quot;</span>),
-            <span class="ident">ArtichokeError</span>::<span class="ident">UnreachableValue</span> <span class="op">=&gt;</span> {
-                <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;extracted unreachable type from interpreter&quot;</span>)
-            }
-            <span class="ident">ArtichokeError</span>::<span class="ident">Vfs</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;mrb vfs io error: {}&quot;</span>, <span class="ident">err</span>),
+            <span class="self">Self</span>::<span class="ident">Uninitialized</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;mrb interpreter not initialized&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">UnreachableValue</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;extracted unreachable type from interpreter&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">Vfs</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;mrb vfs io error: {}&quot;</span>, <span class="ident">err</span>),
         }
     }
 }
@@ -242,7 +238,7 @@
 
     <span class="kw">fn</span> <span class="ident">cause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">error</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">ArtichokeError</span>::<span class="ident">Vfs</span>(<span class="ident">inner</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">inner</span>),
+            <span class="self">Self</span>::<span class="ident">Vfs</span>(<span class="ident">inner</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">inner</span>),
             <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
