@@ -323,6 +323,8 @@
 <span id="323">323</span>
 <span id="324">324</span>
 <span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [ruby/spec](https://github.com/ruby/spec) compliant implementation of</span>
 <span class="doccomment">//! [`MatchData`](https://ruby-doc.org/core-2.6.3/MatchData.html).</span>
@@ -376,9 +378,11 @@
     <span class="ident">match_data</span>
         .<span class="ident">borrow_mut</span>()
         .<span class="ident">add_method</span>(<span class="string">&quot;captures&quot;</span>, <span class="ident">MatchData</span>::<span class="ident">captures</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_none</span>());
-    <span class="ident">match_data</span>
-        .<span class="ident">borrow_mut</span>()
-        .<span class="ident">add_method</span>(<span class="string">&quot;[]&quot;</span>, <span class="ident">MatchData</span>::<span class="ident">element_reference</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_none</span>());
+    <span class="ident">match_data</span>.<span class="ident">borrow_mut</span>().<span class="ident">add_method</span>(
+        <span class="string">&quot;[]&quot;</span>,
+        <span class="ident">MatchData</span>::<span class="ident">element_reference</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_args_req_and_opt</span>(<span class="number">1</span>, <span class="number">1</span>),
+    );
     <span class="ident">match_data</span>
         .<span class="ident">borrow_mut</span>()
         .<span class="ident">add_method</span>(<span class="string">&quot;length&quot;</span>, <span class="ident">MatchData</span>::<span class="ident">length</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_none</span>());
