@@ -110,11 +110,8 @@
 <span id="110">110</span>
 <span id="111">111</span>
 <span id="112">112</span>
-<span id="113">113</span>
-<span id="114">114</span>
-<span id="115">115</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">PathBuf</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">Path</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">file</span>::<span class="ident">File</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">fs</span>::<span class="ident">RUBY_LOAD_PATH</span>;
@@ -161,19 +158,6 @@
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span>,
         <span class="ident">F</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>;
-
-    <span class="doccomment">/// Normalize path of a Ruby source to be relative to `RUBY_LOAD_PATH`</span>
-    <span class="doccomment">/// unless the path is absolute.</span>
-    <span class="kw">fn</span> <span class="ident">normalize_source_path</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">filename</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">PathBuf</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span>,
-    {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">PathBuf</span>::<span class="ident">from</span>(<span class="ident">filename</span>.<span class="ident">as_ref</span>());
-        <span class="kw">if</span> <span class="ident">path</span>.<span class="ident">is_relative</span>() {
-            <span class="ident">path</span> <span class="op">=</span> <span class="ident">PathBuf</span>::<span class="ident">from</span>(<span class="ident">RUBY_LOAD_PATH</span>).<span class="ident">join</span>(<span class="ident">filename</span>.<span class="ident">as_ref</span>());
-        }
-        <span class="ident">path</span>
-    }
 }
 
 <span class="kw">impl</span> <span class="ident">LoadSources</span> <span class="kw">for</span> <span class="ident">Artichoke</span> {
@@ -186,7 +170,12 @@
         <span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span>,
     {
         <span class="kw">let</span> <span class="ident">api</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">borrow</span>();
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">normalize_source_path</span>(<span class="ident">filename</span>.<span class="ident">as_ref</span>());
+        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">Path</span>::<span class="ident">new</span>(<span class="ident">filename</span>.<span class="ident">as_ref</span>());
+        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">path</span>.<span class="ident">is_relative</span>() {
+            <span class="ident">Path</span>::<span class="ident">new</span>(<span class="ident">RUBY_LOAD_PATH</span>).<span class="ident">join</span>(<span class="ident">path</span>)
+        } <span class="kw">else</span> {
+            <span class="ident">path</span>.<span class="ident">to_path_buf</span>()
+        };
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">parent</span>) <span class="op">=</span> <span class="ident">path</span>.<span class="ident">parent</span>() {
             <span class="ident">api</span>.<span class="ident">vfs</span>.<span class="ident">create_dir_all</span>(<span class="ident">parent</span>)<span class="question-mark">?</span>;
         }
@@ -218,7 +207,12 @@
         <span class="ident">F</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>,
     {
         <span class="kw">let</span> <span class="ident">api</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">borrow</span>();
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">normalize_source_path</span>(<span class="ident">filename</span>.<span class="ident">as_ref</span>());
+        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">Path</span>::<span class="ident">new</span>(<span class="ident">filename</span>.<span class="ident">as_ref</span>());
+        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">path</span>.<span class="ident">is_relative</span>() {
+            <span class="ident">Path</span>::<span class="ident">new</span>(<span class="ident">RUBY_LOAD_PATH</span>).<span class="ident">join</span>(<span class="ident">path</span>)
+        } <span class="kw">else</span> {
+            <span class="ident">path</span>.<span class="ident">to_path_buf</span>()
+        };
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">parent</span>) <span class="op">=</span> <span class="ident">path</span>.<span class="ident">parent</span>() {
             <span class="ident">api</span>.<span class="ident">vfs</span>.<span class="ident">create_dir_all</span>(<span class="ident">parent</span>)<span class="question-mark">?</span>;
         }

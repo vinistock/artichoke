@@ -271,6 +271,96 @@
 <span id="271">271</span>
 <span id="272">272</span>
 <span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! # Ruby Exception Hierarchy</span>
 <span class="doccomment">//!</span>
@@ -312,202 +402,291 @@
 <span class="doccomment">//! - `SystemStackError`</span>
 <span class="doccomment">//! - `fatal` -- impossible to rescue</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">CString</span>;
+<span class="kw">use</span> <span class="ident">backtrace</span>::<span class="ident">Backtrace</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::<span class="ident">Cow</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cell</span>::<span class="ident">RefCell</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">error</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">rc</span>::<span class="ident">Rc</span>;
 
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">class</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::<span class="ident">Convert</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">def</span>::{<span class="ident">ClassLike</span>, <span class="ident">Define</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::<span class="ident">Value</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Artichoke</span>, <span class="ident">ArtichokeError</span>};
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">init</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
-    <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;exception.rb&quot;</span>).<span class="ident">as_ref</span>())<span class="question-mark">?</span>;
-    <span class="kw">let</span> <span class="ident">exception</span> <span class="op">=</span> <span class="ident">interp</span>
-        .<span class="number">0</span>
-        .<span class="ident">borrow_mut</span>()
-        .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">Exception</span><span class="op">&gt;</span>(<span class="string">&quot;Exception&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
-    <span class="kw">let</span> <span class="ident">scripterror</span> <span class="op">=</span> <span class="ident">interp</span>
-        .<span class="number">0</span>
-        .<span class="ident">borrow_mut</span>()
-        .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">ScriptError</span><span class="op">&gt;</span>(<span class="string">&quot;ScriptError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
-    <span class="ident">scripterror</span>
-        .<span class="ident">borrow_mut</span>()
-        .<span class="ident">with_super_class</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">exception</span>));
-    <span class="ident">scripterror</span>
-        .<span class="ident">borrow</span>()
-        .<span class="ident">define</span>(<span class="ident">interp</span>)
-        .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">ArtichokeError</span>::<span class="ident">New</span>)<span class="question-mark">?</span>;
-    <span class="kw">let</span> <span class="ident">loaderror</span> <span class="op">=</span> <span class="ident">interp</span>
-        .<span class="number">0</span>
-        .<span class="ident">borrow_mut</span>()
-        .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">LoadError</span><span class="op">&gt;</span>(<span class="string">&quot;LoadError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
-    <span class="ident">loaderror</span>
-        .<span class="ident">borrow_mut</span>()
-        .<span class="ident">with_super_class</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">scripterror</span>));
-    <span class="ident">loaderror</span>
-        .<span class="ident">borrow</span>()
-        .<span class="ident">define</span>(<span class="ident">interp</span>)
-        .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">ArtichokeError</span>::<span class="ident">New</span>)<span class="question-mark">?</span>;
-    <span class="ident">interp</span>
-        .<span class="number">0</span>
-        .<span class="ident">borrow_mut</span>()
-        .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">ArgumentError</span><span class="op">&gt;</span>(<span class="string">&quot;ArgumentError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
-    <span class="ident">interp</span>
-        .<span class="number">0</span>
-        .<span class="ident">borrow_mut</span>()
-        .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">FrozenError</span><span class="op">&gt;</span>(<span class="string">&quot;FrozenError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
-    <span class="ident">interp</span>
-        .<span class="number">0</span>
-        .<span class="ident">borrow_mut</span>()
-        .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">IndexError</span><span class="op">&gt;</span>(<span class="string">&quot;IndexError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
-    <span class="ident">interp</span>
-        .<span class="number">0</span>
-        .<span class="ident">borrow_mut</span>()
-        .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">RangeError</span><span class="op">&gt;</span>(<span class="string">&quot;RangeError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
-    <span class="ident">interp</span>
-        .<span class="number">0</span>
-        .<span class="ident">borrow_mut</span>()
-        .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">RuntimeError</span><span class="op">&gt;</span>(<span class="string">&quot;RuntimeError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
-    <span class="ident">interp</span>
-        .<span class="number">0</span>
-        .<span class="ident">borrow_mut</span>()
-        .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">SyntaxError</span><span class="op">&gt;</span>(<span class="string">&quot;SyntaxError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
-    <span class="ident">interp</span>
-        .<span class="number">0</span>
-        .<span class="ident">borrow_mut</span>()
-        .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">TypeError</span><span class="op">&gt;</span>(<span class="string">&quot;TypeError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+    <span class="kw">let</span> <span class="ident">exception</span> <span class="op">=</span> <span class="ident">Exception</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+    <span class="ident">NoMemoryError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">exception</span>)))<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">script</span> <span class="op">=</span> <span class="ident">ScriptError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">exception</span>)))<span class="question-mark">?</span>;
+    <span class="ident">LoadError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">script</span>)))<span class="question-mark">?</span>;
+    <span class="ident">NotImplementedError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">script</span>)))<span class="question-mark">?</span>;
+    <span class="ident">SyntaxError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">script</span>)))<span class="question-mark">?</span>;
+    <span class="ident">SecurityError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">exception</span>)))<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">signal</span> <span class="op">=</span> <span class="ident">SignalException</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">exception</span>)))<span class="question-mark">?</span>;
+    <span class="ident">Interrupt</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">signal</span>)))<span class="question-mark">?</span>;
+    <span class="comment">// Default for `rescue`.</span>
+    <span class="kw">let</span> <span class="ident">standard</span> <span class="op">=</span> <span class="ident">StandardError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">exception</span>)))<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">argument</span> <span class="op">=</span> <span class="ident">ArgumentError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">standard</span>)))<span class="question-mark">?</span>;
+    <span class="ident">UncaughtThrowError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">argument</span>)))<span class="question-mark">?</span>;
+    <span class="ident">EncodingError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">standard</span>)))<span class="question-mark">?</span>;
+    <span class="ident">FiberError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">standard</span>)))<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">io</span> <span class="op">=</span> <span class="ident">IOError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">standard</span>)))<span class="question-mark">?</span>;
+    <span class="ident">EOFError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">io</span>)))<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="ident">IndexError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">standard</span>)))<span class="question-mark">?</span>;
+    <span class="ident">KeyError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">index</span>)))<span class="question-mark">?</span>;
+    <span class="ident">StopIteration</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">index</span>)))<span class="question-mark">?</span>;
+    <span class="ident">LocalJumpError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">standard</span>)))<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="ident">NameError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">standard</span>)))<span class="question-mark">?</span>;
+    <span class="ident">NoMethodError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">name</span>)))<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">range</span> <span class="op">=</span> <span class="ident">RangeError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">standard</span>)))<span class="question-mark">?</span>;
+    <span class="ident">FloatDomainError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">range</span>)))<span class="question-mark">?</span>;
+    <span class="ident">RegexpError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">standard</span>)))<span class="question-mark">?</span>;
+    <span class="comment">// Default `Exception` type for `raise`.</span>
+    <span class="kw">let</span> <span class="ident">runtime</span> <span class="op">=</span> <span class="ident">RuntimeError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">standard</span>)))<span class="question-mark">?</span>;
+    <span class="ident">FrozenError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">runtime</span>)))<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">_syscall</span> <span class="op">=</span> <span class="ident">SystemCallError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">standard</span>)))<span class="question-mark">?</span>;
+    <span class="ident">ThreadError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">standard</span>)))<span class="question-mark">?</span>;
+    <span class="ident">TypeError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">standard</span>)))<span class="question-mark">?</span>;
+    <span class="ident">ZeroDivisionError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">standard</span>)))<span class="question-mark">?</span>;
+    <span class="ident">SystemExit</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">exception</span>)))<span class="question-mark">?</span>;
+    <span class="ident">SystemStackError</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">exception</span>)))<span class="question-mark">?</span>;
+    <span class="ident">Fatal</span>::<span class="ident">init</span>(<span class="ident">interp</span>, <span class="prelude-val">Some</span>(<span class="ident">Rc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">exception</span>)))<span class="question-mark">?</span>;
+
+    <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="kw-2">&amp;</span><span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;exception.rb&quot;</span>)[..])<span class="question-mark">?</span>;
+
     <span class="prelude-val">Ok</span>(())
 }
 
-<span class="doccomment">/// Raise implementation for `Exception` structs.</span>
+<span class="doccomment">/// Raise implementation for `RubyException` boxed trait objects.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// **Warning**: Calling [`raise`](RubyException::raise) on an interpreter from</span>
-<span class="doccomment">/// outside the mruby VM call stack will result in a segfault. Raise should only</span>
-<span class="doccomment">/// be called from Rust functions that are exposed on the mruby interpreter via</span>
+<span class="doccomment">/// **Warning**: Calling [`raise`] on an interpreter from outside the mruby VM</span>
+<span class="doccomment">/// call stack will result in a segfault. Raise should only be called from Rust</span>
+<span class="doccomment">/// functions that are exposed on the mruby interpreter via</span>
 <span class="doccomment">/// [`class::Spec`](crate::class::Spec) and</span>
 <span class="doccomment">/// [`module::Spec`](crate::module::Spec).</span>
+<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">raise</span>(<span class="ident">interp</span>: <span class="ident">Artichoke</span>, <span class="ident">exception</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="op">!</span> {
+    <span class="comment">// Ensure the borrow is out of scope by the time we eval code since</span>
+    <span class="comment">// Rust-backed files and types may need to mutably borrow the `Artichoke` to</span>
+    <span class="comment">// get access to the underlying `ArtichokeState`.</span>
+    <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
+
+    <span class="kw">let</span> <span class="ident">spec</span> <span class="op">=</span> <span class="ident">exception</span>.<span class="ident">class</span>();
+    <span class="kw">let</span> <span class="ident">borrow</span> <span class="op">=</span> <span class="ident">spec</span>.<span class="ident">borrow</span>();
+    <span class="kw">let</span> <span class="ident">eclass</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">rclass</span>) <span class="op">=</span> <span class="ident">borrow</span>.<span class="ident">rclass</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>) {
+        <span class="ident">rclass</span>
+    } <span class="kw">else</span> {
+        <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;unable to raise {}&quot;</span>, <span class="ident">borrow</span>.<span class="ident">name</span>());
+        <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;unable to raise {}&quot;</span>, <span class="ident">borrow</span>.<span class="ident">name</span>());
+    };
+    <span class="kw">let</span> <span class="ident">formatargs</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">exception</span>.<span class="ident">message</span>()).<span class="ident">inner</span>();
+    <span class="comment">// `mrb_sys_raise` will call longjmp which will unwind the stack.</span>
+    <span class="comment">// Any non-`Copy` objects that we haven&#39;t cleaned up at this point will</span>
+    <span class="comment">// leak, so drop everything.</span>
+    <span class="ident">drop</span>(<span class="ident">borrow</span>);
+    <span class="ident">drop</span>(<span class="ident">spec</span>);
+    <span class="ident">drop</span>(<span class="ident">interp</span>);
+    <span class="ident">drop</span>(<span class="ident">exception</span>);
+
+    <span class="ident">sys</span>::<span class="ident">mrb_raisef</span>(<span class="ident">mrb</span>, <span class="ident">eclass</span>, <span class="string">b&quot;%S\0&quot;</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">i8</span>, <span class="ident">formatargs</span>);
+    <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;mrb_raisef will unwind the stack with longjmp&quot;</span>);
+}
+
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">module_name_repetitions</span>)]</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">RubyException</span>: <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Sized</span> {
-    <span class="doccomment">/// Raise the `Exception` defined with this type with a message.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **Warning**: This function calls [`sys::mrb_sys_raise`] which modifies</span>
-    <span class="doccomment">/// the stack with `longjmp`. mruby expects raise to be called at some stack</span>
-    <span class="doccomment">/// frame below an eval. If this is not the case, mruby will segfault.</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">raise</span>(<span class="ident">interp</span>: <span class="ident">Artichoke</span>, <span class="ident">message</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
-        <span class="self">Self</span>::<span class="ident">raisef</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>(<span class="ident">interp</span>, <span class="ident">message</span>, <span class="macro">vec</span><span class="macro">!</span>[])
-    }
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">RubyException</span>
+<span class="kw">where</span>
+    <span class="self">Self</span>: <span class="lifetime">&#39;static</span>,
+{
+    <span class="kw">fn</span> <span class="ident">message</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span>;
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">raisef</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span>(<span class="ident">interp</span>: <span class="ident">Artichoke</span>, <span class="ident">message</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>, <span class="ident">format</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span>
-    <span class="kw">where</span>
-        <span class="ident">Artichoke</span>: <span class="ident">Convert</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">Value</span><span class="op">&gt;</span>,
-    {
-        <span class="comment">// Ensure the borrow is out of scope by the time we eval code since</span>
-        <span class="comment">// Rust-backed files and types may need to mutably borrow the `Artichoke` to</span>
-        <span class="comment">// get access to the underlying `ArtichokeState`.</span>
-        <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
+    <span class="kw">fn</span> <span class="ident">class</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">class</span>::<span class="ident">Spec</span><span class="op">&gt;&gt;</span>;
+}
 
-        <span class="kw">let</span> <span class="ident">spec</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">spec</span>) <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">class_spec</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>() {
-            <span class="ident">spec</span>
-        } <span class="kw">else</span> {
-            <span class="kw">return</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_nil_value</span>();
-        };
-        <span class="kw">let</span> <span class="ident">borrow</span> <span class="op">=</span> <span class="ident">spec</span>.<span class="ident">borrow</span>();
-        <span class="kw">let</span> <span class="ident">eclass</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">rclass</span>) <span class="op">=</span> <span class="ident">borrow</span>.<span class="ident">rclass</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>) {
-            <span class="ident">rclass</span>
-        } <span class="kw">else</span> {
-            <span class="macro">warn</span><span class="macro">!</span>(<span class="string">&quot;unable to raise {}&quot;</span>, <span class="ident">borrow</span>.<span class="ident">name</span>());
-            <span class="kw">return</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_nil_value</span>();
-        };
-        <span class="comment">// message is a &amp;&#39;static str so it should never leak</span>
-        <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">CString</span>::<span class="ident">new</span>(<span class="ident">message</span>);
-        <span class="kw">let</span> <span class="ident">message_cstring</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">message</span>) <span class="op">=</span> <span class="ident">message</span> {
-            <span class="ident">message</span>
-        } <span class="kw">else</span> {
-            <span class="macro">warn</span><span class="macro">!</span>(<span class="string">&quot;unable to raise {}&quot;</span>, <span class="ident">borrow</span>.<span class="ident">name</span>());
-            <span class="kw">return</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_nil_value</span>();
-        };
-        <span class="kw">let</span> <span class="ident">message_ptr</span> <span class="op">=</span> <span class="ident">message_cstring</span>.<span class="ident">as_ptr</span>();
-
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">formatargs</span> <span class="op">=</span> <span class="ident">format</span>
-            .<span class="ident">into_iter</span>()
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">item</span><span class="op">|</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">item</span>).<span class="ident">inner</span>())
-            .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;&gt;</span>();
-        <span class="comment">// `mrb_sys_raise` will call longjmp which will unwind the stack.</span>
-        <span class="comment">// Anything we haven&#39;t cleaned up at this point will leak, so drop</span>
-        <span class="comment">// everything.</span>
-        <span class="ident">drop</span>(<span class="ident">borrow</span>);
-        <span class="ident">drop</span>(<span class="ident">spec</span>);
-        <span class="ident">drop</span>(<span class="ident">interp</span>);
-        <span class="kw">match</span> <span class="ident">formatargs</span>.<span class="ident">len</span>() {
-            <span class="number">0</span> <span class="op">=&gt;</span> {
-                <span class="ident">drop</span>(<span class="ident">formatargs</span>);
-                <span class="ident">sys</span>::<span class="ident">mrb_raise</span>(<span class="ident">mrb</span>, <span class="ident">eclass</span>, <span class="ident">message_ptr</span>)
-            }
-            <span class="number">1</span> <span class="op">=&gt;</span> {
-                <span class="kw">let</span> <span class="ident">arg1</span> <span class="op">=</span> <span class="ident">formatargs</span>.<span class="ident">remove</span>(<span class="number">0</span>);
-                <span class="ident">drop</span>(<span class="ident">formatargs</span>);
-                <span class="ident">sys</span>::<span class="ident">mrb_raisef</span>(<span class="ident">mrb</span>, <span class="ident">eclass</span>, <span class="ident">message_ptr</span>, <span class="ident">arg1</span>)
-            }
-            <span class="number">2</span> <span class="op">=&gt;</span> {
-                <span class="kw">let</span> <span class="ident">arg1</span> <span class="op">=</span> <span class="ident">formatargs</span>.<span class="ident">remove</span>(<span class="number">0</span>);
-                <span class="kw">let</span> <span class="ident">arg2</span> <span class="op">=</span> <span class="ident">formatargs</span>.<span class="ident">remove</span>(<span class="number">0</span>);
-                <span class="ident">drop</span>(<span class="ident">formatargs</span>);
-                <span class="ident">sys</span>::<span class="ident">mrb_raisef</span>(<span class="ident">mrb</span>, <span class="ident">eclass</span>, <span class="ident">message_ptr</span>, <span class="ident">arg1</span>, <span class="ident">arg2</span>)
-            }
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;unsupported raisef format arg count. See mruby/src/extn/core/error.rs.&quot;</span>),
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">ruby_exception_impl</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> {
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span> {
+            <span class="ident">interp</span>: <span class="ident">Artichoke</span>,
+            <span class="ident">message</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">str</span><span class="op">&gt;</span>,
+            <span class="ident">backtrace</span>: <span class="ident">Backtrace</span>,
         }
-        <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;mrb_raise will unwind the stack with longjmp&quot;</span>);
+
+        <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span> {
+            <span class="kw">fn</span> <span class="ident">init</span>(
+                <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
+                <span class="ident">superclass</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">class</span>::<span class="ident">Spec</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
+            ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">class</span>::<span class="ident">Spec</span><span class="op">&gt;&gt;</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
+                <span class="kw">let</span> <span class="ident">class</span> <span class="op">=</span>
+                    <span class="ident">interp</span>
+                        .<span class="number">0</span>
+                        .<span class="ident">borrow_mut</span>()
+                        .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>(<span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span>), <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">superclass</span>) <span class="op">=</span> <span class="ident">superclass</span> {
+                    <span class="ident">class</span>.<span class="ident">borrow_mut</span>().<span class="ident">with_super_class</span>(<span class="ident">superclass</span>);
+                }
+                <span class="ident">class</span>
+                    .<span class="ident">borrow</span>()
+                    .<span class="ident">define</span>(<span class="ident">interp</span>)
+                    .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">ArtichokeError</span>::<span class="ident">New</span>)<span class="question-mark">?</span>;
+                <span class="prelude-val">Ok</span>(<span class="ident">class</span>)
+            }
+
+            <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>, <span class="ident">message</span>: <span class="ident">S</span>) <span class="op">-&gt;</span> <span class="self">Self</span>
+            <span class="kw">where</span>
+                <span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">str</span><span class="op">&gt;&gt;</span>,
+            {
+                <span class="self">Self</span> {
+                    <span class="ident">interp</span>: <span class="ident">interp</span>.<span class="ident">clone</span>(),
+                    <span class="ident">message</span>: <span class="ident">message</span>.<span class="ident">into</span>(),
+                    <span class="ident">backtrace</span>: <span class="ident">Backtrace</span>::<span class="ident">new</span>(),
+                }
+            }
+        }
+
+        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">use_self</span>)]</span>
+        <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span>
+        <span class="kw">where</span>
+            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span>: <span class="ident">RubyException</span>,
+        {
+            <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">exception</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span>) <span class="op">-&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span> {
+                <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">exception</span>)
+            }
+        }
+
+        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">use_self</span>)]</span>
+        <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span><span class="op">&gt;&gt;</span> <span class="kw">for</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span>
+        <span class="kw">where</span>
+            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span>: <span class="ident">RubyException</span>,
+        {
+            <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">exception</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span> {
+                <span class="ident">exception</span>
+            }
+        }
+
+        <span class="kw">impl</span> <span class="ident">RubyException</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span> {
+            <span class="kw">fn</span> <span class="ident">message</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
+                <span class="self">self</span>.<span class="ident">message</span>.<span class="ident">as_ref</span>()
+            }
+
+            <span class="kw">fn</span> <span class="ident">class</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">class</span>::<span class="ident">Spec</span><span class="op">&gt;&gt;</span> {
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">spec</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">class_spec</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>() {
+                    <span class="ident">spec</span>
+                } <span class="kw">else</span> {
+                    <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Unknown Exception class spec&quot;</span>);
+                }
+            }
+        }
+
+        <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span>
+        <span class="kw">where</span>
+            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span>: <span class="ident">RubyException</span>,
+        {
+            <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+                <span class="kw">let</span> <span class="ident">class</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">class</span>();
+                <span class="kw">let</span> <span class="ident">borrow</span> <span class="op">=</span> <span class="ident">class</span>.<span class="ident">borrow</span>();
+                <span class="kw">let</span> <span class="ident">classname</span> <span class="op">=</span> <span class="ident">borrow</span>.<span class="ident">name</span>();
+                <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{} ({})&quot;</span>, <span class="ident">classname</span>, <span class="self">self</span>.<span class="ident">message</span>)<span class="question-mark">?</span>;
+                <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;\n{:?}&quot;</span>, <span class="self">self</span>.<span class="ident">backtrace</span>)
+            }
+        }
+
+        <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span>
+        <span class="kw">where</span>
+            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span>: <span class="ident">RubyException</span>,
+        {
+            <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+                <span class="kw">let</span> <span class="ident">class</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">class</span>();
+                <span class="kw">let</span> <span class="ident">borrow</span> <span class="op">=</span> <span class="ident">class</span>.<span class="ident">borrow</span>();
+                <span class="kw">let</span> <span class="ident">classname</span> <span class="op">=</span> <span class="ident">borrow</span>.<span class="ident">name</span>();
+                <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{} ({})&quot;</span>, <span class="ident">classname</span>, <span class="self">self</span>.<span class="ident">message</span>)
+            }
+        }
+
+        <span class="kw">impl</span> <span class="ident">error</span>::<span class="ident">Error</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span> {
+            <span class="kw">fn</span> <span class="ident">description</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
+                <span class="macro">concat</span><span class="macro">!</span>(<span class="string">&quot;Ruby Exception: &quot;</span>, <span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span>))
+            }
+
+            <span class="kw">fn</span> <span class="ident">cause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">error</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+                <span class="prelude-val">None</span>
+            }
+        }
+    };
+}
+
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="kw">let</span> <span class="ident">class</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">class</span>();
+        <span class="kw">let</span> <span class="ident">borrow</span> <span class="op">=</span> <span class="ident">class</span>.<span class="ident">borrow</span>();
+        <span class="kw">let</span> <span class="ident">classname</span> <span class="op">=</span> <span class="ident">borrow</span>.<span class="ident">name</span>();
+        <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{} ({})&quot;</span>, <span class="ident">classname</span>, <span class="self">self</span>.<span class="ident">message</span>())
     }
 }
 
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Exception</span>;
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="kw">let</span> <span class="ident">class</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">class</span>();
+        <span class="kw">let</span> <span class="ident">borrow</span> <span class="op">=</span> <span class="ident">class</span>.<span class="ident">borrow</span>();
+        <span class="kw">let</span> <span class="ident">classname</span> <span class="op">=</span> <span class="ident">borrow</span>.<span class="ident">name</span>();
+        <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{} ({})&quot;</span>, <span class="ident">classname</span>, <span class="self">self</span>.<span class="ident">message</span>())
+    }
+}
 
-<span class="kw">impl</span> <span class="ident">RubyException</span> <span class="kw">for</span> <span class="ident">Exception</span> {}
+<span class="kw">impl</span> <span class="ident">error</span>::<span class="ident">Error</span> <span class="kw">for</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">description</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
+        <span class="string">&quot;Ruby Exception: &quot;</span>
+    }
 
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ScriptError</span>;
+    <span class="kw">fn</span> <span class="ident">cause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">error</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="prelude-val">None</span>
+    }
+}
 
-<span class="kw">impl</span> <span class="ident">RubyException</span> <span class="kw">for</span> <span class="ident">ScriptError</span> {}
-
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LoadError</span>;
-
-<span class="kw">impl</span> <span class="ident">RubyException</span> <span class="kw">for</span> <span class="ident">LoadError</span> {}
-
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ArgumentError</span>;
-
-<span class="kw">impl</span> <span class="ident">RubyException</span> <span class="kw">for</span> <span class="ident">ArgumentError</span> {}
-
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FrozenError</span>;
-
-<span class="kw">impl</span> <span class="ident">RubyException</span> <span class="kw">for</span> <span class="ident">FrozenError</span> {}
-
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IndexError</span>;
-
-<span class="kw">impl</span> <span class="ident">RubyException</span> <span class="kw">for</span> <span class="ident">IndexError</span> {}
-
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RangeError</span>;
-
-<span class="kw">impl</span> <span class="ident">RubyException</span> <span class="kw">for</span> <span class="ident">RangeError</span> {}
-
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RuntimeError</span>;
-
-<span class="kw">impl</span> <span class="ident">RubyException</span> <span class="kw">for</span> <span class="ident">RuntimeError</span> {}
-
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SyntaxError</span>;
-
-<span class="kw">impl</span> <span class="ident">RubyException</span> <span class="kw">for</span> <span class="ident">SyntaxError</span> {}
-
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TypeError</span>;
-
-<span class="kw">impl</span> <span class="ident">RubyException</span> <span class="kw">for</span> <span class="ident">TypeError</span> {}
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">Exception</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">NoMemoryError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">ScriptError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">LoadError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">NotImplementedError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">SyntaxError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">SecurityError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">SignalException</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">Interrupt</span>);
+<span class="comment">// Default for `rescue`.</span>
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">StandardError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">ArgumentError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">UncaughtThrowError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">EncodingError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">FiberError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">IOError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">EOFError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">IndexError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">KeyError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">StopIteration</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">LocalJumpError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">NameError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">NoMethodError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">RangeError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">FloatDomainError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">RegexpError</span>);
+<span class="comment">// Default `Exception` type for `raise`.</span>
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">RuntimeError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">FrozenError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">SystemCallError</span>);
+<span class="comment">// ruby_exception_impl!(Errno::*);</span>
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">ThreadError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">TypeError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">ZeroDivisionError</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">SystemExit</span>);
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">SystemStackError</span>);
+<span class="comment">// Fatal interpreter error. Impossible to rescue.</span>
+<span class="macro">ruby_exception_impl</span><span class="macro">!</span>(<span class="ident">Fatal</span>);
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">def</span>::{<span class="ident">ClassLike</span>, <span class="ident">Define</span>};
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">exception</span>::<span class="ident">Exception</span>;
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">exception</span>::{<span class="ident">RubyException</span>, <span class="ident">RuntimeError</span>};
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">exception</span>::<span class="ident">RuntimeError</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">file</span>::<span class="ident">File</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Artichoke</span>, <span class="ident">ArtichokeError</span>};
@@ -517,7 +696,8 @@
     <span class="kw">impl</span> <span class="ident">Run</span> {
         <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">run</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">_slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
             <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
-            <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;something went wrong&quot;</span>)
+            <span class="kw">let</span> <span class="ident">exc</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">RuntimeError</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="string">&quot;something went wrong&quot;</span>));
+            <span class="kw">super</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exc</span>)
         }
     }
 

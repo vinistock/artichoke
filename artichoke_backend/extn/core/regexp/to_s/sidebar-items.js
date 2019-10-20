@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Error",""]],"fn":[["method",""]]});
+initSidebarItems({"fn":[["method",""]]});

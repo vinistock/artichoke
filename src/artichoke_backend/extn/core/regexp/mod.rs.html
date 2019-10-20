@@ -439,12 +439,6 @@
 <span id="439">439</span>
 <span id="440">440</span>
 <span id="441">441</span>
-<span id="442">442</span>
-<span id="443">443</span>
-<span id="444">444</span>
-<span id="445">445</span>
-<span id="446">446</span>
-<span id="447">447</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [ruby/spec](https://github.com/ruby/spec) compliant implementation of</span>
 <span class="doccomment">//! [`Regexp`](https://ruby-doc.org/core-2.6.3/Regexp.html).</span>
@@ -452,16 +446,17 @@
 <span class="doccomment">//! Each function on `Regexp` is implemented as its own module which contains</span>
 <span class="doccomment">//! the `Args` struct for invoking the function.</span>
 
+<span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">value</span>::<span class="ident">Value</span> <span class="kw">as</span> <span class="kw">_</span>;
 <span class="kw">use</span> <span class="ident">onig</span>::{<span class="self">self</span>, <span class="ident">Syntax</span>};
 <span class="kw">use</span> <span class="ident">regex</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">hash</span>::{<span class="ident">Hash</span>, <span class="ident">Hasher</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">rc</span>::<span class="ident">Rc</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::{<span class="ident">Convert</span>, <span class="ident">RustBackedValue</span>, <span class="ident">TryConvert</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">def</span>::{<span class="ident">rust_data_free</span>, <span class="ident">ClassLike</span>, <span class="ident">Define</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">exception</span>::{<span class="ident">RubyException</span>, <span class="ident">RuntimeError</span>, <span class="ident">SyntaxError</span>, <span class="ident">TypeError</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">exception</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">Int</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::<span class="ident">Value</span>;
@@ -607,7 +602,7 @@
                 .<span class="ident">unwrap</span>()
                 .<span class="ident">inner</span>();
         <span class="macro">vec</span><span class="macro">!</span>[
-            <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="self">self</span>.<span class="ident">literal_pattern</span>.<span class="ident">as_str</span>()).<span class="ident">inner</span>(),
+            <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="self">self</span>.<span class="ident">literal_pattern</span>.<span class="ident">as_bytes</span>()).<span class="ident">inner</span>(),
             <span class="ident">literal_options</span>,
             <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="self">self</span>.<span class="ident">encoding</span>.<span class="ident">flags</span>()).<span class="ident">inner</span>(),
         ]
@@ -652,114 +647,101 @@
         <span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>,
         <span class="ident">slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>,
     ) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+        <span class="kw">let</span> (<span class="ident">pattern</span>, <span class="ident">options</span>, <span class="ident">encoding</span>) <span class="op">=</span> <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="ident">required</span> <span class="op">=</span> <span class="number">1</span>, <span class="ident">optional</span> <span class="op">=</span> <span class="number">2</span>);
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">initialize</span>::<span class="ident">Args</span>::<span class="ident">extract</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>)
-            .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">args</span><span class="op">|</span> <span class="ident">initialize</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">args</span>, <span class="ident">slf</span>));
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">initialize</span>::<span class="ident">Args</span>::<span class="ident">extract</span>(
+            <span class="kw-2">&amp;</span><span class="ident">interp</span>,
+            <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">pattern</span>),
+            <span class="ident">options</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">options</span><span class="op">|</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">options</span>)),
+            <span class="ident">encoding</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">encoding</span><span class="op">|</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">encoding</span>)),
+        )
+        .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">args</span><span class="op">|</span> <span class="ident">initialize</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">args</span>, <span class="prelude-val">Some</span>(<span class="ident">slf</span>)));
         <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">inner</span>(),
-            <span class="prelude-val">Err</span>(<span class="ident">initialize</span>::<span class="ident">Error</span>::<span class="ident">NoImplicitConversionToString</span>) <span class="op">=&gt;</span> {
-                <span class="ident">TypeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;no implicit conversion into String&quot;</span>);
-                <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;raise unwinds the stack with longjmp&quot;</span>);
-            }
-            <span class="prelude-val">Err</span>(<span class="ident">initialize</span>::<span class="ident">Error</span>::<span class="ident">Syntax</span>) <span class="op">=&gt;</span> {
-                <span class="ident">SyntaxError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;Failed to parse Regexp pattern&quot;</span>);
-                <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;raise unwinds the stack with longjmp&quot;</span>);
-            }
-            <span class="prelude-val">Err</span>(<span class="ident">initialize</span>::<span class="ident">Error</span>::<span class="ident">Unicode</span>) <span class="op">=&gt;</span> {
-                <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;Pattern is invalid UTF-8&quot;</span>);
-                <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;raise unwinds the stack with longjmp&quot;</span>);
-            }
-            <span class="prelude-val">Err</span>(<span class="ident">initialize</span>::<span class="ident">Error</span>::<span class="ident">Fatal</span>) <span class="op">=&gt;</span> {
-                <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;Fatal Regexp#initialize error&quot;</span>);
-                <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;raise unwinds the stack with longjmp&quot;</span>);
-            }
+            <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
         }
     }
 
     <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">compile</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">args</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">mem</span>::<span class="ident">MaybeUninit</span><span class="op">&lt;</span><span class="kw-2">*</span><span class="kw">const</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;&gt;</span>::<span class="ident">uninit</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">count</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">mem</span>::<span class="ident">MaybeUninit</span><span class="op">&lt;</span><span class="ident">sys</span>::<span class="ident">mrb_int</span><span class="op">&gt;&gt;</span>::<span class="ident">uninit</span>();
-        <span class="ident">sys</span>::<span class="ident">mrb_get_args</span>(
-            <span class="ident">mrb</span>,
-            <span class="string">b&quot;*\0&quot;</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">i8</span>,
-            <span class="ident">args</span>.<span class="ident">as_mut_ptr</span>(),
-            <span class="ident">count</span>.<span class="ident">as_mut_ptr</span>(),
-        );
+        <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="kw-2">*</span><span class="ident">args</span>);
         <span class="ident">sys</span>::<span class="ident">mrb_obj_new</span>(
             <span class="ident">mrb</span>,
             <span class="ident">sys</span>::<span class="ident">mrb_sys_class_ptr</span>(<span class="ident">slf</span>),
-            <span class="ident">count</span>.<span class="ident">assume_init</span>(),
-            <span class="ident">args</span>.<span class="ident">assume_init</span>(),
+            <span class="ident">Int</span>::<span class="ident">try_from</span>(<span class="ident">args</span>.<span class="ident">len</span>()).<span class="ident">unwrap_or_default</span>(),
+            <span class="ident">args</span>.<span class="ident">as_ptr</span>(),
         )
     }
 
     <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">escape</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">_slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+        <span class="kw">let</span> <span class="ident">pattern</span> <span class="op">=</span> <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="ident">required</span> <span class="op">=</span> <span class="number">1</span>);
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">escape</span>::<span class="ident">Args</span>::<span class="ident">extract</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">args</span><span class="op">|</span> <span class="ident">escape</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">args</span>));
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">escape</span>::<span class="ident">Args</span>::<span class="ident">extract</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">pattern</span>))
+            .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">args</span><span class="op">|</span> <span class="ident">escape</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">args</span>));
         <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">result</span>) <span class="op">=&gt;</span> <span class="ident">result</span>.<span class="ident">inner</span>(),
-            <span class="prelude-val">Err</span>(<span class="ident">escape</span>::<span class="ident">Error</span>::<span class="ident">NoImplicitConversionToString</span>) <span class="op">=&gt;</span> {
-                <span class="ident">TypeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;no implicit conversion into String&quot;</span>)
-            }
-            <span class="prelude-val">Err</span>(<span class="ident">escape</span>::<span class="ident">Error</span>::<span class="ident">Fatal</span>) <span class="op">=&gt;</span> <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;fatal Regexp::escape error&quot;</span>),
+            <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
         }
     }
 
-    <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">union</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+    <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">union</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">_slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+        <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="kw-2">*</span><span class="ident">args</span>);
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
-        <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">union</span>::<span class="ident">Args</span>::<span class="ident">extract</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">union</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">args</span>, <span class="ident">slf</span>);
+        <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">args</span>
+            .<span class="ident">iter</span>()
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">arg</span><span class="op">|</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">*</span><span class="ident">arg</span>))
+            .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;&gt;</span>();
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">union</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">args</span>.<span class="ident">as_slice</span>());
         <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">result</span>) <span class="op">=&gt;</span> <span class="ident">result</span>.<span class="ident">inner</span>(),
-            <span class="prelude-val">Err</span>(<span class="ident">union</span>::<span class="ident">Error</span>::<span class="ident">NoImplicitConversionToString</span>) <span class="op">=&gt;</span> {
-                <span class="ident">TypeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;no implicit conversion into String&quot;</span>)
-            }
-            <span class="prelude-val">Err</span>(<span class="ident">union</span>::<span class="ident">Error</span>::<span class="ident">Fatal</span>) <span class="op">=&gt;</span> <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;fatal Regexp::union error&quot;</span>),
+            <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
         }
     }
 
     <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">match_q</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+        <span class="kw">let</span> (<span class="ident">pattern</span>, <span class="ident">pos</span>) <span class="op">=</span> <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="ident">required</span> <span class="op">=</span> <span class="number">1</span>, <span class="ident">optional</span> <span class="op">=</span> <span class="number">1</span>);
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span>
-            <span class="ident">match_q</span>::<span class="ident">Args</span>::<span class="ident">extract</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">args</span><span class="op">|</span> <span class="ident">match_q</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">args</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>));
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">match_q</span>::<span class="ident">Args</span>::<span class="ident">extract</span>(
+            <span class="kw-2">&amp;</span><span class="ident">interp</span>,
+            <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">pattern</span>),
+            <span class="ident">pos</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">pos</span><span class="op">|</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">pos</span>)),
+        )
+        .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">args</span><span class="op">|</span> <span class="ident">match_q</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">args</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>));
         <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">result</span>) <span class="op">=&gt;</span> <span class="ident">result</span>.<span class="ident">inner</span>(),
-            <span class="prelude-val">Err</span>(<span class="ident">match_q</span>::<span class="ident">Error</span>::<span class="ident">Fatal</span>) <span class="op">=&gt;</span> <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;fatal Regexp#match? error&quot;</span>),
-            <span class="prelude-val">Err</span>(<span class="ident">match_q</span>::<span class="ident">Error</span>::<span class="ident">PosType</span>) <span class="op">=&gt;</span> {
-                <span class="ident">TypeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;No implicit conversion into Integer&quot;</span>)
-            }
-            <span class="prelude-val">Err</span>(<span class="ident">match_q</span>::<span class="ident">Error</span>::<span class="ident">StringType</span>) <span class="op">=&gt;</span> {
-                <span class="ident">TypeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;No implicit conversion into String&quot;</span>)
-            }
+            <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
         }
     }
 
     <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">match_</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+        <span class="kw">let</span> (<span class="ident">pattern</span>, <span class="ident">pos</span>, <span class="ident">block</span>) <span class="op">=</span> <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="ident">required</span> <span class="op">=</span> <span class="number">1</span>, <span class="ident">optional</span> <span class="op">=</span> <span class="number">1</span>, <span class="kw-2">&amp;</span><span class="ident">block</span>);
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
-        <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>();
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span>
-            <span class="ident">match_</span>::<span class="ident">Args</span>::<span class="ident">extract</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">args</span><span class="op">|</span> <span class="ident">match_</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">args</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>));
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">match_</span>::<span class="ident">Args</span>::<span class="ident">extract</span>(
+            <span class="kw-2">&amp;</span><span class="ident">interp</span>,
+            <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">pattern</span>),
+            <span class="ident">pos</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">pos</span><span class="op">|</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">pos</span>)),
+            <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">block</span>)
+                .<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;&gt;</span>()
+                .<span class="ident">ok</span>()
+                .<span class="ident">unwrap_or_default</span>(),
+        )
+        .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">args</span><span class="op">|</span> <span class="ident">match_</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">args</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>));
         <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">result</span>) <span class="op">=&gt;</span> <span class="ident">result</span>.<span class="ident">inner</span>(),
-            <span class="prelude-val">Err</span>(<span class="ident">match_</span>::<span class="ident">Error</span>::<span class="ident">Fatal</span>) <span class="op">=&gt;</span> <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;fatal Regexp#match error&quot;</span>),
-            <span class="prelude-val">Err</span>(<span class="ident">match_</span>::<span class="ident">Error</span>::<span class="ident">PosType</span>) <span class="op">=&gt;</span> {
-                <span class="ident">TypeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;No implicit conversion into Integer&quot;</span>)
-            }
-            <span class="prelude-val">Err</span>(<span class="ident">match_</span>::<span class="ident">Error</span>::<span class="ident">StringType</span>) <span class="op">=&gt;</span> {
-                <span class="ident">TypeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;No implicit conversion into String&quot;</span>)
-            }
+            <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
         }
     }
 
     <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">eql</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+        <span class="kw">let</span> <span class="ident">other</span> <span class="op">=</span> <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="ident">required</span> <span class="op">=</span> <span class="number">1</span>);
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
-        <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">eql</span>::<span class="ident">Args</span>::<span class="ident">extract</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>);
-        <span class="kw">match</span> <span class="ident">eql</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">args</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>) {
+        <span class="kw">let</span> <span class="ident">other</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">other</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">eql</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>, <span class="kw-2">&amp;</span><span class="ident">other</span>);
+        <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">result</span>) <span class="op">=&gt;</span> <span class="ident">result</span>.<span class="ident">inner</span>(),
-            <span class="prelude-val">Err</span>(<span class="ident">eql</span>::<span class="ident">Error</span>::<span class="ident">Fatal</span>) <span class="op">=&gt;</span> <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;fatal Regexp#== error&quot;</span>),
+            <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
         }
     }
 
@@ -767,16 +749,14 @@
         <span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>,
         <span class="ident">slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>,
     ) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+        <span class="kw">let</span> <span class="ident">pattern</span> <span class="op">=</span> <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="ident">required</span> <span class="op">=</span> <span class="number">1</span>);
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">case_compare</span>::<span class="ident">Args</span>::<span class="ident">extract</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>)
-            .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">args</span><span class="op">|</span> <span class="ident">case_compare</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">args</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>));
+        <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">case_compare</span>::<span class="ident">Args</span>::<span class="ident">extract</span>(<span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">pattern</span>));
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">case_compare</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">args</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>);
         <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">result</span>) <span class="op">=&gt;</span> <span class="ident">result</span>.<span class="ident">inner</span>(),
-            <span class="prelude-val">Err</span>(<span class="ident">case_compare</span>::<span class="ident">Error</span>::<span class="ident">NoImplicitConversionToString</span>) <span class="op">=&gt;</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="bool-val">false</span>).<span class="ident">inner</span>(),
-            <span class="prelude-val">Err</span>(<span class="ident">case_compare</span>::<span class="ident">Error</span>::<span class="ident">Fatal</span>) <span class="op">=&gt;</span> {
-                <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;fatal Regexp#=== error&quot;</span>)
-            }
+            <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
         }
     }
 
@@ -784,29 +764,25 @@
         <span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>,
         <span class="ident">slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>,
     ) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+        <span class="kw">let</span> <span class="ident">pattern</span> <span class="op">=</span> <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="ident">required</span> <span class="op">=</span> <span class="number">1</span>);
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">match_operator</span>::<span class="ident">Args</span>::<span class="ident">extract</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>)
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">match_operator</span>::<span class="ident">Args</span>::<span class="ident">extract</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">pattern</span>))
             .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">args</span><span class="op">|</span> <span class="ident">match_operator</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">args</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>));
         <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">result</span>) <span class="op">=&gt;</span> <span class="ident">result</span>.<span class="ident">inner</span>(),
-            <span class="prelude-val">Err</span>(<span class="ident">match_operator</span>::<span class="ident">Error</span>::<span class="ident">NoImplicitConversionToString</span>) <span class="op">=&gt;</span> {
-                <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="bool-val">false</span>).<span class="ident">inner</span>()
-            }
-            <span class="prelude-val">Err</span>(<span class="ident">match_operator</span>::<span class="ident">Error</span>::<span class="ident">Fatal</span>) <span class="op">=&gt;</span> {
-                <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;fatal Regexp#=== error&quot;</span>)
-            }
+            <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
         }
     }
 
     <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">casefold</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+        <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="ident">none</span>);
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>);
-        <span class="kw">match</span> <span class="ident">casefold</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>) {
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">casefold</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>);
+        <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">result</span>) <span class="op">=&gt;</span> <span class="ident">result</span>.<span class="ident">inner</span>(),
-            <span class="prelude-val">Err</span>(<span class="ident">casefold</span>::<span class="ident">Error</span>::<span class="ident">Fatal</span>) <span class="op">=&gt;</span> {
-                <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;fatal Regexp#casefold? error&quot;</span>)
-            }
+            <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
         }
     }
 
@@ -814,31 +790,35 @@
         <span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>,
         <span class="ident">slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>,
     ) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+        <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="ident">none</span>);
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>);
-        <span class="kw">match</span> <span class="ident">fixed_encoding</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>) {
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">fixed_encoding</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>);
+        <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">result</span>) <span class="op">=&gt;</span> <span class="ident">result</span>.<span class="ident">inner</span>(),
-            <span class="prelude-val">Err</span>(<span class="ident">fixed_encoding</span>::<span class="ident">Error</span>::<span class="ident">Fatal</span>) <span class="op">=&gt;</span> {
-                <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;fatal Regexp#fixed_encoding? error&quot;</span>)
-            }
+            <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
         }
     }
 
     <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">hash</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+        <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="ident">none</span>);
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>);
-        <span class="kw">match</span> <span class="ident">hash</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>) {
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">hash</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>);
+        <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">result</span>) <span class="op">=&gt;</span> <span class="ident">result</span>.<span class="ident">inner</span>(),
-            <span class="prelude-val">Err</span>(<span class="ident">hash</span>::<span class="ident">Error</span>::<span class="ident">Fatal</span>) <span class="op">=&gt;</span> <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;fatal Regexp#hash error&quot;</span>),
+            <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
         }
     }
 
     <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">inspect</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+        <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="ident">none</span>);
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>);
-        <span class="kw">match</span> <span class="ident">inspect</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>) {
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">inspect</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>);
+        <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">result</span>) <span class="op">=&gt;</span> <span class="ident">result</span>.<span class="ident">inner</span>(),
-            <span class="prelude-val">Err</span>(<span class="ident">inspect</span>::<span class="ident">Error</span>::<span class="ident">Fatal</span>) <span class="op">=&gt;</span> <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;fatal Regexp#inspect error&quot;</span>),
+            <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
         }
     }
 
@@ -846,50 +826,58 @@
         <span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>,
         <span class="ident">slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>,
     ) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+        <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="ident">none</span>);
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>);
-        <span class="kw">match</span> <span class="ident">named_captures</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>) {
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">named_captures</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>);
+        <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">result</span>) <span class="op">=&gt;</span> <span class="ident">result</span>.<span class="ident">inner</span>(),
-            <span class="prelude-val">Err</span>(<span class="ident">named_captures</span>::<span class="ident">Error</span>::<span class="ident">Fatal</span>) <span class="op">=&gt;</span> {
-                <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;fatal Regexp#named_captures error&quot;</span>)
-            }
+            <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
         }
     }
 
     <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">names</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+        <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="ident">none</span>);
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>);
-        <span class="kw">match</span> <span class="ident">names</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>) {
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">names</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>);
+        <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">result</span>) <span class="op">=&gt;</span> <span class="ident">result</span>.<span class="ident">inner</span>(),
-            <span class="prelude-val">Err</span>(<span class="ident">names</span>::<span class="ident">Error</span>::<span class="ident">Fatal</span>) <span class="op">=&gt;</span> <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;fatal Regexp#names error&quot;</span>),
+            <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
         }
     }
 
     <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">options</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+        <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="ident">none</span>);
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>);
-        <span class="kw">match</span> <span class="ident">options</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>) {
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">options</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>);
+        <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">result</span>) <span class="op">=&gt;</span> <span class="ident">result</span>.<span class="ident">inner</span>(),
-            <span class="prelude-val">Err</span>(<span class="ident">options</span>::<span class="ident">Error</span>::<span class="ident">Fatal</span>) <span class="op">=&gt;</span> <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;fatal Regexp#options error&quot;</span>),
+            <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
         }
     }
 
     <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">source</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+        <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="ident">none</span>);
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>);
-        <span class="kw">match</span> <span class="ident">source</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>) {
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">source</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>);
+        <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">result</span>) <span class="op">=&gt;</span> <span class="ident">result</span>.<span class="ident">inner</span>(),
-            <span class="prelude-val">Err</span>(<span class="ident">source</span>::<span class="ident">Error</span>::<span class="ident">Fatal</span>) <span class="op">=&gt;</span> <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;fatal Regexp#source error&quot;</span>),
+            <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
         }
     }
 
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">wrong_self_convention</span>)]</span>
     <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">to_s</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+        <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="ident">none</span>);
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">slf</span>);
-        <span class="kw">match</span> <span class="ident">to_s</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>) {
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">to_s</span>::<span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>);
+        <span class="kw">match</span> <span class="ident">result</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">result</span>) <span class="op">=&gt;</span> <span class="ident">result</span>.<span class="ident">inner</span>(),
-            <span class="prelude-val">Err</span>(<span class="ident">to_s</span>::<span class="ident">Error</span>::<span class="ident">Fatal</span>) <span class="op">=&gt;</span> <span class="ident">RuntimeError</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="string">&quot;fatal Regexp#to_s error&quot;</span>),
+            <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
         }
     }
 }
