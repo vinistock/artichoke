@@ -82,7 +82,7 @@
     <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="macro">include_str</span><span class="macro">!</span>(<span class="string">&quot;object.rb&quot;</span>))<span class="question-mark">?</span>;
     <span class="ident">enumerable</span>::<span class="ident">init</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>;
     <span class="comment">// `Array` depends on: `Enumerable`</span>
-    <span class="ident">array</span>::<span class="ident">init</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>;
+    <span class="ident">array</span>::<span class="ident">mruby</span>::<span class="ident">init</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>;
     <span class="ident">module</span>::<span class="ident">init</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>;
     <span class="comment">// Some `Exception`s depend on: `attr_accessor` (defined in `Module`)</span>
     <span class="ident">exception</span>::<span class="ident">init</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>;

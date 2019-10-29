@@ -391,23 +391,198 @@
 <span id="391">391</span>
 <span id="392">392</span>
 <span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">slice</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::{<span class="ident">Convert</span>, <span class="ident">RustBackedValue</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">def</span>::{<span class="ident">rust_data_free</span>, <span class="ident">ClassLike</span>, <span class="ident">Define</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">array</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">exception</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::<span class="ident">Value</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Artichoke</span>, <span class="ident">ArtichokeError</span>};
+
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">init</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">array</span>::<span class="ident">Array</span><span class="op">&gt;</span>(
+        <span class="string">&quot;Array&quot;</span>,
+        <span class="prelude-val">None</span>,
+        <span class="prelude-val">Some</span>(<span class="ident">rust_data_free</span>::<span class="op">&lt;</span><span class="ident">array</span>::<span class="ident">Array</span><span class="op">&gt;</span>),
+    );
+    <span class="ident">array</span>.<span class="ident">borrow_mut</span>().<span class="ident">mrb_value_is_rust_backed</span>(<span class="bool-val">true</span>);
+
+    <span class="ident">array</span>
+        .<span class="ident">borrow_mut</span>()
+        .<span class="ident">add_method</span>(<span class="string">&quot;[]&quot;</span>, <span class="ident">ary_element_reference</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_req_and_opt</span>(<span class="number">1</span>, <span class="number">1</span>));
+    <span class="ident">array</span>.<span class="ident">borrow_mut</span>().<span class="ident">add_method</span>(
+        <span class="string">&quot;[]=&quot;</span>,
+        <span class="ident">ary_element_assignment</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_args_req_and_opt</span>(<span class="number">2</span>, <span class="number">1</span>),
+    );
+    <span class="ident">array</span>
+        .<span class="ident">borrow_mut</span>()
+        .<span class="ident">add_method</span>(<span class="string">&quot;concat&quot;</span>, <span class="ident">ary_concat</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_any</span>());
+    <span class="ident">array</span>.<span class="ident">borrow_mut</span>().<span class="ident">add_method</span>(
+        <span class="string">&quot;initialize&quot;</span>,
+        <span class="ident">ary_initialize</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_args_opt</span>(<span class="number">2</span>) <span class="op">|</span> <span class="ident">sys</span>::<span class="ident">mrb_args_block</span>(),
+    );
+    <span class="ident">array</span>
+        .<span class="ident">borrow_mut</span>()
+        .<span class="ident">add_method</span>(<span class="string">&quot;initialize_copy&quot;</span>, <span class="ident">ary_initialize_copy</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_req</span>(<span class="number">1</span>));
+    <span class="ident">array</span>
+        .<span class="ident">borrow_mut</span>()
+        .<span class="ident">add_method</span>(<span class="string">&quot;length&quot;</span>, <span class="ident">ary_len</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_none</span>());
+    <span class="ident">array</span>
+        .<span class="ident">borrow_mut</span>()
+        .<span class="ident">add_method</span>(<span class="string">&quot;pop&quot;</span>, <span class="ident">artichoke_ary_pop</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_none</span>());
+    <span class="ident">array</span>
+        .<span class="ident">borrow_mut</span>()
+        .<span class="ident">add_method</span>(<span class="string">&quot;reverse&quot;</span>, <span class="ident">ary_reverse</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_none</span>());
+    <span class="ident">array</span>
+        .<span class="ident">borrow_mut</span>()
+        .<span class="ident">add_method</span>(<span class="string">&quot;reverse!&quot;</span>, <span class="ident">ary_reverse_bang</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_none</span>());
+    <span class="ident">array</span>
+        .<span class="ident">borrow_mut</span>()
+        .<span class="ident">add_method</span>(<span class="string">&quot;size&quot;</span>, <span class="ident">ary_len</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_none</span>());
+    <span class="ident">array</span>.<span class="ident">borrow</span>().<span class="ident">define</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>;
+
+    <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="kw-2">&amp;</span><span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;array.rb&quot;</span>)[..])<span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>(())
+}
 
 <span class="comment">// MRB_API mrb_value mrb_ary_new(mrb_state *mrb);</span>
 <span class="attribute">#[<span class="ident">no_mangle</span>]</span>
 <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">artichoke_ary_new</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>);
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>);
     <span class="kw">match</span> <span class="ident">result</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">inner</span>(),
+        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">value</span>.<span class="ident">inner</span>());
+            <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
+            <span class="ident">value</span>.<span class="ident">inner</span>()
+        }
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
     }
 }
@@ -420,9 +595,13 @@
 ) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
     <span class="kw">let</span> <span class="ident">capacity</span> <span class="op">=</span> <span class="ident">usize</span>::<span class="ident">try_from</span>(<span class="ident">capacity</span>).<span class="ident">unwrap_or_default</span>();
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">with_capacity</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">capacity</span>);
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">with_capacity</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">capacity</span>);
     <span class="kw">match</span> <span class="ident">result</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">inner</span>(),
+        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">value</span>.<span class="ident">inner</span>());
+            <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
+            <span class="ident">value</span>.<span class="ident">inner</span>()
+        }
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
     }
 }
@@ -441,9 +620,13 @@
         .<span class="ident">iter</span>()
         .<span class="ident">map</span>(<span class="op">|</span><span class="ident">val</span><span class="op">|</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">*</span><span class="ident">val</span>))
         .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;&gt;</span>();
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">from_values</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">values</span>.<span class="ident">as_slice</span>());
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">from_values</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">values</span>.<span class="ident">as_slice</span>());
     <span class="kw">match</span> <span class="ident">result</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">inner</span>(),
+        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">value</span>.<span class="ident">inner</span>());
+            <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
+            <span class="ident">value</span>.<span class="ident">inner</span>()
+        }
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
     }
 }
@@ -456,9 +639,13 @@
 ) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
     <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">value</span>);
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">splat</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">value</span>);
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">splat</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">value</span>);
     <span class="kw">match</span> <span class="ident">result</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">inner</span>(),
+        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">value</span>.<span class="ident">inner</span>());
+            <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
+            <span class="ident">value</span>.<span class="ident">inner</span>()
+        }
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
     }
 }
@@ -473,13 +660,13 @@
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
     <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
     <span class="kw">let</span> <span class="ident">other</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">other</span>);
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">concat</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">array</span>, <span class="prelude-val">Some</span>(<span class="ident">other</span>));
-    <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">is_ok</span>() {
-        <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
-        <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
-    }
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">concat</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">array</span>, <span class="prelude-val">Some</span>(<span class="ident">other</span>));
     <span class="kw">match</span> <span class="ident">result</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">inner</span>(),
+        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
+            <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
+            <span class="ident">value</span>.<span class="ident">inner</span>()
+        }
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
     }
 }
@@ -492,13 +679,13 @@
 ) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
     <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">pop</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">array</span>);
-    <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">is_ok</span>() {
-        <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
-        <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
-    }
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">pop</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">array</span>);
     <span class="kw">match</span> <span class="ident">result</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">value</span>).<span class="ident">inner</span>(),
+        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
+            <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
+            <span class="ident">value</span>.<span class="ident">inner</span>()
+        }
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
     }
 }
@@ -513,13 +700,13 @@
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
     <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
     <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">value</span>);
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">push</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">array</span>, <span class="ident">value</span>);
-    <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">is_ok</span>() {
-        <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
-        <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
-    }
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">push</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">array</span>, <span class="ident">value</span>);
     <span class="kw">match</span> <span class="ident">result</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">inner</span>(),
+        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
+            <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
+            <span class="ident">value</span>.<span class="ident">inner</span>()
+        }
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
     }
 }
@@ -534,7 +721,7 @@
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
     <span class="kw">let</span> <span class="ident">ary</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
     <span class="kw">let</span> <span class="ident">offset</span> <span class="op">=</span> <span class="ident">isize</span>::<span class="ident">try_from</span>(<span class="ident">offset</span>).<span class="ident">unwrap_or_default</span>();
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">ary_ref</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">ary</span>, <span class="ident">offset</span>);
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">ary_ref</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">ary</span>, <span class="ident">offset</span>);
     <span class="kw">match</span> <span class="ident">result</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">value</span>).<span class="ident">inner</span>(),
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
@@ -553,13 +740,13 @@
     <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
     <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">value</span>);
     <span class="kw">let</span> <span class="ident">offset</span> <span class="op">=</span> <span class="ident">isize</span>::<span class="ident">try_from</span>(<span class="ident">offset</span>).<span class="ident">unwrap_or_default</span>();
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">element_set</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">array</span>, <span class="ident">offset</span>, <span class="ident">value</span>);
-    <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">is_ok</span>() {
-        <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
-        <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
-    }
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">element_set</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">array</span>, <span class="ident">offset</span>, <span class="ident">value</span>);
     <span class="kw">match</span> <span class="ident">result</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">inner</span>(),
+        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
+            <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
+            <span class="ident">value</span>.<span class="ident">inner</span>()
+        }
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
     }
 }
@@ -571,9 +758,13 @@
 ) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
     <span class="kw">let</span> <span class="ident">ary</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">value</span>);
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">ary</span>);
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
     <span class="kw">match</span> <span class="ident">result</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">inner</span>(),
+        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">value</span>.<span class="ident">inner</span>());
+            <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
+            <span class="ident">value</span>.<span class="ident">inner</span>()
+        }
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
     }
 }
@@ -585,9 +776,13 @@
 ) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
     <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">value</span>);
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">to_ary</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">value</span>);
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">to_ary</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">value</span>);
     <span class="kw">match</span> <span class="ident">result</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">inner</span>(),
+        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">value</span>.<span class="ident">inner</span>());
+            <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
+            <span class="ident">value</span>.<span class="ident">inner</span>()
+        }
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
     }
 }
@@ -602,8 +797,8 @@
         <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="number">0</span>,
     };
     <span class="kw">let</span> <span class="ident">ary</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span>
-        <span class="ident">array</span>::<span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">ary</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">len</span><span class="op">|</span> <span class="ident">sys</span>::<span class="ident">mrb_int</span>::<span class="ident">try_from</span>(<span class="ident">len</span>).<span class="ident">unwrap_or_default</span>());
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>)
+        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">len</span><span class="op">|</span> <span class="ident">sys</span>::<span class="ident">mrb_int</span>::<span class="ident">try_from</span>(<span class="ident">len</span>).<span class="ident">unwrap_or_default</span>());
     <span class="kw">match</span> <span class="ident">result</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">len</span>) <span class="op">=&gt;</span> <span class="ident">len</span>,
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
@@ -614,8 +809,8 @@
     <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="ident">none</span>);
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
     <span class="kw">let</span> <span class="ident">ary</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span>
-        <span class="ident">array</span>::<span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">ary</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">len</span><span class="op">|</span> <span class="ident">sys</span>::<span class="ident">mrb_int</span>::<span class="ident">try_from</span>(<span class="ident">len</span>).<span class="ident">unwrap_or_default</span>());
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>)
+        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">len</span><span class="op">|</span> <span class="ident">sys</span>::<span class="ident">mrb_int</span>::<span class="ident">try_from</span>(<span class="ident">len</span>).<span class="ident">unwrap_or_default</span>());
     <span class="kw">match</span> <span class="ident">result</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">len</span>) <span class="op">=&gt;</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">len</span>).<span class="ident">inner</span>(),
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
@@ -630,13 +825,34 @@
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
     <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
     <span class="kw">let</span> <span class="ident">other</span> <span class="op">=</span> <span class="ident">other</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">other</span><span class="op">|</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">other</span>));
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">concat</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">array</span>, <span class="ident">other</span>);
-    <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">is_ok</span>() {
-        <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
-        <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
-    }
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">concat</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">array</span>, <span class="ident">other</span>);
     <span class="kw">match</span> <span class="ident">result</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">inner</span>(),
+        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
+            <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
+            <span class="ident">value</span>.<span class="ident">inner</span>()
+        }
+        <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
+    }
+}
+
+<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">ary_initialize</span>(
+    <span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>,
+    <span class="ident">ary</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>,
+) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+    <span class="kw">let</span> (<span class="ident">first</span>, <span class="ident">second</span>, <span class="ident">block</span>) <span class="op">=</span> <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="ident">optional</span> <span class="op">=</span> <span class="number">2</span>, <span class="kw-2">&amp;</span><span class="ident">block</span>);
+    <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
+    <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
+    <span class="kw">let</span> <span class="ident">first</span> <span class="op">=</span> <span class="ident">first</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">first</span><span class="op">|</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">first</span>));
+    <span class="kw">let</span> <span class="ident">second</span> <span class="op">=</span> <span class="ident">second</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">second</span><span class="op">|</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">second</span>));
+    <span class="kw">let</span> <span class="ident">block</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">block</span>));
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">initialize</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">array</span>, <span class="ident">first</span>, <span class="ident">second</span>, <span class="ident">block</span>);
+    <span class="kw">match</span> <span class="ident">result</span> {
+        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
+            <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
+            <span class="ident">value</span>.<span class="ident">inner</span>()
+        }
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
     }
 }
@@ -649,13 +865,13 @@
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
     <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
     <span class="kw">let</span> <span class="ident">other</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">other</span>);
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">initialize_copy</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">array</span>, <span class="kw-2">&amp;</span><span class="ident">other</span>);
-    <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">is_ok</span>() {
-        <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
-        <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
-    }
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">initialize_copy</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">array</span>, <span class="ident">other</span>);
     <span class="kw">match</span> <span class="ident">result</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">inner</span>(),
+        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
+            <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
+            <span class="ident">value</span>.<span class="ident">inner</span>()
+        }
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
     }
 }
@@ -683,14 +899,14 @@
     <span class="ident">ary</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>,
 ) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
-    <span class="kw">let</span> <span class="ident">ary</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">shift</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">ary</span>, <span class="prelude-val">Some</span>(<span class="number">1</span>));
-    <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">is_ok</span>() {
-        <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>.<span class="ident">inner</span>());
-        <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
-    }
+    <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">shift</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">array</span>, <span class="prelude-val">Some</span>(<span class="number">1</span>));
     <span class="kw">match</span> <span class="ident">result</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">inner</span>(),
+        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
+            <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
+            <span class="ident">value</span>.<span class="ident">inner</span>()
+        }
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
     }
 }
@@ -702,7 +918,7 @@
     <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="ident">none</span>);
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
     <span class="kw">let</span> <span class="ident">ary</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">reverse</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">ary</span>);
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">reverse</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
     <span class="kw">match</span> <span class="ident">result</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">inner</span>(),
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
@@ -716,13 +932,13 @@
     <span class="macro">mrb_get_args</span><span class="macro">!</span>(<span class="ident">mrb</span>, <span class="ident">none</span>);
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
     <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">reverse_bang</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">array</span>);
-    <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">is_ok</span>() {
-        <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
-        <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
-    }
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">reverse_bang</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">array</span>);
     <span class="kw">match</span> <span class="ident">result</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">inner</span>(),
+        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
+            <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
+            <span class="ident">value</span>.<span class="ident">inner</span>()
+        }
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
     }
 }
@@ -736,13 +952,13 @@
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
     <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
     <span class="kw">let</span> <span class="ident">val</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">val</span>);
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">unshift</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">array</span>, <span class="ident">val</span>);
-    <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">is_ok</span>() {
-        <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
-        <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
-    }
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">unshift</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">array</span>, <span class="ident">val</span>);
     <span class="kw">match</span> <span class="ident">result</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">inner</span>(),
+        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
+            <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
+            <span class="ident">value</span>.<span class="ident">inner</span>()
+        }
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
     }
 }
@@ -756,9 +972,7 @@
     <span class="kw">let</span> <span class="ident">elem</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">elem</span>);
     <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">len</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">len</span><span class="op">|</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">len</span>));
     <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">array</span>)
-        .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">length</span><span class="op">|</span> <span class="ident">array</span>::<span class="ident">ElementReferenceArgs</span>::<span class="ident">extract</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">elem</span>, <span class="ident">len</span>, <span class="ident">length</span>))
-        .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">args</span><span class="op">|</span> <span class="ident">array</span>::<span class="ident">element_reference</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">args</span>, <span class="kw-2">&amp;</span><span class="ident">array</span>));
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">element_reference</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">array</span>, <span class="ident">elem</span>, <span class="ident">len</span>);
     <span class="kw">match</span> <span class="ident">result</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">inner</span>(),
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
@@ -775,15 +989,41 @@
     <span class="kw">let</span> <span class="ident">second</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">second</span>);
     <span class="kw">let</span> <span class="ident">third</span> <span class="op">=</span> <span class="ident">third</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">third</span><span class="op">|</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">third</span>));
     <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">element_assignment</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">array</span>, <span class="ident">first</span>, <span class="ident">second</span>, <span class="ident">third</span>);
-    <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">is_ok</span>() {
-        <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
-        <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
-    }
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">element_assignment</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">array</span>, <span class="ident">first</span>, <span class="ident">second</span>, <span class="ident">third</span>);
     <span class="kw">match</span> <span class="ident">result</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">value</span>.<span class="ident">inner</span>(),
+        <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
+            <span class="ident">sys</span>::<span class="ident">mrb_write_barrier</span>(<span class="ident">mrb</span>, <span class="ident">basic</span>);
+            <span class="ident">value</span>.<span class="ident">inner</span>()
+        }
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
     }
+}
+
+<span class="attribute">#[<span class="ident">no_mangle</span>]</span>
+<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">artichoke_gc_mark_ary</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">ary</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) {
+    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">interp</span>) <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">ffi</span>::<span class="ident">from_user_data</span>(<span class="ident">mrb</span>) {
+        <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">array</span>) <span class="op">=</span> <span class="ident">array</span>::<span class="ident">Array</span>::<span class="ident">try_from_ruby</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">array</span>) {
+            <span class="kw">let</span> <span class="ident">borrow</span> <span class="op">=</span> <span class="ident">array</span>.<span class="ident">borrow</span>();
+            <span class="ident">borrow</span>.<span class="ident">gc_mark</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>);
+        }
+    }
+}
+
+<span class="attribute">#[<span class="ident">no_mangle</span>]</span>
+<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">artichoke_gc_mark_ary_size</span>(
+    <span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>,
+    <span class="ident">ary</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>,
+) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">interp</span>) <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">ffi</span>::<span class="ident">from_user_data</span>(<span class="ident">mrb</span>) {
+        <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">array</span>) <span class="op">=</span> <span class="ident">array</span>::<span class="ident">Array</span>::<span class="ident">try_from_ruby</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">array</span>) {
+            <span class="kw">let</span> <span class="ident">borrow</span> <span class="op">=</span> <span class="ident">array</span>.<span class="ident">borrow</span>();
+            <span class="kw">return</span> <span class="ident">borrow</span>.<span class="ident">real_children</span>();
+        }
+    }
+    <span class="number">0</span>
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../../../../";window.currentCrate = "artichoke_backend";</script><script src="../../../../../aliases.js"></script><script src="../../../../../main.js"></script><script src="../../../../../source-script.js"></script><script src="../../../../../source-files.js"></script><script defer src="../../../../../search-index.js"></script></body></html>
