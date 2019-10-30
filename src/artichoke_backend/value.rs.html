@@ -651,6 +651,52 @@
 <span id="651">651</span>
 <span id="652">652</span>
 <span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">c_void</span>;
@@ -834,7 +880,6 @@
     <span class="kw">where</span>
         <span class="self">Self</span>::<span class="ident">Artichoke</span>: <span class="ident">TryConvert</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">T</span><span class="op">&gt;</span>,
     {
-        <span class="self">self</span>.<span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>();
         <span class="comment">// Ensure the borrow is out of scope by the time we eval code since</span>
         <span class="comment">// Rust-backed files and types may need to mutably borrow the `Artichoke` to</span>
         <span class="comment">// get access to the underlying `ArtichokeState`.</span>
@@ -909,7 +954,6 @@
         <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="self">Self</span>::<span class="ident">Arg</span>],
         <span class="ident">block</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Block</span><span class="op">&gt;</span>,
     ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>();
         <span class="comment">// Ensure the borrow is out of scope by the time we eval code since</span>
         <span class="comment">// Rust-backed files and types may need to mutably borrow the `Artichoke` to</span>
         <span class="comment">// get access to the underlying `ArtichokeState`.</span>
@@ -1043,6 +1087,54 @@
         <span class="ident">std</span>::<span class="ident">ptr</span>::<span class="ident">eq</span>(<span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="self">self</span>.<span class="ident">inner</span>()) }, <span class="kw">unsafe</span> {
             <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">other</span>.<span class="ident">inner</span>())
         })
+    }
+}
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Block</span> {
+    <span class="ident">value</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">Block</span> {
+    <span class="doccomment">/// Construct a new [`Value`] from an interpreter and [`sys::mrb_value`].</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">block</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_value_is_nil</span>(<span class="ident">block</span>) } {
+            <span class="prelude-val">None</span>
+        } <span class="kw">else</span> {
+            <span class="prelude-val">Some</span>(<span class="self">Self</span> { <span class="ident">value</span>: <span class="ident">block</span> })
+        }
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">yield_arg</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>, <span class="ident">arg</span>: <span class="kw-2">&amp;</span><span class="ident">Value</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
+        <span class="comment">// Ensure the borrow is out of scope by the time we eval code since</span>
+        <span class="comment">// Rust-backed files and types may need to mutably borrow the `Artichoke` to</span>
+        <span class="comment">// get access to the underlying `ArtichokeState`.</span>
+        <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
+
+        <span class="kw">let</span> <span class="ident">_arena</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">create_arena_savepoint</span>();
+
+        <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_yield</span>(<span class="ident">mrb</span>, <span class="self">self</span>.<span class="ident">value</span>, <span class="ident">arg</span>.<span class="ident">inner</span>()) };
+        <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="ident">interp</span>, <span class="ident">value</span>);
+
+        <span class="kw">match</span> <span class="ident">interp</span>.<span class="ident">last_error</span>() {
+            <span class="ident">LastError</span>::<span class="prelude-val">Some</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> {
+                <span class="macro">warn</span><span class="macro">!</span>(<span class="string">&quot;runtime error with exception backtrace: {}&quot;</span>, <span class="ident">exception</span>);
+                <span class="prelude-val">Err</span>(<span class="ident">ArtichokeError</span>::<span class="ident">Exec</span>(<span class="ident">exception</span>.<span class="ident">to_string</span>()))
+            }
+            <span class="ident">LastError</span>::<span class="ident">UnableToExtract</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> {
+                <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;failed to extract exception after runtime error: {}&quot;</span>, <span class="ident">err</span>);
+                <span class="prelude-val">Err</span>(<span class="ident">err</span>)
+            }
+            <span class="ident">LastError</span>::<span class="prelude-val">None</span> <span class="kw">if</span> <span class="ident">value</span>.<span class="ident">is_unreachable</span>() <span class="op">=&gt;</span> {
+                <span class="comment">// Unreachable values are internal to the mruby interpreter and</span>
+                <span class="comment">// interacting with them via the C API is unspecified and may</span>
+                <span class="comment">// result in a segfault.</span>
+                <span class="comment">//</span>
+                <span class="comment">// See: https://github.com/mruby/mruby/issues/4460</span>
+                <span class="prelude-val">Err</span>(<span class="ident">ArtichokeError</span>::<span class="ident">UnreachableValue</span>)
+            }
+            <span class="ident">LastError</span>::<span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">value</span>),
+        }
     }
 }
 
