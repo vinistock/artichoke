@@ -101,8 +101,6 @@
 <span id="101">101</span>
 <span id="102">102</span>
 <span id="103">103</span>
-<span id="104">104</span>
-<span id="105">105</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">def</span>::{<span class="ident">ClassLike</span>, <span class="ident">Define</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
@@ -137,9 +135,7 @@
     <span class="ident">env</span>.<span class="ident">borrow_mut</span>()
         .<span class="ident">add_method</span>(<span class="string">&quot;to_h&quot;</span>, <span class="ident">artichoke_env_to_h</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_none</span>());
 
-    <span class="ident">env</span>.<span class="ident">borrow</span>()
-        .<span class="ident">define</span>(<span class="ident">interp</span>)
-        .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">ArtichokeError</span>::<span class="ident">New</span>)<span class="question-mark">?</span>;
+    <span class="ident">env</span>.<span class="ident">borrow</span>().<span class="ident">define</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>;
 
     <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;ENV = EnvClass.new&quot;</span>)<span class="question-mark">?</span>;
 
