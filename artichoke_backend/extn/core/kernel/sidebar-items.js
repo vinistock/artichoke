@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["init",""]],"mod":[["integer",""],["require","`Kernel#require`"]],"struct":[["Kernel",""],["Warning",""]]});
+initSidebarItems({"fn":[["init",""]],"mod":[["integer",""],["require","`Kernel#require`"]],"struct":[["Kernel",""]]});
