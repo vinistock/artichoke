@@ -597,9 +597,9 @@
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ary_ref</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
-    <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Artichoke</span>,
-    <span class="ident">ary</span>: <span class="kw-2">&amp;</span><span class="ident">Value</span>,
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ary_ref</span>(
+    <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
+    <span class="ident">ary</span>: <span class="ident">Value</span>,
     <span class="ident">offset</span>: <span class="ident">isize</span>,
 ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
     <span class="kw">let</span> <span class="ident">ary</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">Array</span>::<span class="ident">try_from_ruby</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">ary</span>) }.<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
@@ -680,14 +680,14 @@
     <span class="ident">result</span>
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pop</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>, <span class="ident">ary</span>: <span class="kw-2">&amp;</span><span class="ident">Value</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pop</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>, <span class="ident">ary</span>: <span class="ident">Value</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
     <span class="kw">if</span> <span class="ident">ary</span>.<span class="ident">is_frozen</span>() {
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">FrozenError</span>::<span class="ident">new</span>(
             <span class="ident">interp</span>,
             <span class="string">&quot;can&#39;t modify frozen Array&quot;</span>,
         )));
     }
-    <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">Array</span>::<span class="ident">try_from_ruby</span>(<span class="ident">interp</span>, <span class="ident">ary</span>) }.<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
+    <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">Array</span>::<span class="ident">try_from_ruby</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">ary</span>) }.<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
         <span class="ident">Fatal</span>::<span class="ident">new</span>(
             <span class="ident">interp</span>,
             <span class="string">&quot;Unable to extract Rust Array from Ruby Array receiver&quot;</span>,
@@ -704,7 +704,7 @@
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">shift</span>(
     <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
-    <span class="ident">ary</span>: <span class="kw-2">&amp;</span><span class="ident">Value</span>,
+    <span class="ident">ary</span>: <span class="ident">Value</span>,
     <span class="ident">count</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>,
 ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
     <span class="kw">if</span> <span class="ident">ary</span>.<span class="ident">is_frozen</span>() {
@@ -713,7 +713,7 @@
             <span class="string">&quot;can&#39;t modify frozen Array&quot;</span>,
         )));
     }
-    <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">Array</span>::<span class="ident">try_from_ruby</span>(<span class="ident">interp</span>, <span class="ident">ary</span>) }.<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
+    <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">Array</span>::<span class="ident">try_from_ruby</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">ary</span>) }.<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
         <span class="ident">Fatal</span>::<span class="ident">new</span>(
             <span class="ident">interp</span>,
             <span class="string">&quot;Unable to extract Rust Array from Ruby Array receiver&quot;</span>,

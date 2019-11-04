@@ -517,11 +517,14 @@
 <span id="517">517</span>
 <span id="518">518</span>
 <span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">slice</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::{<span class="ident">Convert</span>, <span class="ident">RustBackedValue</span>};
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;artichoke-array&quot;</span>)]</span>
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">def</span>::{<span class="ident">rust_data_free</span>, <span class="ident">ClassLike</span>, <span class="ident">Define</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">array</span>;
@@ -634,6 +637,7 @@
         .<span class="ident">map</span>(<span class="op">|</span><span class="ident">val</span><span class="op">|</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">*</span><span class="ident">val</span>))
         .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;&gt;</span>();
     <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">from_values</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">values</span>.<span class="ident">as_slice</span>());
+    <span class="ident">drop</span>(<span class="ident">values</span>);
     <span class="kw">match</span> <span class="ident">result</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">value</span>.<span class="ident">inner</span>());
@@ -692,7 +696,7 @@
 ) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
     <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">pop</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">array</span>);
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">pop</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">array</span>);
     <span class="kw">match</span> <span class="ident">result</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
@@ -734,7 +738,7 @@
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
     <span class="kw">let</span> <span class="ident">ary</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
     <span class="kw">let</span> <span class="ident">offset</span> <span class="op">=</span> <span class="ident">isize</span>::<span class="ident">try_from</span>(<span class="ident">offset</span>).<span class="ident">unwrap_or_default</span>();
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">ary_ref</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">ary</span>, <span class="ident">offset</span>);
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">ary_ref</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>, <span class="ident">offset</span>);
     <span class="kw">match</span> <span class="ident">result</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">value</span>).<span class="ident">inner</span>(),
         <span class="prelude-val">Err</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exception</span>),
@@ -912,7 +916,7 @@
 ) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
     <span class="kw">let</span> <span class="ident">array</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">ary</span>);
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">shift</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">array</span>, <span class="prelude-val">Some</span>(<span class="number">1</span>));
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">array</span>::<span class="ident">trampoline</span>::<span class="ident">shift</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="ident">array</span>, <span class="prelude-val">Some</span>(<span class="number">1</span>));
     <span class="kw">match</span> <span class="ident">result</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">basic</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_basic_ptr</span>(<span class="ident">ary</span>);
