@@ -422,6 +422,10 @@
 <span id="422">422</span>
 <span id="423">423</span>
 <span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [ruby/spec](https://github.com/ruby/spec) compliant implementation of</span>
 <span class="doccomment">//! [`Regexp`](https://ruby-doc.org/core-2.6.3/Regexp.html).</span>
@@ -576,7 +580,11 @@
     }
 }
 
-<span class="kw">impl</span> <span class="ident">RustBackedValue</span> <span class="kw">for</span> <span class="ident">Regexp</span> {}
+<span class="kw">impl</span> <span class="ident">RustBackedValue</span> <span class="kw">for</span> <span class="ident">Regexp</span> {
+    <span class="kw">fn</span> <span class="ident">ruby_type_name</span>() <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
+        <span class="string">&quot;Regexp&quot;</span>
+    }
+}
 
 <span class="kw">impl</span> <span class="ident">Regexp</span> {
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">IGNORECASE</span>: <span class="ident">Int</span> <span class="op">=</span> <span class="number">1</span>;
