@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["lazy",""],["onig",""]]});
+initSidebarItems({"mod":[["hybrid",""],["lazy",""],["onig",""],["regex",""],["regex_binary",""],["regex_utf8",""]]});

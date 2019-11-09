@@ -271,6 +271,16 @@
 <span id="271">271</span>
 <span id="272">272</span>
 <span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// This module defines macros for working with interpreters and `Value`s. This</span>
 <span class="comment">// source module is included first in `lib.rs`, which means the macros are</span>
@@ -286,12 +296,22 @@
 <span class="doccomment">/// This macro is `unsafe`.</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">unwrap_interpreter</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">or_else</span> <span class="op">=</span> ()) <span class="op">=&gt;</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">interp</span>) <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">ffi</span>::<span class="ident">from_user_data</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>) {
             <span class="ident">interp</span>
         } <span class="kw">else</span> {
-            <span class="kw">return</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_sys_nil_value</span>();
+            <span class="kw">return</span>;
         }
+    };
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">or_else</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">default</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">interp</span>) <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">ffi</span>::<span class="ident">from_user_data</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>) {
+            <span class="ident">interp</span>
+        } <span class="kw">else</span> {
+            <span class="kw">return</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">default</span>;
+        }
+    };
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
+        <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>, <span class="ident">or_else</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_sys_nil_value</span>())
     };
 }
 

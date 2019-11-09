@@ -637,6 +637,12 @@
 <span id="637">637</span>
 <span id="638">638</span>
 <span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! [ruby/spec](https://github.com/ruby/spec) compliant implementation of</span>
 <span class="doccomment">//! [`Regexp`](https://ruby-doc.org/core-2.6.3/Regexp.html).</span>
@@ -654,7 +660,6 @@
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::<span class="ident">Convert</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::<span class="ident">RustBackedValue</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">array</span>::<span class="ident">Array</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">exception</span>::{<span class="ident">ArgumentError</span>, <span class="ident">Fatal</span>, <span class="ident">RubyException</span>, <span class="ident">TypeError</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">Int</span>;
@@ -693,13 +698,20 @@
         <span class="ident">derived_config</span>: <span class="ident">Config</span>,
         <span class="ident">encoding</span>: <span class="ident">Encoding</span>,
     ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
-        <span class="kw">let</span> <span class="ident">backend</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">backend</span>::<span class="ident">onig</span>::<span class="ident">Onig</span>::<span class="ident">new</span>(
+        <span class="comment">// Patterns must be parsable by Oniguruma.</span>
+        <span class="kw">let</span> <span class="ident">onig</span> <span class="op">=</span> <span class="ident">backend</span>::<span class="ident">onig</span>::<span class="ident">Onig</span>::<span class="ident">new</span>(
             <span class="ident">interp</span>,
-            <span class="ident">literal_config</span>,
-            <span class="ident">derived_config</span>,
+            <span class="ident">literal_config</span>.<span class="ident">clone</span>(),
+            <span class="ident">derived_config</span>.<span class="ident">clone</span>(),
             <span class="ident">encoding</span>,
-        )<span class="question-mark">?</span>);
-        <span class="prelude-val">Ok</span>(<span class="self">Self</span>(<span class="ident">backend</span>))
+        )<span class="question-mark">?</span>;
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">regex_utf8</span>) <span class="op">=</span>
+            <span class="ident">backend</span>::<span class="ident">regex_utf8</span>::<span class="ident">RegexUtf8</span>::<span class="ident">new</span>(<span class="ident">interp</span>, <span class="ident">literal_config</span>, <span class="ident">derived_config</span>, <span class="ident">encoding</span>)
+        {
+            <span class="prelude-val">Ok</span>(<span class="self">Self</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">regex_utf8</span>)))
+        } <span class="kw">else</span> {
+            <span class="prelude-val">Ok</span>(<span class="self">Self</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">onig</span>)))
+        }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lazy</span>(<span class="ident">pattern</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="self">Self</span> {
@@ -819,7 +831,7 @@
         <span class="kw">let</span> <span class="ident">pattern</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">first</span>) <span class="op">=</span> <span class="ident">iter</span>.<span class="ident">next</span>() {
             <span class="kw">if</span> <span class="ident">iter</span>.<span class="ident">peek</span>().<span class="ident">is_none</span>() {
                 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;artichoke-array&quot;</span>)]</span>
-                <span class="kw">let</span> <span class="ident">ary</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">Array</span>::<span class="ident">try_from_ruby</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">first</span>) };
+                <span class="kw">let</span> <span class="ident">ary</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">array</span>::<span class="ident">Array</span>::<span class="ident">try_from_ruby</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">first</span>) };
                 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;artichoke-array&quot;</span>))]</span>
                 <span class="kw">let</span> <span class="ident">ary</span> <span class="op">=</span> <span class="ident">first</span>.<span class="ident">clone</span>().<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;&gt;</span>();
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">ary</span>) <span class="op">=</span> <span class="ident">ary</span> {
