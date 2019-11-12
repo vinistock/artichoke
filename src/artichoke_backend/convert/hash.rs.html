@@ -1107,13 +1107,13 @@
     };
 }
 
-<span class="macro">hash_impl</span><span class="macro">!</span>(<span class="ident">Value</span>);
-<span class="macro">hash_impl</span><span class="macro">!</span>(<span class="ident">bool</span>);
+<span class="comment">// hash_impl!(Value);</span>
+<span class="comment">// hash_impl!(bool);</span>
 <span class="macro">hash_impl</span><span class="macro">!</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>);
-<span class="macro">hash_impl</span><span class="macro">!</span>(<span class="ident">no_hash_map</span> <span class="op">|</span> <span class="ident">Float</span>);
-<span class="macro">hash_impl</span><span class="macro">!</span>(<span class="ident">Int</span>);
-<span class="macro">hash_impl</span><span class="macro">!</span>(<span class="ident">String</span>);
-<span class="macro">hash_impl</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>);
+<span class="comment">// hash_impl!(no_hash_map | Float);</span>
+<span class="comment">// hash_impl!(Int);</span>
+<span class="comment">// hash_impl!(String);</span>
+<span class="comment">// hash_impl!(&amp;&#39;a str);</span>
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
