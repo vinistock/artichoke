@@ -134,7 +134,7 @@
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Artichoke</span>, <span class="ident">ArtichokeError</span>};
 
 <span class="kw">impl</span> <span class="ident">Convert</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Value</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Artichoke</span> {
-    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="ident">Value</span> {
+    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Value</span> {
         <span class="comment">// Ruby `String`s are just bytes, so get a pointer to the underlying</span>
         <span class="comment">// `&amp;[u8]` infallibly and convert that to a `Value`.</span>
         <span class="kw">let</span> <span class="ident">result</span>: <span class="ident">Value</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">convert</span>(<span class="ident">value</span>.<span class="ident">as_bytes</span>());
@@ -143,7 +143,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Convert</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">Value</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Artichoke</span> {
-    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">Value</span> {
+    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Value</span> {
         <span class="comment">// Ruby `String`s are just bytes, so get a pointer to the underlying</span>
         <span class="comment">// `&amp;[u8]` infallibly and convert that to a `Value`.</span>
         <span class="kw">let</span> <span class="ident">result</span>: <span class="ident">Value</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">convert</span>(<span class="ident">value</span>.<span class="ident">as_bytes</span>());
@@ -152,14 +152,14 @@
 }
 
 <span class="kw">impl</span> <span class="ident">TryConvert</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">String</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Artichoke</span> {
-    <span class="kw">fn</span> <span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="ident">Value</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="ident">Value</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">result</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">try_convert</span>(<span class="ident">value</span>);
         <span class="ident">result</span>.<span class="ident">map</span>(<span class="ident">String</span>::<span class="ident">from</span>)
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">TryConvert</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Artichoke</span> {
-    <span class="kw">fn</span> <span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="ident">Value</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="ident">Value</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">type_tag</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">ruby_type</span>();
         <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">value</span>
             .<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>()
@@ -205,7 +205,7 @@
 
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">needless_pass_by_value</span>)]</span>
     <span class="attribute">#[<span class="ident">quickcheck</span>]</span>
-    <span class="kw">fn</span> <span class="ident">convert_to_string</span>(<span class="ident">s</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">convert_to_string</span>(<span class="ident">s</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">s</span>.<span class="ident">clone</span>());
@@ -213,28 +213,28 @@
         <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_string_value_len</span>(<span class="ident">mrb</span>, <span class="ident">value</span>.<span class="ident">inner</span>()) };
         <span class="kw">let</span> <span class="ident">string</span> <span class="op">=</span>
             <span class="kw">unsafe</span> { <span class="ident">std</span>::<span class="ident">slice</span>::<span class="ident">from_raw_parts</span>(<span class="ident">ptr</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u8</span>, <span class="ident">usize</span>::<span class="ident">try_from</span>(<span class="ident">len</span>).<span class="ident">unwrap</span>()) };
-        <span class="ident">s</span>.<span class="ident">as_bytes</span>() <span class="op">==</span> <span class="ident">string</span>
+        <span class="ident">s</span>.<span class="ident">as_bytes</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">string</span>
     }
 
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">needless_pass_by_value</span>)]</span>
     <span class="attribute">#[<span class="ident">quickcheck</span>]</span>
-    <span class="kw">fn</span> <span class="ident">string_with_value</span>(<span class="ident">s</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">string_with_value</span>(<span class="ident">s</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">s</span>.<span class="ident">clone</span>());
-        <span class="ident">value</span>.<span class="ident">to_s</span>() <span class="op">==</span> <span class="ident">s</span>
+        <span class="ident">value</span>.<span class="ident">to_s</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">s</span>
     }
 
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">needless_pass_by_value</span>)]</span>
     <span class="attribute">#[<span class="ident">quickcheck</span>]</span>
-    <span class="kw">fn</span> <span class="ident">roundtrip</span>(<span class="ident">s</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">roundtrip</span>(<span class="ident">s</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">s</span>.<span class="ident">clone</span>());
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
-        <span class="ident">value</span> <span class="op">==</span> <span class="ident">s</span>
+        <span class="ident">value</span> <span class="op">=</span><span class="op">=</span> <span class="ident">s</span>
     }
 
     <span class="attribute">#[<span class="ident">quickcheck</span>]</span>
-    <span class="kw">fn</span> <span class="ident">roundtrip_err</span>(<span class="ident">b</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">roundtrip_err</span>(<span class="ident">b</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">b</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>();
@@ -242,7 +242,7 @@
             <span class="ident">from</span>: <span class="ident">Ruby</span>::<span class="ident">Bool</span>,
             <span class="ident">to</span>: <span class="ident">Rust</span>::<span class="ident">String</span>,
         });
-        <span class="ident">value</span> <span class="op">==</span> <span class="ident">expected</span>
+        <span class="ident">value</span> <span class="op">=</span><span class="op">=</span> <span class="ident">expected</span>
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>

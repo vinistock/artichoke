@@ -152,7 +152,7 @@
 <span class="comment">// This conversion has to be from mrb_value instead of mrb_vtype to disambiguate</span>
 <span class="comment">// between `Ruby::Nil` and a false `Ruby::Bool`.</span>
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_upper_case_globals</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ruby_from_mrb_value</span>(<span class="ident">value</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">Ruby</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ruby_from_mrb_value</span>(<span class="ident">value</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Ruby</span> {
     <span class="comment">// `nil` is implemented with the `MRB_TT_FALSE` type tag in mruby</span>
     <span class="comment">// (since both values are falsy). The difference is that booleans are</span>
     <span class="comment">// non-zero `Fixnum`s.</span>
@@ -163,24 +163,24 @@
     <span class="comment">// switch on the type tag in the `mrb_value`</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">match_same_arms</span>)]</span> <span class="comment">// ignore lint to map to the `mrb_vtype` enum def</span>
     <span class="kw">match</span> <span class="ident">value</span>.<span class="ident">tt</span> {
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_FALSE</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Bool</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_FALSE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Bool</span>,
         <span class="comment">// `MRB_TT_FREE` is a marker type tag that indicates to the mruby</span>
         <span class="comment">// VM that an object should be garbage collected.</span>
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_FREE</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Unreachable</span>,
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_TRUE</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Bool</span>,
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_FIXNUM</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Fixnum</span>,
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_SYMBOL</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Symbol</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_FREE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Unreachable</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_TRUE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Bool</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_FIXNUM</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Fixnum</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_SYMBOL</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Symbol</span>,
         <span class="comment">// internal use: #undef; should not happen</span>
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_UNDEF</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Unreachable</span>,
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_FLOAT</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Float</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_UNDEF</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Unreachable</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_FLOAT</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Float</span>,
         <span class="comment">// `MRB_TT_CPTR` wraps a borrowed `void *` pointer.</span>
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_CPTR</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">CPointer</span>,
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_OBJECT</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Object</span>,
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_CLASS</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Class</span>,
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_MODULE</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Module</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_CPTR</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">CPointer</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_OBJECT</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Object</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_CLASS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Class</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_MODULE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Module</span>,
         <span class="comment">// `MRB_TT_ICLASS` is an internal use type tag meant for holding</span>
         <span class="comment">// mixed in modules.</span>
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_ICLASS</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Unreachable</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_ICLASS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Unreachable</span>,
         <span class="comment">// `MRB_TT_SCLASS` represents a singleton class, or a class that is</span>
         <span class="comment">// defined anonymously, e.g. `c1` or `c2` below:</span>
         <span class="comment">//</span>
@@ -199,36 +199,36 @@
         <span class="comment">// obj = Foo.new</span>
         <span class="comment">// def obj.bar; &#39;bar&#39;; end</span>
         <span class="comment">// ```</span>
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_SCLASS</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">SingletonClass</span>,
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_PROC</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Proc</span>,
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_ARRAY</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Array</span>,
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_HASH</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Hash</span>,
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_STRING</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">String</span>,
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_RANGE</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Range</span>,
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_EXCEPTION</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Exception</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_SCLASS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">SingletonClass</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_PROC</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Proc</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_ARRAY</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Array</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_HASH</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Hash</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_STRING</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">String</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_RANGE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Range</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_EXCEPTION</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Exception</span>,
         <span class="comment">// TODO: Implement File, see GH-4.</span>
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_FILE</span> <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;mruby type file&quot;</span>),
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_FILE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;mruby type file&quot;</span>),
         <span class="comment">// ENV is currently implemented as a singleton object in Ruby.</span>
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_ENV</span> <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;mruby type env&quot;</span>),
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_ENV</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;mruby type env&quot;</span>),
         <span class="comment">// `MRB_TT_DATA` is a type tag for wrapped C pointers. It is used</span>
         <span class="comment">// to indicate that an `mrb_value` has an owned pointer to an</span>
         <span class="comment">// external data structure stored in its `value.p` field.</span>
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_DATA</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Data</span>,
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_FIBER</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Fiber</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_DATA</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Data</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_FIBER</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Fiber</span>,
         <span class="comment">// MRB_TT_ISTRUCT is an &quot;inline structure&quot;, or a mrb_value that</span>
         <span class="comment">// stores data in a char* buffer inside an mrb_value. These</span>
         <span class="comment">// mrb_values cannot have a finalizer and cannot have instance</span>
         <span class="comment">// variables.</span>
         <span class="comment">//</span>
         <span class="comment">// See vendor/mruby-*/include/mruby/istruct.h</span>
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_ISTRUCT</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">InlineStruct</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_ISTRUCT</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">InlineStruct</span>,
         <span class="comment">// `MRB_TT_BREAK` is used internally to the mruby VM and appears to</span>
         <span class="comment">// have something to do with resuming continuations from Fibers.</span>
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_BREAK</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Unreachable</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_BREAK</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Unreachable</span>,
         <span class="comment">// `MRB_TT_MAXDEFINE` is a marker enum value used by the mruby VM to</span>
         <span class="comment">// dynamically check if a type tag is valid using the less than</span>
         <span class="comment">// operator. It does not correspond to an instantiated type.</span>
-        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_MAXDEFINE</span> <span class="op">=&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Unreachable</span>,
+        <span class="ident">sys</span>::<span class="ident">mrb_vtype</span>::<span class="ident">MRB_TT_MAXDEFINE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ruby</span>::<span class="ident">Unreachable</span>,
     }
 }
 

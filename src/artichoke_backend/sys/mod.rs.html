@@ -198,7 +198,7 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">ffi</span>::<span class="kw-2">*</span>;
 
 <span class="doccomment">/// Version metadata `String` for embedded mruby.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mruby_version</span>(<span class="ident">verbose</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mruby_version</span>(<span class="ident">verbose</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
     <span class="kw">if</span> <span class="ident">verbose</span> {
         <span class="comment">// Using the unchecked function is safe because these values are C constants</span>
         <span class="kw">let</span> <span class="ident">engine</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">CStr</span>::<span class="ident">from_bytes_with_nul_unchecked</span>(<span class="ident">MRUBY_RUBY_ENGINE</span>) };
@@ -222,7 +222,7 @@
     <span class="doccomment">/// ```text</span>
     <span class="doccomment">/// mruby 2.0</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span>;
+    <span class="kw">fn</span> <span class="ident">info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span>;
 
     <span class="doccomment">/// Wrapper around [`fmt::Debug`] for [`mrb_state`]. Returns Ruby engine,</span>
     <span class="doccomment">/// interpreter version, engine version, and [`mrb_state`] address. For</span>
@@ -231,7 +231,7 @@
     <span class="doccomment">/// ```text</span>
     <span class="doccomment">/// mruby 2.0 (v2.0.1 rev c078758) interpreter at 0x7f85b8800000</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">debug</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span>;
+    <span class="kw">fn</span> <span class="ident">debug</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span>;
 
     <span class="doccomment">/// Returns detailed interpreter version including engine version. For</span>
     <span class="doccomment">/// example:</span>
@@ -239,11 +239,11 @@
     <span class="doccomment">/// ```text</span>
     <span class="doccomment">/// 2.0 (v2.0.1)</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">version</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span>;
+    <span class="kw">fn</span> <span class="ident">version</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span>;
 }
 
 <span class="kw">impl</span> <span class="ident">DescribeState</span> <span class="kw">for</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">mrb_state</span> {
-    <span class="kw">fn</span> <span class="ident">info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+    <span class="kw">fn</span> <span class="ident">info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_null</span>() {
             <span class="string">&quot;&quot;</span>.<span class="ident">to_owned</span>()
         } <span class="kw">else</span> {
@@ -251,7 +251,7 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">debug</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+    <span class="kw">fn</span> <span class="ident">debug</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_null</span>() {
             <span class="string">&quot;&quot;</span>.<span class="ident">to_owned</span>()
         } <span class="kw">else</span> {
@@ -259,7 +259,7 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">version</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+    <span class="kw">fn</span> <span class="ident">version</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
         <span class="comment">// Using the unchecked function is safe because these values are C constants</span>
         <span class="kw">let</span> <span class="ident">version</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">CStr</span>::<span class="ident">from_bytes_with_nul_unchecked</span>(<span class="ident">MRUBY_RUBY_VERSION</span>) };
         <span class="macro">format</span><span class="macro">!</span>(
@@ -273,7 +273,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">mrb_state</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="comment">// Using the unchecked function is safe because these values are C constants</span>
         <span class="kw">let</span> <span class="ident">engine</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">CStr</span>::<span class="ident">from_bytes_with_nul_unchecked</span>(<span class="ident">MRUBY_RUBY_ENGINE</span>) };
         <span class="kw">let</span> <span class="ident">version</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">CStr</span>::<span class="ident">from_bytes_with_nul_unchecked</span>(<span class="ident">MRUBY_RUBY_VERSION</span>) };
@@ -291,7 +291,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">mrb_state</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="comment">// Using the unchecked function is safe because these values are C constants</span>
         <span class="kw">let</span> <span class="ident">engine</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">CStr</span>::<span class="ident">from_bytes_with_nul_unchecked</span>(<span class="ident">MRUBY_RUBY_ENGINE</span>) };
         <span class="kw">let</span> <span class="ident">version</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">CStr</span>::<span class="ident">from_bytes_with_nul_unchecked</span>(<span class="ident">MRUBY_RUBY_VERSION</span>) };

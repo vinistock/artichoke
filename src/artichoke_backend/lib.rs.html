@@ -536,7 +536,7 @@
 <span class="doccomment">/// Functionality is added to the interpreter via traits, for example,</span>
 <span class="doccomment">/// [garbage collection](gc::MrbGarbageCollection) or [eval](eval::Eval).</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Artichoke</span>(<span class="kw">pub</span> <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">state</span>::<span class="ident">State</span><span class="op">&gt;&gt;</span>); <span class="comment">// TODO: this should not be pub</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Artichoke</span>(<span class="kw">pub</span> <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">state</span>::<span class="ident">State</span><span class="op">&gt;</span><span class="op">&gt;</span>); <span class="comment">// TODO: this should not be pub</span>
 
 <span class="kw">impl</span> <span class="ident">Artichoke</span> {
     <span class="doccomment">/// Consume an interpreter and free all</span>

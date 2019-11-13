@@ -406,11 +406,11 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Default</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Registry</span><span class="op">&lt;</span><span class="ident">Metadata</span>: <span class="ident">Clone</span><span class="op">&gt;</span> {
     <span class="ident">cwd</span>: <span class="ident">PathBuf</span>,
-    <span class="ident">files</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">PathBuf</span>, <span class="ident">Node</span><span class="op">&lt;</span><span class="ident">Metadata</span><span class="op">&gt;&gt;</span>,
+    <span class="ident">files</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">PathBuf</span>, <span class="ident">Node</span><span class="op">&lt;</span><span class="ident">Metadata</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Metadata</span>: <span class="ident">Clone</span><span class="op">&gt;</span> <span class="ident">Registry</span><span class="op">&lt;</span><span class="ident">Metadata</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">cwd</span> <span class="op">=</span> <span class="ident">PathBuf</span>::<span class="ident">from</span>(<span class="string">&quot;/&quot;</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">files</span> <span class="op">=</span> <span class="ident">HashMap</span>::<span class="ident">new</span>();
 
@@ -419,64 +419,64 @@
         <span class="self">Self</span> { <span class="ident">cwd</span>, <span class="ident">files</span> }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">current_dir</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">current_dir</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">get_dir</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">cwd</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">cwd</span>.<span class="ident">clone</span>())
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_current_dir</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">cwd</span>: <span class="ident">PathBuf</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_current_dir</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">cwd</span>: <span class="ident">PathBuf</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">get_dir</span>(<span class="kw-2">&amp;</span><span class="ident">cwd</span>) {
-            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
+            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="self">self</span>.<span class="ident">cwd</span> <span class="op">=</span> <span class="ident">cwd</span>;
                 <span class="prelude-val">Ok</span>(())
             }
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_dir</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_dir</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get</span>(<span class="ident">path</span>).<span class="ident">map_or</span>(<span class="bool-val">false</span>, <span class="ident">Node</span>::<span class="ident">is_dir</span>)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_file</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_file</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get</span>(<span class="ident">path</span>).<span class="ident">map_or</span>(<span class="bool-val">false</span>, <span class="ident">Node</span>::<span class="ident">is_file</span>)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_dir</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_dir</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">insert</span>(<span class="ident">path</span>.<span class="ident">to_path_buf</span>(), <span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="ident">Dir</span>::<span class="ident">new</span>()))
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_dir_all</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_dir_all</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="comment">// Based on std::fs::DirBuilder::create_dir_all</span>
-        <span class="kw">if</span> <span class="ident">path</span> <span class="op">==</span> <span class="ident">Path</span>::<span class="ident">new</span>(<span class="string">&quot;&quot;</span>) {
+        <span class="kw">if</span> <span class="ident">path</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Path</span>::<span class="ident">new</span>(<span class="string">&quot;&quot;</span>) {
             <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
         }
 
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">create_dir</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(()),
-            <span class="prelude-val">Err</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">ErrorKind</span>::<span class="ident">NotFound</span> <span class="op">=&gt;</span> {}
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_dir</span>(<span class="ident">path</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(()),
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
+            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(()),
+            <span class="prelude-val">Err</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">ErrorKind</span>::<span class="ident">NotFound</span> <span class="op">=</span><span class="op">&gt;</span> {}
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_dir</span>(<span class="ident">path</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(()),
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
         }
 
         <span class="kw">match</span> <span class="ident">path</span>.<span class="ident">parent</span>() {
-            <span class="prelude-val">Some</span>(<span class="ident">p</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">create_dir_all</span>(<span class="ident">p</span>)<span class="question-mark">?</span>,
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">Other</span>)),
+            <span class="prelude-val">Some</span>(<span class="ident">p</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">create_dir_all</span>(<span class="ident">p</span>)<span class="question-mark">?</span>,
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">Other</span>)),
         }
 
         <span class="self">self</span>.<span class="ident">create_dir_all</span>(<span class="ident">path</span>)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove_dir</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove_dir</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">get_dir</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">descendants</span>(<span class="ident">path</span>).<span class="ident">is_empty</span>() <span class="op">=&gt;</span> {}
-            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">Other</span>)),
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
+            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">descendants</span>(<span class="ident">path</span>).<span class="ident">is_empty</span>() <span class="op">=</span><span class="op">&gt;</span> {}
+            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">Other</span>)),
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
         };
 
         <span class="self">self</span>.<span class="ident">remove</span>(<span class="ident">path</span>).<span class="ident">and</span>(<span class="prelude-val">Ok</span>(()))
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove_dir_all</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove_dir_all</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">get_dir_mut</span>(<span class="ident">path</span>)<span class="question-mark">?</span>;
 
         <span class="kw">let</span> <span class="ident">descendants</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">descendants</span>(<span class="ident">path</span>);
@@ -488,23 +488,23 @@
         <span class="self">self</span>.<span class="ident">remove</span>(<span class="ident">path</span>).<span class="ident">and</span>(<span class="prelude-val">Ok</span>(()))
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_dir</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_dir</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">get_dir</span>(<span class="ident">path</span>)<span class="question-mark">?</span>;
 
         <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">children</span>(<span class="ident">path</span>))
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_file</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_file</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">File</span>::<span class="ident">new</span>(<span class="ident">buf</span>.<span class="ident">to_vec</span>());
 
         <span class="self">self</span>.<span class="ident">insert</span>(<span class="ident">path</span>.<span class="ident">to_path_buf</span>(), <span class="ident">Node</span>::<span class="ident">File</span>(<span class="ident">file</span>))
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_file</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_file</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">get_file_mut</span>(<span class="ident">path</span>)
             .<span class="ident">map</span>(<span class="op">|</span><span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">contents</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">to_vec</span>())
             .<span class="ident">or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">ErrorKind</span>::<span class="ident">NotFound</span> {
+                <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">ErrorKind</span>::<span class="ident">NotFound</span> {
                     <span class="self">self</span>.<span class="ident">create_file</span>(<span class="ident">path</span>, <span class="ident">buf</span>)
                 } <span class="kw">else</span> {
                     <span class="prelude-val">Err</span>(<span class="ident">e</span>)
@@ -512,180 +512,180 @@
             })
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">overwrite_file</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">overwrite_file</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">get_file_mut</span>(<span class="ident">path</span>)
             .<span class="ident">map</span>(<span class="op">|</span><span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">contents</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">to_vec</span>())
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_file</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_file</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">get_file</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Ok</span>(<span class="ident">f</span>) <span class="kw">if</span> <span class="ident">f</span>.<span class="ident">mode</span> <span class="op">&amp;</span> <span class="number">0o444</span> <span class="op">!=</span> <span class="number">0</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">f</span>.<span class="ident">contents</span>.<span class="ident">clone</span>()),
-            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">PermissionDenied</span>)),
-            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>),
+            <span class="prelude-val">Ok</span>(<span class="ident">f</span>) <span class="kw">if</span> <span class="ident">f</span>.<span class="ident">mode</span> <span class="op">&amp;</span> <span class="number">0o444</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">f</span>.<span class="ident">contents</span>.<span class="ident">clone</span>()),
+            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">PermissionDenied</span>)),
+            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>),
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_file_to_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_file_to_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">read_file</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Ok</span>(<span class="ident">vec</span>) <span class="op">=&gt;</span> <span class="ident">String</span>::<span class="ident">from_utf8</span>(<span class="ident">vec</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">InvalidData</span>)),
-            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>),
+            <span class="prelude-val">Ok</span>(<span class="ident">vec</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">String</span>::<span class="ident">from_utf8</span>(<span class="ident">vec</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">InvalidData</span>)),
+            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>),
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_file_into</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_file_into</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">get_file</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Ok</span>(<span class="ident">f</span>) <span class="kw">if</span> <span class="ident">f</span>.<span class="ident">mode</span> <span class="op">&amp;</span> <span class="number">0o444</span> <span class="op">!=</span> <span class="number">0</span> <span class="op">=&gt;</span> {
+            <span class="prelude-val">Ok</span>(<span class="ident">f</span>) <span class="kw">if</span> <span class="ident">f</span>.<span class="ident">mode</span> <span class="op">&amp;</span> <span class="number">0o444</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">buf</span>.<span class="ident">extend</span>(<span class="kw-2">&amp;</span><span class="ident">f</span>.<span class="ident">contents</span>);
                 <span class="prelude-val">Ok</span>(<span class="ident">f</span>.<span class="ident">contents</span>.<span class="ident">len</span>())
             }
-            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">PermissionDenied</span>)),
-            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>),
+            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">PermissionDenied</span>)),
+            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>),
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove_file</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove_file</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">get_file</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">remove</span>(<span class="ident">path</span>).<span class="ident">and</span>(<span class="prelude-val">Ok</span>(())),
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
+            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">remove</span>(<span class="ident">path</span>).<span class="ident">and</span>(<span class="prelude-val">Ok</span>(())),
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">copy_file</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">from</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">to</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">copy_file</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">from</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">to</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">read_file</span>(<span class="ident">from</span>) {
-            <span class="prelude-val">Ok</span>(<span class="kw-2">ref</span> <span class="ident">buf</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">write_file</span>(<span class="ident">to</span>, <span class="ident">buf</span>),
-            <span class="prelude-val">Err</span>(<span class="kw-2">ref</span> <span class="ident">err</span>) <span class="kw">if</span> <span class="ident">err</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">ErrorKind</span>::<span class="ident">NotFound</span> <span class="op">||</span> <span class="ident">err</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">ErrorKind</span>::<span class="ident">Other</span> <span class="op">=&gt;</span> {
+            <span class="prelude-val">Ok</span>(<span class="kw-2">ref</span> <span class="ident">buf</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">write_file</span>(<span class="ident">to</span>, <span class="ident">buf</span>),
+            <span class="prelude-val">Err</span>(<span class="kw-2">ref</span> <span class="ident">err</span>) <span class="kw">if</span> <span class="ident">err</span>.<span class="ident">kind</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">ErrorKind</span>::<span class="ident">NotFound</span> <span class="op">|</span><span class="op">|</span> <span class="ident">err</span>.<span class="ident">kind</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">ErrorKind</span>::<span class="ident">Other</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>))
             }
-            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>),
+            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>),
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rename</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">from</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">to</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rename</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">from</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">to</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">match</span> (<span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get</span>(<span class="ident">from</span>), <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get</span>(<span class="ident">to</span>)) {
-            (<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw">_</span>)), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw">_</span>))) <span class="op">=&gt;</span> {
+            (<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw">_</span>)), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw">_</span>))) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="self">self</span>.<span class="ident">remove_file</span>(<span class="ident">to</span>)<span class="question-mark">?</span>;
                 <span class="self">self</span>.<span class="ident">rename_path</span>(<span class="ident">from</span>, <span class="ident">to</span>.<span class="ident">to_path_buf</span>())
             }
-            (<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw">_</span>)), <span class="prelude-val">None</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">rename_path</span>(<span class="ident">from</span>, <span class="ident">to</span>.<span class="ident">to_path_buf</span>()),
-            (<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw">_</span>)), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw">_</span>))) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">descendants</span>(<span class="ident">to</span>).<span class="ident">is_empty</span>() <span class="op">=&gt;</span> {
+            (<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw">_</span>)), <span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">rename_path</span>(<span class="ident">from</span>, <span class="ident">to</span>.<span class="ident">to_path_buf</span>()),
+            (<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw">_</span>)), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw">_</span>))) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">descendants</span>(<span class="ident">to</span>).<span class="ident">is_empty</span>() <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="self">self</span>.<span class="ident">remove</span>(<span class="ident">to</span>)<span class="question-mark">?</span>;
                 <span class="self">self</span>.<span class="ident">move_dir</span>(<span class="ident">from</span>, <span class="ident">to</span>)
             }
             (<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw">_</span>)), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw">_</span>)))
             <span class="op">|</span> (<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw">_</span>)), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw">_</span>)))
-            <span class="op">|</span> (<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw">_</span>)), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw">_</span>))) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">Other</span>)),
-            (<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw">_</span>)), <span class="prelude-val">None</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">move_dir</span>(<span class="ident">from</span>, <span class="ident">to</span>),
-            (<span class="prelude-val">None</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
+            <span class="op">|</span> (<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw">_</span>)), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw">_</span>))) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">Other</span>)),
+            (<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw">_</span>)), <span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">move_dir</span>(<span class="ident">from</span>, <span class="ident">to</span>),
+            (<span class="prelude-val">None</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">readonly</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">readonly</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw-2">ref</span> <span class="ident">f</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">f</span>.<span class="ident">mode</span> <span class="op">&amp;</span> <span class="number">0o222</span> <span class="op">==</span> <span class="number">0</span>),
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw-2">ref</span> <span class="ident">d</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">d</span>.<span class="ident">mode</span> <span class="op">&amp;</span> <span class="number">0o222</span> <span class="op">==</span> <span class="number">0</span>),
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw-2">ref</span> <span class="ident">f</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">f</span>.<span class="ident">mode</span> <span class="op">&amp;</span> <span class="number">0o222</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span>),
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw-2">ref</span> <span class="ident">d</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">d</span>.<span class="ident">mode</span> <span class="op">&amp;</span> <span class="number">0o222</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span>),
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_readonly</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">readonly</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_readonly</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">readonly</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get_mut</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">f</span>)) <span class="op">=&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">f</span>)) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">if</span> <span class="ident">readonly</span> {
-                    <span class="ident">f</span>.<span class="ident">mode</span> <span class="op">&amp;=</span> <span class="op">!</span><span class="number">0o222</span>
+                    <span class="ident">f</span>.<span class="ident">mode</span> <span class="kw-2">&amp;</span><span class="op">=</span> <span class="op">!</span><span class="number">0o222</span>
                 } <span class="kw">else</span> {
-                    <span class="ident">f</span>.<span class="ident">mode</span> <span class="op">|=</span> <span class="number">0o222</span>
+                    <span class="ident">f</span>.<span class="ident">mode</span> <span class="op">|</span><span class="op">=</span> <span class="number">0o222</span>
                 };
 
                 <span class="prelude-val">Ok</span>(())
             }
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">d</span>)) <span class="op">=&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">d</span>)) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">if</span> <span class="ident">readonly</span> {
-                    <span class="ident">d</span>.<span class="ident">mode</span> <span class="op">&amp;=</span> <span class="op">!</span><span class="number">0o222</span>
+                    <span class="ident">d</span>.<span class="ident">mode</span> <span class="kw-2">&amp;</span><span class="op">=</span> <span class="op">!</span><span class="number">0o222</span>
                 } <span class="kw">else</span> {
-                    <span class="ident">d</span>.<span class="ident">mode</span> <span class="op">|=</span> <span class="number">0o222</span>
+                    <span class="ident">d</span>.<span class="ident">mode</span> <span class="op">|</span><span class="op">=</span> <span class="number">0o222</span>
                 };
 
                 <span class="prelude-val">Ok</span>(())
             }
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mode</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mode</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw-2">ref</span> <span class="ident">f</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">f</span>.<span class="ident">mode</span>),
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw-2">ref</span> <span class="ident">d</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">d</span>.<span class="ident">mode</span>),
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw-2">ref</span> <span class="ident">f</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">f</span>.<span class="ident">mode</span>),
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw-2">ref</span> <span class="ident">d</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">d</span>.<span class="ident">mode</span>),
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_mode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">mode</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_mode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">mode</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get_mut</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">f</span>)) <span class="op">=&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">f</span>)) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">f</span>.<span class="ident">mode</span> <span class="op">=</span> <span class="ident">mode</span>;
                 <span class="prelude-val">Ok</span>(())
             }
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">d</span>)) <span class="op">=&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">d</span>)) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">d</span>.<span class="ident">mode</span> <span class="op">=</span> <span class="ident">mode</span>;
                 <span class="prelude-val">Ok</span>(())
             }
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="ident">u64</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw-2">ref</span> <span class="ident">f</span>)) <span class="op">=&gt;</span> <span class="ident">f</span>.<span class="ident">contents</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>,
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> <span class="number">4096</span>,
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="number">0</span>,
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw-2">ref</span> <span class="ident">f</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">contents</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>,
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw">_</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="number">4096</span>,
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0</span>,
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">get_dir</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Dir</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">get_dir</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Dir</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw-2">ref</span> <span class="ident">dir</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">dir</span>),
-            <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">Other</span>)),
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw-2">ref</span> <span class="ident">dir</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">dir</span>),
+            <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">Other</span>)),
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">get_dir_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Dir</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">get_dir_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Dir</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get_mut</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">dir</span>)) <span class="op">=&gt;</span> {
-                <span class="kw">if</span> <span class="ident">dir</span>.<span class="ident">mode</span> <span class="op">&amp;</span> <span class="number">0o222</span> <span class="op">==</span> <span class="number">0</span> {
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Node</span>::<span class="ident">Dir</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">dir</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="kw">if</span> <span class="ident">dir</span>.<span class="ident">mode</span> <span class="op">&amp;</span> <span class="number">0o222</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
                     <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">PermissionDenied</span>))
                 } <span class="kw">else</span> {
                     <span class="prelude-val">Ok</span>(<span class="ident">dir</span>)
                 }
             }
-            <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">Other</span>)),
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
+            <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">Other</span>)),
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">get_file</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">File</span><span class="op">&lt;</span><span class="ident">Metadata</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">get_file</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">File</span><span class="op">&lt;</span><span class="ident">Metadata</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw-2">ref</span> <span class="ident">file</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">file</span>),
-            <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">Other</span>)),
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw-2">ref</span> <span class="ident">file</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">file</span>),
+            <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">Other</span>)),
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">get_file_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">File</span><span class="op">&lt;</span><span class="ident">Metadata</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">get_file_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">File</span><span class="op">&lt;</span><span class="ident">Metadata</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get_mut</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">file</span>)) <span class="op">=&gt;</span> {
-                <span class="kw">if</span> <span class="ident">file</span>.<span class="ident">mode</span> <span class="op">&amp;</span> <span class="number">0o222</span> <span class="op">==</span> <span class="number">0</span> {
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">file</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="kw">if</span> <span class="ident">file</span>.<span class="ident">mode</span> <span class="op">&amp;</span> <span class="number">0o222</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
                     <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">PermissionDenied</span>))
                 } <span class="kw">else</span> {
                     <span class="prelude-val">Ok</span>(<span class="ident">file</span>)
                 }
             }
-            <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">Other</span>)),
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
+            <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">Other</span>)),
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">insert</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="ident">PathBuf</span>, <span class="ident">file</span>: <span class="ident">Node</span><span class="op">&lt;</span><span class="ident">Metadata</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">insert</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="ident">PathBuf</span>, <span class="ident">file</span>: <span class="ident">Node</span><span class="op">&lt;</span><span class="ident">Metadata</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">contains_key</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">AlreadyExists</span>));
         } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">p</span>) <span class="op">=</span> <span class="ident">path</span>.<span class="ident">parent</span>() {
@@ -697,18 +697,18 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Node</span><span class="op">&lt;</span><span class="ident">Metadata</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Node</span><span class="op">&lt;</span><span class="ident">Metadata</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">remove</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Some</span>(<span class="ident">f</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">f</span>),
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
+            <span class="prelude-val">Some</span>(<span class="ident">f</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">f</span>),
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">descendants</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">descendants</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">files</span>
             .<span class="ident">keys</span>()
             .<span class="ident">filter_map</span>(<span class="op">|</span><span class="ident">p</span><span class="op">|</span> {
-                <span class="kw">if</span> <span class="ident">p</span>.<span class="ident">starts_with</span>(<span class="ident">path</span>) <span class="op">&amp;&amp;</span> <span class="kw-2">*</span><span class="ident">p</span> <span class="op">!=</span> <span class="ident">path</span> {
+                <span class="kw">if</span> <span class="ident">p</span>.<span class="ident">starts_with</span>(<span class="ident">path</span>) <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="kw-2">*</span><span class="ident">p</span> <span class="op">!</span><span class="op">=</span> <span class="ident">path</span> {
                     <span class="prelude-val">Some</span>(<span class="ident">p</span>.<span class="ident">to_path_buf</span>())
                 } <span class="kw">else</span> {
                     <span class="prelude-val">None</span>
@@ -717,12 +717,12 @@
             .<span class="ident">collect</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">children</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">children</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">files</span>
             .<span class="ident">keys</span>()
             .<span class="ident">filter_map</span>(<span class="op">|</span><span class="ident">p</span><span class="op">|</span> {
                 <span class="ident">p</span>.<span class="ident">parent</span>().<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">parent</span><span class="op">|</span> {
-                    <span class="kw">if</span> <span class="ident">parent</span> <span class="op">==</span> <span class="ident">path</span> {
+                    <span class="kw">if</span> <span class="ident">parent</span> <span class="op">=</span><span class="op">=</span> <span class="ident">path</span> {
                         <span class="prelude-val">Some</span>(<span class="ident">p</span>.<span class="ident">to_path_buf</span>())
                     } <span class="kw">else</span> {
                         <span class="prelude-val">None</span>
@@ -732,12 +732,12 @@
             .<span class="ident">collect</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">rename_path</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">from</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">to</span>: <span class="ident">PathBuf</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">rename_path</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">from</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">to</span>: <span class="ident">PathBuf</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">file</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">remove</span>(<span class="ident">from</span>)<span class="question-mark">?</span>;
         <span class="self">self</span>.<span class="ident">insert</span>(<span class="ident">to</span>, <span class="ident">file</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">move_dir</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">from</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">to</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">move_dir</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">from</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">to</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">rename_path</span>(<span class="ident">from</span>, <span class="ident">to</span>.<span class="ident">to_path_buf</span>())<span class="question-mark">?</span>;
 
         <span class="kw">for</span> <span class="ident">child</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">children</span>(<span class="ident">from</span>) {
@@ -750,47 +750,47 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_metadata</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Metadata</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_metadata</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Metadata</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw-2">ref</span> <span class="ident">file</span>)) <span class="op">=&gt;</span> <span class="ident">file</span>.<span class="ident">metadata</span>.<span class="ident">clone</span>(),
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw-2">ref</span> <span class="ident">file</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">file</span>.<span class="ident">metadata</span>.<span class="ident">clone</span>(),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_metadata</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">metadata</span>: <span class="ident">Metadata</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_metadata</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">metadata</span>: <span class="ident">Metadata</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get_mut</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">file</span>)) <span class="op">=&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Node</span>::<span class="ident">File</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">file</span>)) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">file</span>.<span class="ident">metadata</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">metadata</span>);
                 <span class="prelude-val">Ok</span>(())
             }
-            <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">Other</span>)),
-            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
+            <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">Other</span>)),
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>)),
         }
     }
 }
 
-<span class="kw">fn</span> <span class="ident">create_error</span>(<span class="ident">kind</span>: <span class="ident">ErrorKind</span>) <span class="op">-&gt;</span> <span class="ident">Error</span> {
+<span class="kw">fn</span> <span class="ident">create_error</span>(<span class="ident">kind</span>: <span class="ident">ErrorKind</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Error</span> {
     <span class="comment">// Based on private std::io::ErrorKind::as_str()</span>
     <span class="kw">let</span> <span class="ident">description</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">kind</span> {
-        <span class="ident">ErrorKind</span>::<span class="ident">NotFound</span> <span class="op">=&gt;</span> <span class="string">&quot;entity not found&quot;</span>,
-        <span class="ident">ErrorKind</span>::<span class="ident">PermissionDenied</span> <span class="op">=&gt;</span> <span class="string">&quot;permission denied&quot;</span>,
-        <span class="ident">ErrorKind</span>::<span class="ident">ConnectionRefused</span> <span class="op">=&gt;</span> <span class="string">&quot;connection refused&quot;</span>,
-        <span class="ident">ErrorKind</span>::<span class="ident">ConnectionReset</span> <span class="op">=&gt;</span> <span class="string">&quot;connection reset&quot;</span>,
-        <span class="ident">ErrorKind</span>::<span class="ident">ConnectionAborted</span> <span class="op">=&gt;</span> <span class="string">&quot;connection aborted&quot;</span>,
-        <span class="ident">ErrorKind</span>::<span class="ident">NotConnected</span> <span class="op">=&gt;</span> <span class="string">&quot;not connected&quot;</span>,
-        <span class="ident">ErrorKind</span>::<span class="ident">AddrInUse</span> <span class="op">=&gt;</span> <span class="string">&quot;address in use&quot;</span>,
-        <span class="ident">ErrorKind</span>::<span class="ident">AddrNotAvailable</span> <span class="op">=&gt;</span> <span class="string">&quot;address not available&quot;</span>,
-        <span class="ident">ErrorKind</span>::<span class="ident">BrokenPipe</span> <span class="op">=&gt;</span> <span class="string">&quot;broken pipe&quot;</span>,
-        <span class="ident">ErrorKind</span>::<span class="ident">AlreadyExists</span> <span class="op">=&gt;</span> <span class="string">&quot;entity already exists&quot;</span>,
-        <span class="ident">ErrorKind</span>::<span class="ident">WouldBlock</span> <span class="op">=&gt;</span> <span class="string">&quot;operation would block&quot;</span>,
-        <span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span> <span class="op">=&gt;</span> <span class="string">&quot;invalid input parameter&quot;</span>,
-        <span class="ident">ErrorKind</span>::<span class="ident">InvalidData</span> <span class="op">=&gt;</span> <span class="string">&quot;invalid data&quot;</span>,
-        <span class="ident">ErrorKind</span>::<span class="ident">TimedOut</span> <span class="op">=&gt;</span> <span class="string">&quot;timed out&quot;</span>,
-        <span class="ident">ErrorKind</span>::<span class="ident">WriteZero</span> <span class="op">=&gt;</span> <span class="string">&quot;write zero&quot;</span>,
-        <span class="ident">ErrorKind</span>::<span class="ident">Interrupted</span> <span class="op">=&gt;</span> <span class="string">&quot;operation interrupted&quot;</span>,
-        <span class="ident">ErrorKind</span>::<span class="ident">Other</span> <span class="op">=&gt;</span> <span class="string">&quot;other os error&quot;</span>,
-        <span class="ident">ErrorKind</span>::<span class="ident">UnexpectedEof</span> <span class="op">=&gt;</span> <span class="string">&quot;unexpected end of file&quot;</span>,
-        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="string">&quot;other&quot;</span>,
+        <span class="ident">ErrorKind</span>::<span class="ident">NotFound</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;entity not found&quot;</span>,
+        <span class="ident">ErrorKind</span>::<span class="ident">PermissionDenied</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;permission denied&quot;</span>,
+        <span class="ident">ErrorKind</span>::<span class="ident">ConnectionRefused</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;connection refused&quot;</span>,
+        <span class="ident">ErrorKind</span>::<span class="ident">ConnectionReset</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;connection reset&quot;</span>,
+        <span class="ident">ErrorKind</span>::<span class="ident">ConnectionAborted</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;connection aborted&quot;</span>,
+        <span class="ident">ErrorKind</span>::<span class="ident">NotConnected</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;not connected&quot;</span>,
+        <span class="ident">ErrorKind</span>::<span class="ident">AddrInUse</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;address in use&quot;</span>,
+        <span class="ident">ErrorKind</span>::<span class="ident">AddrNotAvailable</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;address not available&quot;</span>,
+        <span class="ident">ErrorKind</span>::<span class="ident">BrokenPipe</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;broken pipe&quot;</span>,
+        <span class="ident">ErrorKind</span>::<span class="ident">AlreadyExists</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;entity already exists&quot;</span>,
+        <span class="ident">ErrorKind</span>::<span class="ident">WouldBlock</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;operation would block&quot;</span>,
+        <span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;invalid input parameter&quot;</span>,
+        <span class="ident">ErrorKind</span>::<span class="ident">InvalidData</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;invalid data&quot;</span>,
+        <span class="ident">ErrorKind</span>::<span class="ident">TimedOut</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;timed out&quot;</span>,
+        <span class="ident">ErrorKind</span>::<span class="ident">WriteZero</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;write zero&quot;</span>,
+        <span class="ident">ErrorKind</span>::<span class="ident">Interrupted</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;operation interrupted&quot;</span>,
+        <span class="ident">ErrorKind</span>::<span class="ident">Other</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;other os error&quot;</span>,
+        <span class="ident">ErrorKind</span>::<span class="ident">UnexpectedEof</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;unexpected end of file&quot;</span>,
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;other&quot;</span>,
     };
 
     <span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">kind</span>, <span class="ident">description</span>)

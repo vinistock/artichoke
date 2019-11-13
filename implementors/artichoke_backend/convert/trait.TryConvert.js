@@ -6,5 +6,4 @@ implementors["artichoke_backend"] = [{text:"impl <a class=\"trait\" href=\"artic
             } else {
                 window.pending_implementors = implementors;
             }
-        
-})()
+        })()

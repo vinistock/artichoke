@@ -296,21 +296,21 @@
 <span class="doccomment">/// This macro is `unsafe`.</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">unwrap_interpreter</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">or_else</span> <span class="op">=</span> ()) <span class="op">=&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">or_else</span> <span class="op">=</span> ()) <span class="op">=</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">interp</span>) <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">ffi</span>::<span class="ident">from_user_data</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>) {
             <span class="ident">interp</span>
         } <span class="kw">else</span> {
             <span class="kw">return</span>;
         }
     };
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">or_else</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">default</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">or_else</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">default</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">interp</span>) <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">ffi</span>::<span class="ident">from_user_data</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>) {
             <span class="ident">interp</span>
         } <span class="kw">else</span> {
             <span class="kw">return</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">default</span>;
         }
     };
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
         <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>, <span class="ident">or_else</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_sys_nil_value</span>())
     };
 }
@@ -338,11 +338,11 @@
 <span class="doccomment">/// This macro is `unsafe`.</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">mrb_get_args</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">none</span>) <span class="op">=&gt;</span> {{
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">none</span>) <span class="op">=</span><span class="op">&gt;</span> {{
         <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_get_args</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>, <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">macros</span>::<span class="ident">argspec</span>::<span class="ident">NONE</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">i8</span>);
         ()
     }};
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">required</span> <span class="op">=</span> <span class="number">1</span>) <span class="op">=&gt;</span> {{
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">required</span> <span class="op">=</span> <span class="number">1</span>) <span class="op">=</span><span class="op">&gt;</span> {{
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">req1</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
         <span class="kw">let</span> <span class="ident">argc</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_get_args</span>(
             <span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>,
@@ -350,11 +350,11 @@
             <span class="ident">req1</span>.<span class="ident">as_mut_ptr</span>(),
         );
         <span class="kw">match</span> <span class="ident">argc</span> {
-            <span class="number">1</span> <span class="op">=&gt;</span> <span class="ident">req1</span>.<span class="ident">assume_init</span>(),
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;mrb_get_args should have raised&quot;</span>),
+            <span class="number">1</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">req1</span>.<span class="ident">assume_init</span>(),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;mrb_get_args should have raised&quot;</span>),
         }
     }};
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">optional</span> <span class="op">=</span> <span class="number">1</span>) <span class="op">=&gt;</span> {{
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">optional</span> <span class="op">=</span> <span class="number">1</span>) <span class="op">=</span><span class="op">&gt;</span> {{
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">opt1</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
         <span class="kw">let</span> <span class="ident">argc</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_get_args</span>(
             <span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>,
@@ -362,15 +362,15 @@
             <span class="ident">opt1</span>.<span class="ident">as_mut_ptr</span>(),
         );
         <span class="kw">match</span> <span class="ident">argc</span> {
-            <span class="number">1</span> <span class="op">=&gt;</span> {
+            <span class="number">1</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">opt1</span> <span class="op">=</span> <span class="ident">opt1</span>.<span class="ident">assume_init</span>();
                 <span class="prelude-val">Some</span>(<span class="ident">opt1</span>)
             }
-            <span class="number">0</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;mrb_get_args should have raised&quot;</span>),
+            <span class="number">0</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;mrb_get_args should have raised&quot;</span>),
         }
     }};
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">required</span> <span class="op">=</span> <span class="number">1</span>, <span class="ident">optional</span> <span class="op">=</span> <span class="number">1</span>) <span class="op">=&gt;</span> {{
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">required</span> <span class="op">=</span> <span class="number">1</span>, <span class="ident">optional</span> <span class="op">=</span> <span class="number">1</span>) <span class="op">=</span><span class="op">&gt;</span> {{
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">req1</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">opt1</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
         <span class="kw">let</span> <span class="ident">argc</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_get_args</span>(
@@ -380,19 +380,19 @@
             <span class="ident">opt1</span>.<span class="ident">as_mut_ptr</span>(),
         );
         <span class="kw">match</span> <span class="ident">argc</span> {
-            <span class="number">2</span> <span class="op">=&gt;</span> {
+            <span class="number">2</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">req1</span> <span class="op">=</span> <span class="ident">req1</span>.<span class="ident">assume_init</span>();
                 <span class="kw">let</span> <span class="ident">opt1</span> <span class="op">=</span> <span class="ident">opt1</span>.<span class="ident">assume_init</span>();
                 (<span class="ident">req1</span>, <span class="prelude-val">Some</span>(<span class="ident">opt1</span>))
             }
-            <span class="number">1</span> <span class="op">=&gt;</span> {
+            <span class="number">1</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">req1</span> <span class="op">=</span> <span class="ident">req1</span>.<span class="ident">assume_init</span>();
                 (<span class="ident">req1</span>, <span class="prelude-val">None</span>)
             }
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;mrb_get_args should have raised&quot;</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;mrb_get_args should have raised&quot;</span>),
         }
     }};
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">required</span> <span class="op">=</span> <span class="number">1</span>, <span class="ident">optional</span> <span class="op">=</span> <span class="number">2</span>) <span class="op">=&gt;</span> {{
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">required</span> <span class="op">=</span> <span class="number">1</span>, <span class="ident">optional</span> <span class="op">=</span> <span class="number">2</span>) <span class="op">=</span><span class="op">&gt;</span> {{
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">req1</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">opt1</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">opt2</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
@@ -404,25 +404,25 @@
             <span class="ident">opt2</span>.<span class="ident">as_mut_ptr</span>(),
         );
         <span class="kw">match</span> <span class="ident">argc</span> {
-            <span class="number">3</span> <span class="op">=&gt;</span> {
+            <span class="number">3</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">req1</span> <span class="op">=</span> <span class="ident">req1</span>.<span class="ident">assume_init</span>();
                 <span class="kw">let</span> <span class="ident">opt1</span> <span class="op">=</span> <span class="ident">opt1</span>.<span class="ident">assume_init</span>();
                 <span class="kw">let</span> <span class="ident">opt2</span> <span class="op">=</span> <span class="ident">opt2</span>.<span class="ident">assume_init</span>();
                 (<span class="ident">req1</span>, <span class="prelude-val">Some</span>(<span class="ident">opt1</span>), <span class="prelude-val">Some</span>(<span class="ident">opt2</span>))
             }
-            <span class="number">2</span> <span class="op">=&gt;</span> {
+            <span class="number">2</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">req1</span> <span class="op">=</span> <span class="ident">req1</span>.<span class="ident">assume_init</span>();
                 <span class="kw">let</span> <span class="ident">opt1</span> <span class="op">=</span> <span class="ident">opt1</span>.<span class="ident">assume_init</span>();
                 (<span class="ident">req1</span>, <span class="prelude-val">Some</span>(<span class="ident">opt1</span>), <span class="prelude-val">None</span>)
             }
-            <span class="number">1</span> <span class="op">=&gt;</span> {
+            <span class="number">1</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">req1</span> <span class="op">=</span> <span class="ident">req1</span>.<span class="ident">assume_init</span>();
                 (<span class="ident">req1</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)
             }
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;mrb_get_args should have raised&quot;</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;mrb_get_args should have raised&quot;</span>),
         }
     }};
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">required</span> <span class="op">=</span> <span class="number">1</span>, <span class="kw-2">&amp;</span><span class="ident">block</span>) <span class="op">=&gt;</span> {{
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">required</span> <span class="op">=</span> <span class="number">1</span>, <span class="kw-2">&amp;</span><span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> {{
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">req1</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">block</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
         <span class="kw">let</span> <span class="ident">argc</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_get_args</span>(
@@ -432,15 +432,15 @@
             <span class="ident">block</span>.<span class="ident">as_mut_ptr</span>(),
         );
         <span class="kw">match</span> <span class="ident">argc</span> {
-            <span class="number">2</span> <span class="op">|</span> <span class="number">1</span> <span class="op">=&gt;</span> {
+            <span class="number">2</span> <span class="op">|</span> <span class="number">1</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">req1</span> <span class="op">=</span> <span class="ident">req1</span>.<span class="ident">assume_init</span>();
                 <span class="kw">let</span> <span class="ident">block</span> <span class="op">=</span> <span class="ident">block</span>.<span class="ident">assume_init</span>();
                 (<span class="ident">req1</span>, <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">value</span>::<span class="ident">Block</span>::<span class="ident">new</span>(<span class="ident">block</span>))
             }
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;mrb_get_args should have raised&quot;</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;mrb_get_args should have raised&quot;</span>),
         }
     }};
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">required</span> <span class="op">=</span> <span class="number">1</span>, <span class="ident">optional</span> <span class="op">=</span> <span class="number">1</span>, <span class="kw-2">&amp;</span><span class="ident">block</span>) <span class="op">=&gt;</span> {{
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">required</span> <span class="op">=</span> <span class="number">1</span>, <span class="ident">optional</span> <span class="op">=</span> <span class="number">1</span>, <span class="kw-2">&amp;</span><span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> {{
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">req1</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">opt1</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">has_opt1</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_bool</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
@@ -453,15 +453,15 @@
             <span class="ident">opt1</span>.<span class="ident">as_mut_ptr</span>(),
             <span class="ident">has_opt1</span>.<span class="ident">as_mut_ptr</span>(),
         );
-        <span class="kw">let</span> <span class="ident">has_opt1</span> <span class="op">=</span> <span class="ident">has_opt1</span>.<span class="ident">assume_init</span>() <span class="op">!=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">has_opt1</span> <span class="op">=</span> <span class="ident">has_opt1</span>.<span class="ident">assume_init</span>() <span class="op">!</span><span class="op">=</span> <span class="number">0</span>;
         <span class="kw">match</span> <span class="ident">argc</span> {
-            <span class="number">3</span> <span class="op">=&gt;</span> {
+            <span class="number">3</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">req1</span> <span class="op">=</span> <span class="ident">req1</span>.<span class="ident">assume_init</span>();
                 <span class="kw">let</span> <span class="ident">opt1</span> <span class="op">=</span> <span class="ident">opt1</span>.<span class="ident">assume_init</span>();
                 <span class="kw">let</span> <span class="ident">block</span> <span class="op">=</span> <span class="ident">block</span>.<span class="ident">assume_init</span>();
                 (<span class="ident">req1</span>, <span class="prelude-val">Some</span>(<span class="ident">opt1</span>), <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">value</span>::<span class="ident">Block</span>::<span class="ident">new</span>(<span class="ident">block</span>))
             }
-            <span class="number">2</span> <span class="op">=&gt;</span> {
+            <span class="number">2</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">req1</span> <span class="op">=</span> <span class="ident">req1</span>.<span class="ident">assume_init</span>();
                 <span class="kw">let</span> <span class="ident">opt1</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">has_opt1</span> {
                     <span class="prelude-val">Some</span>(<span class="ident">opt1</span>.<span class="ident">assume_init</span>())
@@ -471,15 +471,15 @@
                 <span class="kw">let</span> <span class="ident">block</span> <span class="op">=</span> <span class="ident">block</span>.<span class="ident">assume_init</span>();
                 (<span class="ident">req1</span>, <span class="ident">opt1</span>, <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">value</span>::<span class="ident">Block</span>::<span class="ident">new</span>(<span class="ident">block</span>))
             }
-            <span class="number">1</span> <span class="op">=&gt;</span> {
+            <span class="number">1</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">req1</span> <span class="op">=</span> <span class="ident">req1</span>.<span class="ident">assume_init</span>();
                 <span class="kw">let</span> <span class="ident">block</span> <span class="op">=</span> <span class="ident">block</span>.<span class="ident">assume_init</span>();
                 (<span class="ident">req1</span>, <span class="prelude-val">None</span>, <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">value</span>::<span class="ident">Block</span>::<span class="ident">new</span>(<span class="ident">block</span>))
             }
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;mrb_get_args should have raised&quot;</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;mrb_get_args should have raised&quot;</span>),
         }
     }};
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">required</span> <span class="op">=</span> <span class="number">2</span>) <span class="op">=&gt;</span> {{
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">required</span> <span class="op">=</span> <span class="number">2</span>) <span class="op">=</span><span class="op">&gt;</span> {{
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">req1</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">req2</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
         <span class="kw">let</span> <span class="ident">argc</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_get_args</span>(
@@ -489,15 +489,15 @@
             <span class="ident">req2</span>.<span class="ident">as_mut_ptr</span>(),
         );
         <span class="kw">match</span> <span class="ident">argc</span> {
-            <span class="number">2</span> <span class="op">=&gt;</span> {
+            <span class="number">2</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">req1</span> <span class="op">=</span> <span class="ident">req1</span>.<span class="ident">assume_init</span>();
                 <span class="kw">let</span> <span class="ident">req2</span> <span class="op">=</span> <span class="ident">req2</span>.<span class="ident">assume_init</span>();
                 (<span class="ident">req1</span>, <span class="ident">req2</span>)
             }
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;mrb_get_args should have raised&quot;</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;mrb_get_args should have raised&quot;</span>),
         }
     }};
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">optional</span> <span class="op">=</span> <span class="number">2</span>, <span class="kw-2">&amp;</span><span class="ident">block</span>) <span class="op">=&gt;</span> {{
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">optional</span> <span class="op">=</span> <span class="number">2</span>, <span class="kw-2">&amp;</span><span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> {{
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">opt1</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">has_opt1</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_bool</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">opt2</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
@@ -512,8 +512,8 @@
             <span class="ident">opt2</span>.<span class="ident">as_mut_ptr</span>(),
             <span class="ident">has_opt2</span>.<span class="ident">as_mut_ptr</span>(),
         );
-        <span class="kw">let</span> <span class="ident">has_opt1</span> <span class="op">=</span> <span class="ident">has_opt1</span>.<span class="ident">assume_init</span>() <span class="op">!=</span> <span class="number">0</span>;
-        <span class="kw">let</span> <span class="ident">has_opt2</span> <span class="op">=</span> <span class="ident">has_opt2</span>.<span class="ident">assume_init</span>() <span class="op">!=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">has_opt1</span> <span class="op">=</span> <span class="ident">has_opt1</span>.<span class="ident">assume_init</span>() <span class="op">!</span><span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">has_opt2</span> <span class="op">=</span> <span class="ident">has_opt2</span>.<span class="ident">assume_init</span>() <span class="op">!</span><span class="op">=</span> <span class="number">0</span>;
         <span class="kw">let</span> <span class="ident">opt1</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">has_opt1</span> {
             <span class="prelude-val">Some</span>(<span class="ident">opt1</span>.<span class="ident">assume_init</span>())
         } <span class="kw">else</span> {
@@ -527,7 +527,7 @@
         <span class="kw">let</span> <span class="ident">block</span> <span class="op">=</span> <span class="ident">block</span>.<span class="ident">assume_init</span>();
         (<span class="ident">opt1</span>, <span class="ident">opt2</span>, <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">value</span>::<span class="ident">Block</span>::<span class="ident">new</span>(<span class="ident">block</span>))
     }};
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">required</span> <span class="op">=</span> <span class="number">2</span>, <span class="ident">optional</span> <span class="op">=</span> <span class="number">1</span>) <span class="op">=&gt;</span> {{
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="ident">required</span> <span class="op">=</span> <span class="number">2</span>, <span class="ident">optional</span> <span class="op">=</span> <span class="number">1</span>) <span class="op">=</span><span class="op">&gt;</span> {{
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">req1</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">req2</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">opt1</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
@@ -539,21 +539,21 @@
             <span class="ident">opt1</span>.<span class="ident">as_mut_ptr</span>(),
         );
         <span class="kw">match</span> <span class="ident">argc</span> {
-            <span class="number">3</span> <span class="op">=&gt;</span> {
+            <span class="number">3</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">req1</span> <span class="op">=</span> <span class="ident">req1</span>.<span class="ident">assume_init</span>();
                 <span class="kw">let</span> <span class="ident">req2</span> <span class="op">=</span> <span class="ident">req2</span>.<span class="ident">assume_init</span>();
                 <span class="kw">let</span> <span class="ident">opt1</span> <span class="op">=</span> <span class="ident">opt1</span>.<span class="ident">assume_init</span>();
                 (<span class="ident">req1</span>, <span class="ident">req2</span>, <span class="prelude-val">Some</span>(<span class="ident">opt1</span>))
             }
-            <span class="number">2</span> <span class="op">=&gt;</span> {
+            <span class="number">2</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">req1</span> <span class="op">=</span> <span class="ident">req1</span>.<span class="ident">assume_init</span>();
                 <span class="kw">let</span> <span class="ident">req2</span> <span class="op">=</span> <span class="ident">req2</span>.<span class="ident">assume_init</span>();
                 (<span class="ident">req1</span>, <span class="ident">req2</span>, <span class="prelude-val">None</span>)
             }
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;mrb_get_args should have raised&quot;</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;mrb_get_args should have raised&quot;</span>),
         }
     }};
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="kw-2">*</span><span class="ident">args</span>) <span class="op">=&gt;</span> {{
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mrb</span>:<span class="ident">expr</span>, <span class="kw-2">*</span><span class="ident">args</span>) <span class="op">=</span><span class="op">&gt;</span> {{
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="kw-2">*</span><span class="kw">const</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">count</span> <span class="op">=</span> <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
         <span class="kw">let</span> <span class="ident">_argc</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sys</span>::<span class="ident">mrb_get_args</span>(

@@ -234,11 +234,11 @@
 <span class="doccomment">/// @param n</span>
 <span class="doccomment">///     The number of required arguments.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_args_req</span>(<span class="ident">n</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">mrb_aspec</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_args_req</span>(<span class="ident">n</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">mrb_aspec</span> {
     <span class="comment">// ```c</span>
     <span class="comment">// #define MRB_ARGS_REQ(n)     ((mrb_aspec)((n)&amp;0x1f) &lt;&lt; 18)</span>
     <span class="comment">// ```</span>
-    (<span class="ident">n</span> <span class="op">&amp;</span> <span class="number">0x1f</span>) <span class="op">&lt;&lt;</span> <span class="number">18</span>
+    (<span class="ident">n</span> <span class="op">&amp;</span> <span class="number">0x1f</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">18</span>
 }
 
 <span class="doccomment">/// Function takes n optional arguments</span>
@@ -246,11 +246,11 @@
 <span class="doccomment">/// @param n</span>
 <span class="doccomment">///      The number of optional arguments.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_args_opt</span>(<span class="ident">n</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">mrb_aspec</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_args_opt</span>(<span class="ident">n</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">mrb_aspec</span> {
     <span class="comment">// ```c</span>
     <span class="comment">// #define MRB_ARGS_OPT(n)     ((mrb_aspec)((n)&amp;0x1f) &lt;&lt; 13)</span>
     <span class="comment">// ```</span>
-    (<span class="ident">n</span> <span class="op">&amp;</span> <span class="number">0x1f</span>) <span class="op">&lt;&lt;</span> <span class="number">13</span>
+    (<span class="ident">n</span> <span class="op">&amp;</span> <span class="number">0x1f</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">13</span>
 }
 
 <span class="doccomment">/// Function takes n1 mandatory arguments and n2 optional arguments</span>
@@ -260,7 +260,7 @@
 <span class="doccomment">/// @param n2</span>
 <span class="doccomment">///      The number of optional arguments.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_args_req_and_opt</span>(<span class="ident">n_req</span>: <span class="ident">u32</span>, <span class="ident">n_opt</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">mrb_aspec</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_args_req_and_opt</span>(<span class="ident">n_req</span>: <span class="ident">u32</span>, <span class="ident">n_opt</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">mrb_aspec</span> {
     <span class="comment">// ```c</span>
     <span class="comment">// #define MRB_ARGS_ARG(n1,n2)   (MRB_ARGS_REQ(n1)|MRB_ARGS_OPT(n2))</span>
     <span class="comment">// ```</span>
@@ -273,38 +273,38 @@
 <span class="doccomment">/// def foo(n1, *rest); end</span>
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_args_rest</span>() <span class="op">-&gt;</span> <span class="ident">mrb_aspec</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_args_rest</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">mrb_aspec</span> {
     <span class="comment">// ```c</span>
     <span class="comment">// #define MRB_ARGS_REST()     ((mrb_aspec)(1 &lt;&lt; 12))</span>
     <span class="comment">// ```</span>
-    <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">12</span>
+    <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">12</span>
 }
 
 <span class="doccomment">/// required arguments after rest</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_args_post</span>(<span class="ident">n</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">mrb_aspec</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_args_post</span>(<span class="ident">n</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">mrb_aspec</span> {
     <span class="comment">// ```c</span>
     <span class="comment">// #define MRB_ARGS_POST(n)    ((mrb_aspec)((n)&amp;0x1f) &lt;&lt; 7)</span>
     <span class="comment">// ```</span>
-    (<span class="ident">n</span> <span class="op">&amp;</span> <span class="number">0x1f</span>) <span class="op">&lt;&lt;</span> <span class="number">7</span>
+    (<span class="ident">n</span> <span class="op">&amp;</span> <span class="number">0x1f</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">7</span>
 }
 
 <span class="doccomment">/// keyword arguments (n of keys, kdict)</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_args_key</span>(<span class="ident">n1</span>: <span class="ident">u32</span>, <span class="ident">n2</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">mrb_aspec</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_args_key</span>(<span class="ident">n1</span>: <span class="ident">u32</span>, <span class="ident">n2</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">mrb_aspec</span> {
     <span class="comment">// ```c</span>
     <span class="comment">// #define MRB_ARGS_KEY(n1,n2) ((mrb_aspec)((((n1)&amp;0x1f) &lt;&lt; 2) | ((n2)?(1&lt;&lt;1):0)))</span>
     <span class="comment">// ```</span>
-    <span class="kw">if</span> <span class="ident">n2</span> <span class="op">==</span> <span class="number">0</span> {
-        (<span class="ident">n1</span> <span class="op">&amp;</span> <span class="number">0x1f</span>) <span class="op">&lt;&lt;</span> <span class="number">2</span>
+    <span class="kw">if</span> <span class="ident">n2</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        (<span class="ident">n1</span> <span class="op">&amp;</span> <span class="number">0x1f</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">2</span>
     } <span class="kw">else</span> {
-        (<span class="ident">n1</span> <span class="op">&amp;</span> <span class="number">0x1f</span>) <span class="op">&lt;&lt;</span> <span class="number">2</span> <span class="op">|</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">1</span>
+        (<span class="ident">n1</span> <span class="op">&amp;</span> <span class="number">0x1f</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">2</span> <span class="op">|</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">1</span>
     }
 }
 
 <span class="doccomment">/// Function takes a block argument</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_args_block</span>() <span class="op">-&gt;</span> <span class="ident">mrb_aspec</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_args_block</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">mrb_aspec</span> {
     <span class="comment">// ```c</span>
     <span class="comment">// #define MRB_ARGS_BLOCK()    ((mrb_aspec)1)</span>
     <span class="comment">// ```</span>
@@ -313,7 +313,7 @@
 
 <span class="doccomment">/// Function accepts any number of arguments</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_args_any</span>() <span class="op">-&gt;</span> <span class="ident">mrb_aspec</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_args_any</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">mrb_aspec</span> {
     <span class="comment">// ```c</span>
     <span class="comment">// #define MRB_ARGS_ANY()      MRB_ARGS_REST()</span>
     <span class="comment">// ```</span>
@@ -322,7 +322,7 @@
 
 <span class="doccomment">/// Function accepts no arguments</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_args_none</span>() <span class="op">-&gt;</span> <span class="ident">mrb_aspec</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mrb_args_none</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">mrb_aspec</span> {
     <span class="comment">// ```c</span>
     <span class="comment">// #define MRB_ARGS_NONE()     ((mrb_aspec)0)</span>
     <span class="comment">// ```</span>

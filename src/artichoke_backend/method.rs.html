@@ -159,7 +159,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Spec</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">method_type</span>: <span class="ident">Type</span>, <span class="ident">method_name</span>: <span class="ident">T</span>, <span class="ident">method</span>: <span class="ident">Method</span>, <span class="ident">args</span>: <span class="ident">sys</span>::<span class="ident">mrb_aspec</span>) <span class="op">-&gt;</span> <span class="self">Self</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">method_type</span>: <span class="ident">Type</span>, <span class="ident">method_name</span>: <span class="ident">T</span>, <span class="ident">method</span>: <span class="ident">Method</span>, <span class="ident">args</span>: <span class="ident">sys</span>::<span class="ident">mrb_aspec</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span>,
     {
@@ -173,15 +173,15 @@
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">method_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Type</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">method_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Type</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">method_type</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Method</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Method</span> {
         <span class="self">self</span>.<span class="ident">method</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cstring</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">CString</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cstring</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">CString</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">cstring</span>
     }
 
@@ -189,10 +189,10 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
         <span class="ident">into</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">RClass</span>,
-    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">method_type</span> {
-            <span class="ident">Type</span>::<span class="ident">Class</span> <span class="op">=&gt;</span> {
+            <span class="ident">Type</span>::<span class="ident">Class</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">sys</span>::<span class="ident">mrb_define_class_method</span>(
                     <span class="ident">mrb</span>,
                     <span class="ident">into</span>,
@@ -202,7 +202,7 @@
                 );
                 <span class="prelude-val">Ok</span>(())
             }
-            <span class="ident">Type</span>::<span class="ident">Global</span> <span class="op">=&gt;</span> {
+            <span class="ident">Type</span>::<span class="ident">Global</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">sys</span>::<span class="ident">mrb_define_singleton_method</span>(
                     <span class="ident">mrb</span>,
                     (<span class="kw-2">*</span><span class="ident">mrb</span>).<span class="ident">top_self</span>,
@@ -212,7 +212,7 @@
                 );
                 <span class="prelude-val">Ok</span>(())
             }
-            <span class="ident">Type</span>::<span class="ident">Instance</span> <span class="op">=&gt;</span> {
+            <span class="ident">Type</span>::<span class="ident">Instance</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">sys</span>::<span class="ident">mrb_define_method</span>(
                     <span class="ident">mrb</span>,
                     <span class="ident">into</span>,
@@ -222,7 +222,7 @@
                 );
                 <span class="prelude-val">Ok</span>(())
             }
-            <span class="ident">Type</span>::<span class="ident">Module</span> <span class="op">=&gt;</span> {
+            <span class="ident">Type</span>::<span class="ident">Module</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">sys</span>::<span class="ident">mrb_define_module_function</span>(
                     <span class="ident">mrb</span>,
                     <span class="ident">into</span>,
@@ -237,18 +237,18 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Spec</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">Spec</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">method_type</span>() {
-            <span class="ident">Type</span>::<span class="ident">Class</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;self method spec -- {}&quot;</span>, <span class="self">self</span>.<span class="ident">name</span>),
-            <span class="ident">Type</span>::<span class="ident">Global</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;global method spec -- {}&quot;</span>, <span class="self">self</span>.<span class="ident">name</span>),
-            <span class="ident">Type</span>::<span class="ident">Instance</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;instance method spec -- {}&quot;</span>, <span class="self">self</span>.<span class="ident">name</span>),
-            <span class="ident">Type</span>::<span class="ident">Module</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;module method spec -- {}&quot;</span>, <span class="self">self</span>.<span class="ident">name</span>),
+            <span class="ident">Type</span>::<span class="ident">Class</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;self method spec -- {}&quot;</span>, <span class="self">self</span>.<span class="ident">name</span>),
+            <span class="ident">Type</span>::<span class="ident">Global</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;global method spec -- {}&quot;</span>, <span class="self">self</span>.<span class="ident">name</span>),
+            <span class="ident">Type</span>::<span class="ident">Instance</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;instance method spec -- {}&quot;</span>, <span class="self">self</span>.<span class="ident">name</span>),
+            <span class="ident">Type</span>::<span class="ident">Module</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;module method spec -- {}&quot;</span>, <span class="self">self</span>.<span class="ident">name</span>),
         }
     }
 }
@@ -256,8 +256,8 @@
 <span class="kw">impl</span> <span class="ident">Eq</span> <span class="kw">for</span> <span class="ident">Spec</span> {}
 
 <span class="kw">impl</span> <span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">Spec</span> {
-    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">method_type</span> <span class="op">==</span> <span class="ident">other</span>.<span class="ident">method_type</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">name</span> <span class="op">==</span> <span class="ident">other</span>.<span class="ident">name</span>
+    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">method_type</span> <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">method_type</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">name</span>
     }
 }
 

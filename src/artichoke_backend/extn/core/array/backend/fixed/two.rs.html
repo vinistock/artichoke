@@ -230,13 +230,13 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Two</span>(<span class="ident">Value</span>, <span class="ident">Value</span>);
 
 <span class="kw">impl</span> <span class="ident">Two</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">first</span>: <span class="ident">Value</span>, <span class="ident">second</span>: <span class="ident">Value</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">first</span>: <span class="ident">Value</span>, <span class="ident">second</span>: <span class="ident">Value</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>(<span class="ident">first</span>, <span class="ident">second</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">ArrayType</span> <span class="kw">for</span> <span class="ident">Two</span> {
-    <span class="kw">fn</span> <span class="ident">box_clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">box_clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span> {
         <span class="ident">Box</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">clone</span>())
     }
 
@@ -245,22 +245,22 @@
         <span class="ident">interp</span>.<span class="ident">mark_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">1</span>);
     }
 
-    <span class="kw">fn</span> <span class="ident">real_children</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">real_children</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
         <span class="number">2</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
         <span class="number">2</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="bool-val">false</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>, <span class="ident">index</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
-        <span class="kw">if</span> <span class="ident">index</span> <span class="op">==</span> <span class="number">0</span> {
+    <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>, <span class="ident">index</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="ident">index</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
             <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">clone</span>())
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">index</span> <span class="op">==</span> <span class="number">1</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">index</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
             <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="number">1</span>.<span class="ident">clone</span>())
         } <span class="kw">else</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>))
@@ -272,13 +272,13 @@
         <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
         <span class="ident">start</span>: <span class="ident">usize</span>,
         <span class="ident">len</span>: <span class="ident">usize</span>,
-    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>;
-        <span class="kw">if</span> <span class="ident">start</span> <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">len</span> <span class="op">==</span> <span class="number">1</span> {
+        <span class="kw">if</span> <span class="ident">start</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">len</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">backend</span>::<span class="ident">fixed</span>::<span class="ident">one</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">clone</span>()))
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">len</span> <span class="op">&gt;</span> <span class="number">1</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">len</span> <span class="op">&gt;</span> <span class="number">1</span> {
             <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">box_clone</span>())
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">==</span> <span class="number">1</span> <span class="op">&amp;&amp;</span> <span class="ident">len</span> <span class="op">&gt;</span> <span class="number">0</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">len</span> <span class="op">&gt;</span> <span class="number">0</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">backend</span>::<span class="ident">fixed</span>::<span class="ident">one</span>(<span class="self">self</span>.<span class="number">1</span>.<span class="ident">clone</span>()))
         } <span class="kw">else</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">backend</span>::<span class="ident">fixed</span>::<span class="ident">empty</span>())
@@ -290,14 +290,14 @@
         <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
         <span class="ident">index</span>: <span class="ident">usize</span>,
         <span class="ident">elem</span>: <span class="ident">Value</span>,
-        <span class="ident">realloc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
-    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
+        <span class="ident">realloc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>;
-        <span class="kw">if</span> <span class="ident">index</span> <span class="op">==</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">index</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
             <span class="self">self</span>.<span class="number">0</span> <span class="op">=</span> <span class="ident">elem</span>;
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">index</span> <span class="op">==</span> <span class="number">1</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">index</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
             <span class="self">self</span>.<span class="number">1</span> <span class="op">=</span> <span class="ident">elem</span>;
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">index</span> <span class="op">==</span> <span class="number">2</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">index</span> <span class="op">=</span><span class="op">=</span> <span class="number">2</span> {
             <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="self">self</span>.<span class="number">0</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="number">1</span>.<span class="ident">clone</span>(), <span class="ident">elem</span>];
             <span class="kw">let</span> <span class="ident">buffer</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">backend</span>::<span class="ident">buffer</span>::<span class="ident">Buffer</span>::<span class="ident">from</span>(<span class="ident">buffer</span>));
             <span class="kw">let</span> <span class="ident">alloc</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">buffer</span>];
@@ -319,32 +319,32 @@
         <span class="ident">start</span>: <span class="ident">usize</span>,
         <span class="ident">drain</span>: <span class="ident">usize</span>,
         <span class="ident">with</span>: <span class="ident">Value</span>,
-        <span class="ident">realloc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
-    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
+        <span class="ident">realloc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>;
-        <span class="kw">let</span> <span class="ident">drained</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">drain</span> <span class="op">==</span> <span class="number">0</span> {
+        <span class="kw">let</span> <span class="ident">drained</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">drain</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
             <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">with</span>, <span class="self">self</span>.<span class="number">0</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="number">1</span>.<span class="ident">clone</span>()];
             <span class="kw">let</span> <span class="ident">buffer</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">backend</span>::<span class="ident">buffer</span>::<span class="ident">Buffer</span>::<span class="ident">from</span>(<span class="ident">buffer</span>));
             <span class="kw">let</span> <span class="ident">alloc</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">buffer</span>];
             <span class="kw-2">*</span><span class="ident">realloc</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">alloc</span>);
             <span class="number">0</span>
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">drain</span> <span class="op">==</span> <span class="number">1</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">drain</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
             <span class="self">self</span>.<span class="number">0</span> <span class="op">=</span> <span class="ident">with</span>;
             <span class="number">1</span>
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">==</span> <span class="number">0</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
             <span class="kw">let</span> <span class="ident">alloc</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">backend</span>::<span class="ident">fixed</span>::<span class="ident">one</span>(<span class="ident">with</span>)];
             <span class="kw-2">*</span><span class="ident">realloc</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">alloc</span>);
             <span class="number">2</span>
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">==</span> <span class="number">1</span> <span class="op">&amp;&amp;</span> <span class="ident">drain</span> <span class="op">==</span> <span class="number">0</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">drain</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
             <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="self">self</span>.<span class="number">0</span>.<span class="ident">clone</span>(), <span class="ident">with</span>, <span class="self">self</span>.<span class="number">1</span>.<span class="ident">clone</span>()];
             <span class="kw">let</span> <span class="ident">buffer</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">backend</span>::<span class="ident">buffer</span>::<span class="ident">Buffer</span>::<span class="ident">from</span>(<span class="ident">buffer</span>));
             <span class="kw">let</span> <span class="ident">alloc</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">buffer</span>];
             <span class="kw-2">*</span><span class="ident">realloc</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">alloc</span>);
             <span class="number">0</span>
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">==</span> <span class="number">1</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
             <span class="self">self</span>.<span class="number">1</span> <span class="op">=</span> <span class="ident">with</span>;
             <span class="number">1</span>
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">==</span> <span class="number">2</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">=</span><span class="op">=</span> <span class="number">2</span> {
             <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">with</span>, <span class="self">self</span>.<span class="number">0</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="number">1</span>.<span class="ident">clone</span>()];
             <span class="kw">let</span> <span class="ident">buffer</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">backend</span>::<span class="ident">buffer</span>::<span class="ident">Buffer</span>::<span class="ident">from</span>(<span class="ident">buffer</span>));
             <span class="kw">let</span> <span class="ident">alloc</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">buffer</span>];
@@ -368,29 +368,29 @@
         <span class="ident">start</span>: <span class="ident">usize</span>,
         <span class="ident">drain</span>: <span class="ident">usize</span>,
         <span class="ident">with</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span>,
-        <span class="ident">realloc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
-    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
+        <span class="ident">realloc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>;
-        <span class="kw">let</span> (<span class="ident">alloc</span>, <span class="ident">drained</span>) <span class="op">=</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">drain</span> <span class="op">==</span> <span class="number">0</span> {
+        <span class="kw">let</span> (<span class="ident">alloc</span>, <span class="ident">drained</span>) <span class="op">=</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">drain</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
             <span class="kw">let</span> <span class="ident">alloc</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">with</span>, <span class="self">self</span>.<span class="ident">box_clone</span>()];
             (<span class="ident">alloc</span>, <span class="number">0</span>)
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">drain</span> <span class="op">==</span> <span class="number">1</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">drain</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
             <span class="kw">let</span> <span class="ident">alloc</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">with</span>, <span class="ident">backend</span>::<span class="ident">fixed</span>::<span class="ident">one</span>(<span class="self">self</span>.<span class="number">1</span>.<span class="ident">clone</span>())];
             (<span class="ident">alloc</span>, <span class="number">1</span>)
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">==</span> <span class="number">0</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
             <span class="kw">let</span> <span class="ident">alloc</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">with</span>];
             (<span class="ident">alloc</span>, <span class="number">2</span>)
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">==</span> <span class="number">1</span> <span class="op">&amp;&amp;</span> <span class="ident">drain</span> <span class="op">==</span> <span class="number">0</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">drain</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
             <span class="kw">let</span> <span class="ident">alloc</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
                 <span class="ident">backend</span>::<span class="ident">fixed</span>::<span class="ident">one</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">clone</span>()),
                 <span class="ident">with</span>,
                 <span class="ident">backend</span>::<span class="ident">fixed</span>::<span class="ident">one</span>(<span class="self">self</span>.<span class="number">1</span>.<span class="ident">clone</span>()),
             ];
             (<span class="ident">alloc</span>, <span class="number">0</span>)
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">==</span> <span class="number">1</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
             <span class="kw">let</span> <span class="ident">alloc</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">backend</span>::<span class="ident">fixed</span>::<span class="ident">one</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">clone</span>()), <span class="ident">with</span>];
             (<span class="ident">alloc</span>, <span class="number">1</span>)
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">==</span> <span class="number">2</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">=</span><span class="op">=</span> <span class="number">2</span> {
             <span class="kw">let</span> <span class="ident">alloc</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="self">self</span>.<span class="ident">box_clone</span>(), <span class="ident">with</span>];
             (<span class="ident">alloc</span>, <span class="number">0</span>)
         } <span class="kw">else</span> {
@@ -405,9 +405,9 @@
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
         <span class="ident">other</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span>,
-        <span class="ident">realloc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
-    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
-        <span class="kw">if</span> <span class="ident">other</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">0</span> {
+        <span class="ident">realloc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="ident">other</span>.<span class="ident">len</span>() <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
         } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">other</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="ident">backend</span>::<span class="ident">buffer</span>::<span class="ident">BUFFER_INLINE_MAX</span> <span class="op">-</span> <span class="number">1</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="number">2</span> <span class="op">+</span> <span class="ident">other</span>.<span class="ident">len</span>());
@@ -427,14 +427,14 @@
     <span class="kw">fn</span> <span class="ident">pop</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
-        <span class="ident">realloc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
-    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
+        <span class="ident">realloc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>;
         <span class="kw-2">*</span><span class="ident">realloc</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="ident">backend</span>::<span class="ident">fixed</span>::<span class="ident">one</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">clone</span>())]);
         <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="number">1</span>.<span class="ident">clone</span>())
     }
 
-    <span class="kw">fn</span> <span class="ident">reverse</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">reverse</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">backend</span>::<span class="ident">fixed</span>::<span class="ident">two</span>(<span class="self">self</span>.<span class="number">1</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="number">0</span>.<span class="ident">clone</span>()))
     }

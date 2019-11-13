@@ -126,13 +126,13 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">System</span>;
 
 <span class="kw">impl</span> <span class="ident">System</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">default</span>()
     }
 }
 
 <span class="kw">impl</span> <span class="ident">Env</span> <span class="kw">for</span> <span class="ident">System</span> {
-    <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="comment">// Per Rust docs for `std::env::set_var` and `std::env::remove_var`:</span>
         <span class="comment">// https://doc.rust-lang.org/std/env/fn.set_var.html</span>
         <span class="comment">// https://doc.rust-lang.org/std/env/fn.remove_var.html</span>
@@ -140,7 +140,7 @@
         <span class="comment">// This function may panic if key is empty, contains an ASCII equals</span>
         <span class="comment">// sign &#39;=&#39; or the NUL character &#39;\0&#39;, or when the value contains the</span>
         <span class="comment">// NUL character.</span>
-        <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">is_empty</span>() <span class="op">||</span> <span class="ident">memchr</span>::<span class="ident">memchr</span>(<span class="string">b&#39;=&#39;</span>, <span class="ident">name</span>).<span class="ident">is_some</span>() {
+        <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">is_empty</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">memchr</span>::<span class="ident">memchr</span>(<span class="string">b&#39;=&#39;</span>, <span class="ident">name</span>).<span class="ident">is_some</span>() {
             <span class="comment">// This is a bit of a kludge, but MRI accepts these names on element</span>
             <span class="comment">// reference and should always return `nil` since they are invalid</span>
             <span class="comment">// at the OS level.</span>
@@ -165,7 +165,7 @@
         <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
         <span class="ident">name</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
         <span class="ident">value</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>,
-    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="comment">// Per Rust docs for `std::env::set_var` and `std::env::remove_var`:</span>
         <span class="comment">// https://doc.rust-lang.org/std/env/fn.set_var.html</span>
         <span class="comment">// https://doc.rust-lang.org/std/env/fn.remove_var.html</span>
@@ -173,7 +173,7 @@
         <span class="comment">// This function may panic if key is empty, contains an ASCII equals</span>
         <span class="comment">// sign &#39;=&#39; or the NUL character &#39;\0&#39;, or when the value contains the</span>
         <span class="comment">// NUL character.</span>
-        <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">is_empty</span>() <span class="op">||</span> <span class="ident">memchr</span>::<span class="ident">memchr</span>(<span class="string">b&#39;=&#39;</span>, <span class="ident">name</span>).<span class="ident">is_some</span>() {
+        <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">is_empty</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">memchr</span>::<span class="ident">memchr</span>(<span class="string">b&#39;=&#39;</span>, <span class="ident">name</span>).<span class="ident">is_some</span>() {
             <span class="comment">// TODO: This should raise `Errno::EINVAL`.</span>
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">ArgumentError</span>::<span class="ident">new</span>(
                 <span class="ident">interp</span>,
@@ -215,7 +215,7 @@
     <span class="kw">fn</span> <span class="ident">as_map</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
-    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">map</span> <span class="op">=</span> <span class="ident">HashMap</span>::<span class="ident">default</span>();
         <span class="kw">for</span> (<span class="ident">name</span>, <span class="ident">value</span>) <span class="kw">in</span> <span class="ident">std</span>::<span class="ident">env</span>::<span class="ident">vars_os</span>() {
             <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="ident">fs</span>::<span class="ident">osstr_to_bytes</span>(<span class="ident">interp</span>, <span class="ident">name</span>.<span class="ident">as_os_str</span>())<span class="question-mark">?</span>;

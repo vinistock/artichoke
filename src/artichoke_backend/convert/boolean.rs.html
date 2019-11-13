@@ -114,7 +114,7 @@
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Artichoke</span>, <span class="ident">ArtichokeError</span>};
 
 <span class="kw">impl</span> <span class="ident">Convert</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">Value</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Artichoke</span> {
-    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Value</span> {
+    <span class="kw">fn</span> <span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Value</span> {
         <span class="kw">if</span> <span class="ident">value</span> {
             <span class="ident">Value</span>::<span class="ident">new</span>(<span class="self">self</span>, <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_true_value</span>() })
         } <span class="kw">else</span> {
@@ -124,9 +124,9 @@
 }
 
 <span class="kw">impl</span> <span class="ident">TryConvert</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">bool</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Artichoke</span> {
-    <span class="kw">fn</span> <span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="ident">Value</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">try_convert</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">value</span>: <span class="ident">Value</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="ident">value</span>.<span class="ident">ruby_type</span>() {
-            <span class="ident">Ruby</span>::<span class="ident">Bool</span> <span class="op">=&gt;</span> {
+            <span class="ident">Ruby</span>::<span class="ident">Bool</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">inner</span>();
                 <span class="kw">if</span> <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_value_is_true</span>(<span class="ident">value</span>) } {
                     <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>)
@@ -140,7 +140,7 @@
                     })
                 }
             }
-            <span class="ident">type_tag</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ArtichokeError</span>::<span class="ident">ConvertToRust</span> {
+            <span class="ident">type_tag</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ArtichokeError</span>::<span class="ident">ConvertToRust</span> {
                 <span class="ident">from</span>: <span class="ident">type_tag</span>,
                 <span class="ident">to</span>: <span class="ident">Rust</span>::<span class="ident">Bool</span>,
             }),
@@ -173,38 +173,38 @@
     }
 
     <span class="attribute">#[<span class="ident">quickcheck</span>]</span>
-    <span class="kw">fn</span> <span class="ident">convert_to_bool</span>(<span class="ident">b</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">convert_to_bool</span>(<span class="ident">b</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">b</span>);
-        <span class="ident">value</span>.<span class="ident">ruby_type</span>() <span class="op">==</span> <span class="ident">Ruby</span>::<span class="ident">Bool</span>
+        <span class="ident">value</span>.<span class="ident">ruby_type</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">Ruby</span>::<span class="ident">Bool</span>
     }
 
     <span class="attribute">#[<span class="ident">quickcheck</span>]</span>
-    <span class="kw">fn</span> <span class="ident">bool_with_value</span>(<span class="ident">b</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">bool_with_value</span>(<span class="ident">b</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">b</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">inner</span>();
         <span class="kw">if</span> <span class="ident">b</span> {
             <span class="op">!</span><span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_value_is_false</span>(<span class="ident">value</span>) }
-                <span class="op">&amp;&amp;</span> <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_value_is_true</span>(<span class="ident">value</span>) }
-                <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_value_is_nil</span>(<span class="ident">value</span>) }
+                <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_value_is_true</span>(<span class="ident">value</span>) }
+                <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="op">!</span><span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_value_is_nil</span>(<span class="ident">value</span>) }
         } <span class="kw">else</span> {
             <span class="op">!</span><span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_value_is_true</span>(<span class="ident">value</span>) }
-                <span class="op">&amp;&amp;</span> <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_value_is_false</span>(<span class="ident">value</span>) }
-                <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_value_is_nil</span>(<span class="ident">value</span>) }
+                <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_value_is_false</span>(<span class="ident">value</span>) }
+                <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="op">!</span><span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_sys_value_is_nil</span>(<span class="ident">value</span>) }
         }
     }
 
     <span class="attribute">#[<span class="ident">quickcheck</span>]</span>
-    <span class="kw">fn</span> <span class="ident">roundtrip</span>(<span class="ident">b</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">roundtrip</span>(<span class="ident">b</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">b</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
-        <span class="ident">value</span> <span class="op">==</span> <span class="ident">b</span>
+        <span class="ident">value</span> <span class="op">=</span><span class="op">=</span> <span class="ident">b</span>
     }
 
     <span class="attribute">#[<span class="ident">quickcheck</span>]</span>
-    <span class="kw">fn</span> <span class="ident">roundtrip_err</span>(<span class="ident">i</span>: <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">roundtrip_err</span>(<span class="ident">i</span>: <span class="ident">i64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">i</span>);
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>();
@@ -212,7 +212,7 @@
             <span class="ident">from</span>: <span class="ident">Ruby</span>::<span class="ident">Fixnum</span>,
             <span class="ident">to</span>: <span class="ident">Rust</span>::<span class="ident">Bool</span>,
         });
-        <span class="ident">value</span> <span class="op">==</span> <span class="ident">expected</span>
+        <span class="ident">value</span> <span class="op">=</span><span class="op">=</span> <span class="ident">expected</span>
     }
 }
 </pre></div>

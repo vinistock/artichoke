@@ -94,6 +94,9 @@
 <span id="94">94</span>
 <span id="95">95</span>
 <span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Functions for interacting directly with mruby structs from [`sys`].</span>
 <span class="doccomment">//!</span>
@@ -107,15 +110,18 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>::{<span class="self">self</span>, <span class="ident">DescribeState</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Artichoke</span>, <span class="ident">ArtichokeError</span>};
 
-<span class="doccomment">/// Extract an [`Artichoke`] interpreter from the userdata pointer on a</span>
+<span class="doccomment">/// Extract an [`Artichoke`] interpreter from the user data pointer on a</span>
 <span class="doccomment">/// [`sys::mrb_state`].</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// This function is unsafe! It manipulates a raw pointer stored as a</span>
-<span class="doccomment">/// [`c_void`](std::ffi::c_void) on `mrb-&gt;ud`. `from_user_data` assumes that</span>
-<span class="doccomment">/// this [`c_void`](std::ffi::c_void) was created with [`Rc::into_raw`], see</span>
-<span class="doccomment">/// calling this function, [`Rc::strong_count`] on the [`Artichoke`] instance will</span>
-<span class="doccomment">/// increase by one.</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">from_user_data</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Artichoke</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
+<span class="doccomment">/// Calling this function will increase the [`Rc::strong_count`] on the</span>
+<span class="doccomment">/// [`Artichoke`] interpreter by one.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Safety</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This function assumes that the user data pointer was created with</span>
+<span class="doccomment">/// [`Rc::into_raw`] and that the pointer is to a non-free&#39;d</span>
+<span class="doccomment">/// [`Rc`]`&lt;`[`RefCell`]`&lt;`[`State`]`&gt;&gt;`.</span>
+<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">from_user_data</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Artichoke</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="ident">mrb</span>.<span class="ident">is_null</span>() {
         <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;Attempted to extract Artichoke from null mrb_state&quot;</span>);
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ArtichokeError</span>::<span class="ident">Uninitialized</span>);

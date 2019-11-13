@@ -6,5 +6,4 @@ implementors["artichoke_vfs"] = [];
             } else {
                 window.pending_implementors = implementors;
             }
-        
-})()
+        })()

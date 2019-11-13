@@ -38,11 +38,11 @@
 <span class="kw">mod</span> <span class="ident">one</span>;
 <span class="kw">mod</span> <span class="ident">two</span>;
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">empty</span>() <span class="op">-&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">empty</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span> {
     <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">empty</span>::<span class="ident">Empty</span>::<span class="ident">new</span>())
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hole</span>(<span class="ident">len</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hole</span>(<span class="ident">len</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">len</span>) <span class="op">=</span> <span class="ident">NonZeroUsize</span>::<span class="ident">new</span>(<span class="ident">len</span>) {
         <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">hole</span>::<span class="ident">Hole</span>::<span class="ident">new</span>(<span class="ident">len</span>))
     } <span class="kw">else</span> {
@@ -50,11 +50,11 @@
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">one</span>(<span class="ident">elem</span>: <span class="ident">Value</span>) <span class="op">-&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">one</span>(<span class="ident">elem</span>: <span class="ident">Value</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span> {
     <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">one</span>::<span class="ident">One</span>::<span class="ident">new</span>(<span class="ident">elem</span>))
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">two</span>(<span class="ident">first</span>: <span class="ident">Value</span>, <span class="ident">second</span>: <span class="ident">Value</span>) <span class="op">-&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">two</span>(<span class="ident">first</span>: <span class="ident">Value</span>, <span class="ident">second</span>: <span class="ident">Value</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span> {
     <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">two</span>::<span class="ident">Two</span>::<span class="ident">new</span>(<span class="ident">first</span>, <span class="ident">second</span>))
 }
 </pre></div>

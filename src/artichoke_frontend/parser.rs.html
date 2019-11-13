@@ -192,16 +192,16 @@
 <span class="kw">impl</span> <span class="ident">State</span> {
     <span class="doccomment">/// Does this state indicate a code block is open? Used by the REPL to know</span>
     <span class="doccomment">/// whether to buffer code before attempting to eval it on the interpreter.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_code_block_open</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_code_block_open</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span>::<span class="ident">Valid</span> <span class="op">|</span> <span class="self">Self</span>::<span class="ident">UnexpectedEnd</span> <span class="op">|</span> <span class="self">Self</span>::<span class="ident">UnexpectedRegexpBegin</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
-            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+            <span class="self">Self</span>::<span class="ident">Valid</span> <span class="op">|</span> <span class="self">Self</span>::<span class="ident">UnexpectedEnd</span> <span class="op">|</span> <span class="self">Self</span>::<span class="ident">UnexpectedRegexpBegin</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
         }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">State</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">Valid</span>
     }
 }
@@ -223,7 +223,7 @@
 
 <span class="kw">impl</span> <span class="ident">Parser</span> {
     <span class="doccomment">/// Create a new parser from an interpreter instance.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
         <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">ctx</span>;
         <span class="kw">let</span> <span class="ident">parser</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_parser_new</span>(<span class="ident">mrb</span>) };
@@ -237,7 +237,7 @@
     <span class="doccomment">/// Parse the code buffer to determine if the code is a complete expression</span>
     <span class="doccomment">/// that could be evaluated even though it may not be syntactically or</span>
     <span class="doccomment">/// semantically valid.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">code</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">State</span>, <span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">code</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">State</span>, <span class="ident">Error</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>,
     {
@@ -267,39 +267,39 @@
                 })<span class="question-mark">?</span>;
                 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">match_same_arms</span>)]</span>
                 <span class="kw">return</span> <span class="kw">match</span> <span class="ident">message</span>.<span class="ident">as_str</span>() {
-                    <span class="string">&quot;syntax error, unexpected $end&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">State</span>::<span class="ident">UnexpectedProgramEnd</span>),
-                    <span class="string">&quot;syntax error, unexpected keyword_end&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">State</span>::<span class="ident">UnexpectedEnd</span>),
-                    <span class="string">&quot;syntax error, unexpected tREGEXP_BEG&quot;</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">State</span>::<span class="ident">UnexpectedRegexpBegin</span>),
-                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">State</span>::<span class="ident">ParseError</span>),
+                    <span class="string">&quot;syntax error, unexpected $end&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">State</span>::<span class="ident">UnexpectedProgramEnd</span>),
+                    <span class="string">&quot;syntax error, unexpected keyword_end&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">State</span>::<span class="ident">UnexpectedEnd</span>),
+                    <span class="string">&quot;syntax error, unexpected tREGEXP_BEG&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">State</span>::<span class="ident">UnexpectedRegexpBegin</span>),
+                    <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">State</span>::<span class="ident">ParseError</span>),
                 };
             }
             <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">match_same_arms</span>)]</span>
             <span class="kw">match</span> (<span class="kw-2">*</span><span class="self">self</span>.<span class="ident">parser</span>).<span class="ident">lstate</span> {
                 <span class="comment">// beginning of a statement, that means previous line ended</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_BEG</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_BEG</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
                 <span class="comment">// a message dot was the last token, there has to come more</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_DOT</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_DOT</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
                 <span class="comment">// class keyword is not enough! we need also a name of the class</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_CLASS</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_CLASS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
                 <span class="comment">// a method name is necessary</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_FNAME</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_FNAME</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
                 <span class="comment">// if, elsif, etc. without condition</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_VALUE</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_VALUE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
                 <span class="comment">// an argument is the last token</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_ARG</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_ARG</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
                 <span class="comment">// a block/proc/lambda argument is the last token</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_CMDARG</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_CMDARG</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
                 <span class="comment">// an expression was ended</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_END</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_END</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
                 <span class="comment">// closing parenthesis</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_ENDARG</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_ENDARG</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
                 <span class="comment">// definition end</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_ENDFN</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_ENDFN</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
                 <span class="comment">// jump keyword like break, return, ...</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_MID</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_MID</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
                 <span class="comment">// this token is unreachable and is used to do integer math on the</span>
                 <span class="comment">// values of `mrb_lex_state_enum`.</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_MAX_STATE</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_MAX_STATE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
             }
         };
         <span class="kw">if</span> <span class="ident">code_has_unterminated_expression</span> {

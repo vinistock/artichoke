@@ -96,7 +96,7 @@
 <span class="doccomment">/// This function creates a new [`State`], embeds it in the [`sys::mrb_state`],</span>
 <span class="doccomment">/// initializes an [in memory virtual filesystem](Filesystem), and loads the</span>
 <span class="doccomment">/// [`extn`] extensions to Ruby Core and Stdlib.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">interpreter</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Artichoke</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">interpreter</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Artichoke</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">vfs</span> <span class="op">=</span> <span class="ident">Filesystem</span>::<span class="ident">new</span>()<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_open</span>() };
     <span class="kw">if</span> <span class="ident">mrb</span>.<span class="ident">is_null</span>() {

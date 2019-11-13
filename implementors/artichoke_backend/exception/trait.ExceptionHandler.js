@@ -6,5 +6,4 @@ implementors["artichoke_backend"] = [];
             } else {
                 window.pending_implementors = implementors;
             }
-        
-})()
+        })()

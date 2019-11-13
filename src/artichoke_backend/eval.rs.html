@@ -479,14 +479,14 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Protect</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>, <span class="ident">code</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>, <span class="ident">code</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">ctx</span>: <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">ctx</span>,
             <span class="ident">code</span>,
         }
     }
 
-    <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">run</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">data</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+    <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">run</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">data</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
         <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_cptr_ptr</span>(<span class="ident">data</span>);
         <span class="comment">// `Protect` must be `Copy` because the call to `mrb_load_nstring_cxt`</span>
         <span class="comment">// can unwind with `longjmp` which does not allow Rust to run</span>
@@ -524,9 +524,9 @@
 
 <span class="kw">impl</span> <span class="ident">Context</span> {
     <span class="doccomment">/// Create a new [`Context`].</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">filename</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="self">Self</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">filename</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
     <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, [<span class="ident">u8</span>]<span class="op">&gt;&gt;</span>,
+        <span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, [<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span>,
     {
         <span class="self">Self</span> {
             <span class="ident">filename</span>: <span class="ident">filename</span>.<span class="ident">into</span>(),
@@ -535,11 +535,11 @@
 
     <span class="doccomment">/// Create a root, or default, [`Context`]. The root context sets the</span>
     <span class="doccomment">/// `__FILE__` magic constant to &quot;(eval)&quot;.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">root</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">root</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">default</span>()
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">filename_as_cstring</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CString</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">filename_as_cstring</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CString</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
         <span class="ident">CString</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">filename</span>.<span class="ident">as_ref</span>()).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
             <span class="ident">ArtichokeError</span>::<span class="ident">Vfs</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
                 <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">Other</span>,
@@ -550,7 +550,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">Context</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">new</span>(<span class="ident">TOP_FILENAME</span>)
     }
 }
@@ -564,7 +564,7 @@
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Eval</span> {
     <span class="doccomment">/// Eval code on the artichoke interpreter using the current [`Context`] or</span>
     <span class="doccomment">/// [`Context::root`] if none is present on the stack.</span>
-    <span class="kw">fn</span> <span class="ident">eval</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">code</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">eval</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">code</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>;
 
@@ -572,7 +572,7 @@
     <span class="doccomment">/// [`Context::root`] if none is present on the stack.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Exceptions will unwind past this call.</span>
-    <span class="kw">fn</span> <span class="ident">unchecked_eval</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">code</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">Value</span>
+    <span class="kw">fn</span> <span class="ident">unchecked_eval</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">code</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Value</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>;
 
@@ -580,7 +580,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// `Context` allows manipulating interpreter state before eval, for</span>
     <span class="doccomment">/// example, setting the `__FILE__` magic constant.</span>
-    <span class="kw">fn</span> <span class="ident">eval_with_context</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">code</span>: <span class="ident">T</span>, <span class="ident">context</span>: <span class="ident">Context</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">eval_with_context</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">code</span>: <span class="ident">T</span>, <span class="ident">context</span>: <span class="ident">Context</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>;
 
@@ -590,12 +590,12 @@
     <span class="doccomment">/// example, setting the `__FILE__` magic constant.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Exceptions will unwind past this call.</span>
-    <span class="kw">fn</span> <span class="ident">unchecked_eval_with_context</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">code</span>: <span class="ident">T</span>, <span class="ident">context</span>: <span class="ident">Context</span>) <span class="op">-&gt;</span> <span class="ident">Value</span>
+    <span class="kw">fn</span> <span class="ident">unchecked_eval_with_context</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">code</span>: <span class="ident">T</span>, <span class="ident">context</span>: <span class="ident">Context</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Value</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>;
 
     <span class="doccomment">/// Peek at the top of the [`Context`] stack.</span>
-    <span class="kw">fn</span> <span class="ident">peek_context</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">peek_context</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// Push an [`Context`] onto the stack.</span>
     <span class="kw">fn</span> <span class="ident">push_context</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">context</span>: <span class="ident">Context</span>);
@@ -605,7 +605,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Eval</span> <span class="kw">for</span> <span class="ident">Artichoke</span> {
-    <span class="kw">fn</span> <span class="ident">eval</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">code</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">eval</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">code</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>,
     {
@@ -640,7 +640,7 @@
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="ident">sys</span>::<span class="ident">mrb_bool</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
 
             <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_protect</span>(<span class="ident">mrb</span>, <span class="prelude-val">Some</span>(<span class="ident">Protect</span>::<span class="ident">run</span>), <span class="ident">data</span>, <span class="ident">state</span>.<span class="ident">as_mut_ptr</span>());
-            <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">assume_init</span>() <span class="op">!=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">assume_init</span>() <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
                 (<span class="kw-2">*</span><span class="ident">mrb</span>).<span class="ident">exc</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_sys_obj_ptr</span>(<span class="ident">value</span>);
             }
             <span class="ident">value</span>
@@ -648,15 +648,15 @@
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">Value</span>::<span class="ident">new</span>(<span class="self">self</span>, <span class="ident">value</span>);
 
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">last_error</span>() {
-            <span class="ident">LastError</span>::<span class="prelude-val">Some</span>(<span class="ident">exception</span>) <span class="op">=&gt;</span> {
+            <span class="ident">LastError</span>::<span class="prelude-val">Some</span>(<span class="ident">exception</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="macro">warn</span><span class="macro">!</span>(<span class="string">&quot;runtime error with exception backtrace: {}&quot;</span>, <span class="ident">exception</span>);
                 <span class="prelude-val">Err</span>(<span class="ident">ArtichokeError</span>::<span class="ident">Exec</span>(<span class="ident">exception</span>.<span class="ident">to_string</span>()))
             }
-            <span class="ident">LastError</span>::<span class="ident">UnableToExtract</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> {
+            <span class="ident">LastError</span>::<span class="ident">UnableToExtract</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;failed to extract exception after runtime error: {}&quot;</span>, <span class="ident">err</span>);
                 <span class="prelude-val">Err</span>(<span class="ident">err</span>)
             }
-            <span class="ident">LastError</span>::<span class="prelude-val">None</span> <span class="kw">if</span> <span class="ident">value</span>.<span class="ident">is_unreachable</span>() <span class="op">=&gt;</span> {
+            <span class="ident">LastError</span>::<span class="prelude-val">None</span> <span class="kw">if</span> <span class="ident">value</span>.<span class="ident">is_unreachable</span>() <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="comment">// Unreachable values are internal to the mruby interpreter and</span>
                 <span class="comment">// interacting with them via the C API is unspecified and may</span>
                 <span class="comment">// result in a segfault.</span>
@@ -664,11 +664,11 @@
                 <span class="comment">// See: https://github.com/mruby/mruby/issues/4460</span>
                 <span class="prelude-val">Err</span>(<span class="ident">ArtichokeError</span>::<span class="ident">UnreachableValue</span>)
             }
-            <span class="ident">LastError</span>::<span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">value</span>),
+            <span class="ident">LastError</span>::<span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">value</span>),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">unchecked_eval</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">code</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">Value</span>
+    <span class="kw">fn</span> <span class="ident">unchecked_eval</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">code</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Value</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>,
     {
@@ -706,7 +706,7 @@
             <span class="comment">// because we need to provide a landing pad to deallocate the</span>
             <span class="comment">// heap-allocated objects that we&#39;ve passed as borrows to `protect`.</span>
             <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_protect</span>(<span class="ident">mrb</span>, <span class="prelude-val">Some</span>(<span class="ident">Protect</span>::<span class="ident">run</span>), <span class="ident">data</span>, <span class="ident">state</span>.<span class="ident">as_mut_ptr</span>());
-            <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">assume_init</span>() <span class="op">!=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">assume_init</span>() <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
                 <span class="comment">// drop all bindings to heap-allocated objects because we are</span>
                 <span class="comment">// about to unwind with longjmp.</span>
                 <span class="ident">drop</span>(<span class="ident">filename</span>);
@@ -720,7 +720,7 @@
         <span class="ident">Value</span>::<span class="ident">new</span>(<span class="self">self</span>, <span class="ident">value</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">eval_with_context</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">code</span>: <span class="ident">T</span>, <span class="ident">context</span>: <span class="ident">Context</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">eval_with_context</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">code</span>: <span class="ident">T</span>, <span class="ident">context</span>: <span class="ident">Context</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">ArtichokeError</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>,
     {
@@ -730,7 +730,7 @@
         <span class="ident">result</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">unchecked_eval_with_context</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">code</span>: <span class="ident">T</span>, <span class="ident">context</span>: <span class="ident">Context</span>) <span class="op">-&gt;</span> <span class="ident">Value</span>
+    <span class="kw">fn</span> <span class="ident">unchecked_eval_with_context</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">code</span>: <span class="ident">T</span>, <span class="ident">context</span>: <span class="ident">Context</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Value</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>,
     {
@@ -740,7 +740,7 @@
         <span class="ident">result</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">peek_context</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">peek_context</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">api</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">borrow</span>();
         <span class="ident">api</span>.<span class="ident">context_stack</span>.<span class="ident">last</span>().<span class="ident">cloned</span>()
     }
@@ -801,7 +801,7 @@
             <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">nested_eval</span>(
                 <span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>,
                 <span class="ident">_slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>,
-            ) <span class="op">-&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+            ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
                 <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;__FILE__&quot;</span>) {
                     <span class="ident">value</span>.<span class="ident">inner</span>()
@@ -812,7 +812,7 @@
         }
 
         <span class="kw">impl</span> <span class="ident">File</span> <span class="kw">for</span> <span class="ident">NestedEval</span> {
-            <span class="kw">fn</span> <span class="ident">require</span>(<span class="ident">interp</span>: <span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
+            <span class="kw">fn</span> <span class="ident">require</span>(<span class="ident">interp</span>: <span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">spec</span> <span class="op">=</span> {
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">api</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>();
                     <span class="kw">let</span> <span class="ident">spec</span> <span class="op">=</span> <span class="ident">api</span>.<span class="ident">def_module</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>(<span class="string">&quot;NestedEval&quot;</span>, <span class="prelude-val">None</span>);

@@ -296,7 +296,7 @@
     <span class="ident">elem</span>: <span class="ident">Value</span>,
     <span class="ident">len</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>,
     <span class="ident">ary_len</span>: <span class="ident">usize</span>,
-) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ElementReference</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
+) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ElementReference</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">len</span>) <span class="op">=</span> <span class="ident">len</span> {
         <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">start</span>) <span class="op">=</span> <span class="ident">elem</span>.<span class="ident">clone</span>().<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">Int</span><span class="op">&gt;</span>() {
             <span class="ident">start</span>
@@ -335,9 +335,9 @@
             <span class="kw">let</span> <span class="ident">rangelen</span> <span class="op">=</span> <span class="ident">Int</span>::<span class="ident">try_from</span>(<span class="ident">ary_len</span>)
                 .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">Fatal</span>::<span class="ident">new</span>(<span class="ident">interp</span>, <span class="string">&quot;Range length exceeds Integer max&quot;</span>))<span class="question-mark">?</span>;
             <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="ident">is_range</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">elem</span>, <span class="ident">rangelen</span>) } {
-                <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>((<span class="ident">start</span>, <span class="ident">len</span>))) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">ElementReference</span>::<span class="ident">StartLen</span>(<span class="ident">start</span>, <span class="ident">len</span>)),
-                <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">ElementReference</span>::<span class="ident">Empty</span>),
-                <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">TypeError</span>::<span class="ident">new</span>(
+                <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>((<span class="ident">start</span>, <span class="ident">len</span>))) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">ElementReference</span>::<span class="ident">StartLen</span>(<span class="ident">start</span>, <span class="ident">len</span>)),
+                <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">ElementReference</span>::<span class="ident">Empty</span>),
+                <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">TypeError</span>::<span class="ident">new</span>(
                     <span class="ident">interp</span>,
                     <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;no implicit conversion of {} into Integer&quot;</span>, <span class="ident">name</span>),
                 ))),
@@ -352,7 +352,7 @@
     <span class="ident">second</span>: <span class="ident">Value</span>,
     <span class="ident">third</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>,
     <span class="ident">len</span>: <span class="ident">usize</span>,
-) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>, <span class="ident">Value</span>), <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
+) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>, <span class="ident">Value</span>), <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">elem</span>) <span class="op">=</span> <span class="ident">third</span> {
         <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">first</span>;
         <span class="kw">let</span> <span class="ident">start_type_name</span> <span class="op">=</span> <span class="ident">start</span>.<span class="ident">pretty_name</span>();
@@ -422,14 +422,14 @@
         <span class="kw">let</span> <span class="ident">rangelen</span> <span class="op">=</span> <span class="ident">Int</span>::<span class="ident">try_from</span>(<span class="ident">len</span>)
             .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">Fatal</span>::<span class="ident">new</span>(<span class="ident">interp</span>, <span class="string">&quot;Range length exceeds Integer max&quot;</span>))<span class="question-mark">?</span>;
         <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="ident">is_range</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">first</span>, <span class="ident">rangelen</span>) } {
-            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>((<span class="ident">start</span>, <span class="ident">len</span>))) <span class="op">=&gt;</span> {
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>((<span class="ident">start</span>, <span class="ident">len</span>))) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">start</span>) <span class="op">=</span> <span class="ident">usize</span>::<span class="ident">try_from</span>(<span class="ident">start</span>) {
                     <span class="prelude-val">Ok</span>((<span class="ident">start</span>, <span class="prelude-val">Some</span>(<span class="ident">len</span>), <span class="ident">second</span>))
                 } <span class="kw">else</span> {
                     <span class="prelude-val">Ok</span>((<span class="number">0</span>, <span class="prelude-val">Some</span>(<span class="ident">len</span>), <span class="ident">second</span>))
                 }
             }
-            <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) <span class="op">=&gt;</span> {
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">start</span>) <span class="op">=</span> <span class="ident">first</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>(<span class="string">&quot;begin&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="prelude-val">None</span>) {
                     <span class="ident">start</span>
                 } <span class="kw">else</span> {
@@ -479,14 +479,14 @@
                     )));
                 }
                 <span class="kw">match</span> (<span class="ident">usize</span>::<span class="ident">try_from</span>(<span class="ident">start</span>), <span class="ident">usize</span>::<span class="ident">try_from</span>(<span class="ident">end</span>)) {
-                    (<span class="prelude-val">Ok</span>(<span class="ident">start</span>), <span class="prelude-val">Ok</span>(<span class="ident">end</span>)) <span class="op">=&gt;</span> {
+                    (<span class="prelude-val">Ok</span>(<span class="ident">start</span>), <span class="prelude-val">Ok</span>(<span class="ident">end</span>)) <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="kw">if</span> <span class="ident">end</span> <span class="op">&gt;</span> <span class="ident">start</span> {
                             <span class="prelude-val">Ok</span>((<span class="ident">start</span>, <span class="prelude-val">Some</span>(<span class="ident">end</span> <span class="op">-</span> <span class="ident">start</span>), <span class="ident">second</span>))
                         } <span class="kw">else</span> {
                             <span class="prelude-val">Ok</span>((<span class="ident">start</span>, <span class="prelude-val">None</span>, <span class="ident">second</span>))
                         }
                     }
-                    (<span class="prelude-val">Err</span>(<span class="kw">_</span>), <span class="prelude-val">Ok</span>(<span class="ident">end</span>)) <span class="op">=&gt;</span> {
+                    (<span class="prelude-val">Err</span>(<span class="kw">_</span>), <span class="prelude-val">Ok</span>(<span class="ident">end</span>)) <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">usize</span>::<span class="ident">try_from</span>(<span class="ident">start</span>)
                             .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">Fatal</span>::<span class="ident">new</span>(<span class="ident">interp</span>, <span class="string">&quot;Positive Int must be usize&quot;</span>))<span class="question-mark">?</span>;
                         <span class="kw">if</span> <span class="ident">start</span> <span class="op">&lt;</span> <span class="ident">len</span> {
@@ -503,14 +503,14 @@
                             )))
                         }
                     }
-                    (<span class="prelude-val">Ok</span>(<span class="ident">start</span>), <span class="prelude-val">Err</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>((<span class="ident">start</span>, <span class="prelude-val">None</span>, <span class="ident">second</span>)),
-                    (<span class="prelude-val">Err</span>(<span class="kw">_</span>), <span class="prelude-val">Err</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">IndexError</span>::<span class="ident">new</span>(
+                    (<span class="prelude-val">Ok</span>(<span class="ident">start</span>), <span class="prelude-val">Err</span>(<span class="kw">_</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>((<span class="ident">start</span>, <span class="prelude-val">None</span>, <span class="ident">second</span>)),
+                    (<span class="prelude-val">Err</span>(<span class="kw">_</span>), <span class="prelude-val">Err</span>(<span class="kw">_</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">IndexError</span>::<span class="ident">new</span>(
                         <span class="ident">interp</span>,
                         <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;index {} too small for array; minimum: -{}&quot;</span>, <span class="ident">start</span>, <span class="ident">len</span>),
                     ))),
                 }
             }
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">index_type_name</span> <span class="op">=</span> <span class="ident">first</span>.<span class="ident">pretty_name</span>();
                 <span class="prelude-val">Err</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">TypeError</span>::<span class="ident">new</span>(
                     <span class="ident">interp</span>,
@@ -525,7 +525,7 @@
     <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
     <span class="ident">range</span>: <span class="kw-2">&amp;</span><span class="ident">Value</span>,
     <span class="ident">length</span>: <span class="ident">Int</span>,
-) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">Int</span>, <span class="ident">usize</span>)<span class="op">&gt;</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
+) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">Int</span>, <span class="ident">usize</span>)<span class="op">&gt;</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="ident">sys</span>::<span class="ident">mrb_int</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="ident">sys</span>::<span class="ident">mrb_int</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
     <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
@@ -541,7 +541,7 @@
     );
     <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">start</span>.<span class="ident">assume_init</span>();
     <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">len</span>.<span class="ident">assume_init</span>();
-    <span class="kw">if</span> <span class="ident">check_range</span> <span class="op">==</span> <span class="ident">sys</span>::<span class="ident">mrb_range_beg_len</span>::<span class="ident">MRB_RANGE_OK</span> {
+    <span class="kw">if</span> <span class="ident">check_range</span> <span class="op">=</span><span class="op">=</span> <span class="ident">sys</span>::<span class="ident">mrb_range_beg_len</span>::<span class="ident">MRB_RANGE_OK</span> {
         <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">usize</span>::<span class="ident">try_from</span>(<span class="ident">len</span>)
             .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">TypeError</span>::<span class="ident">new</span>(<span class="ident">interp</span>, <span class="string">&quot;no implicit conversion into Integer&quot;</span>))<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>((<span class="ident">start</span>, <span class="ident">len</span>)))

@@ -250,26 +250,26 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Buffer</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>);
 
 <span class="kw">impl</span> <span class="ident">Buffer</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_capacity</span>(<span class="ident">capacity</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_capacity</span>(<span class="ident">capacity</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">capacity</span>);
         <span class="self">Self</span>(<span class="ident">buffer</span>)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;&gt;</span> <span class="kw">for</span> <span class="ident">Buffer</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">values</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Buffer</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">values</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>(<span class="ident">values</span>)
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">Value</span>]<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Buffer</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">values</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">Value</span>]) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">values</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">Value</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>(<span class="ident">Vec</span>::<span class="ident">from</span>(<span class="ident">values</span>))
     }
 }
 
 <span class="kw">impl</span> <span class="ident">ArrayType</span> <span class="kw">for</span> <span class="ident">Buffer</span> {
-    <span class="kw">fn</span> <span class="ident">box_clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">box_clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span> {
         <span class="ident">Box</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">clone</span>())
     }
 
@@ -279,19 +279,19 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">real_children</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">real_children</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">len</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">len</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">is_empty</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>, <span class="ident">index</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>, <span class="ident">index</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">get</span>(<span class="ident">index</span>)))
     }
 
@@ -300,7 +300,7 @@
         <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
         <span class="ident">start</span>: <span class="ident">usize</span>,
         <span class="ident">len</span>: <span class="ident">usize</span>,
-    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>;
         <span class="kw">if</span> <span class="ident">start</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">len</span>() {
             <span class="kw">let</span> <span class="ident">iter</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">iter</span>().<span class="ident">skip</span>(<span class="ident">start</span>).<span class="ident">take</span>(<span class="ident">len</span>);
@@ -315,12 +315,12 @@
         <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
         <span class="ident">index</span>: <span class="ident">usize</span>,
         <span class="ident">elem</span>: <span class="ident">Value</span>,
-        <span class="ident">realloc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
-    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
+        <span class="ident">realloc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">buflen</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">len</span>();
         <span class="kw">if</span> <span class="ident">index</span> <span class="op">&lt;</span> <span class="ident">buflen</span> {
             <span class="self">self</span>.<span class="number">0</span>[<span class="ident">index</span>] <span class="op">=</span> <span class="ident">elem</span>;
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">index</span> <span class="op">&lt;=</span> <span class="ident">BUFFER_INLINE_MAX</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">index</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">BUFFER_INLINE_MAX</span> {
             <span class="self">self</span>.<span class="number">0</span>.<span class="ident">reserve</span>(<span class="ident">index</span> <span class="op">-</span> <span class="ident">buflen</span>);
             <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="ident">buflen</span>..<span class="ident">index</span> {
                 <span class="self">self</span>.<span class="number">0</span>.<span class="ident">push</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>));
@@ -343,15 +343,15 @@
         <span class="ident">start</span>: <span class="ident">usize</span>,
         <span class="ident">drain</span>: <span class="ident">usize</span>,
         <span class="ident">with</span>: <span class="ident">Value</span>,
-        <span class="ident">realloc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
-    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
+        <span class="ident">realloc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">buflen</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">len</span>();
         <span class="kw">if</span> <span class="ident">start</span> <span class="op">&lt;</span> <span class="ident">buflen</span> {
             <span class="kw">let</span> <span class="ident">remaining</span> <span class="op">=</span> <span class="ident">buflen</span> <span class="op">-</span> <span class="ident">start</span>;
             <span class="kw">let</span> <span class="ident">after</span> <span class="op">=</span> <span class="ident">remaining</span>.<span class="ident">checked_sub</span>(<span class="ident">drain</span>).<span class="ident">unwrap_or_default</span>();
             <span class="self">self</span>.<span class="number">0</span>.<span class="ident">splice</span>(<span class="ident">start</span>..<span class="ident">buflen</span> <span class="op">-</span> <span class="ident">after</span>, <span class="ident">iter</span>::<span class="ident">once</span>(<span class="ident">with</span>));
             <span class="prelude-val">Ok</span>(<span class="ident">remaining</span> <span class="op">-</span> <span class="ident">after</span>)
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">&lt;=</span> <span class="ident">BUFFER_INLINE_MAX</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">BUFFER_INLINE_MAX</span> {
             <span class="self">self</span>.<span class="number">0</span>.<span class="ident">reserve</span>(<span class="ident">start</span> <span class="op">-</span> <span class="ident">buflen</span>);
             <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="ident">buflen</span>..<span class="ident">start</span> {
                 <span class="self">self</span>.<span class="number">0</span>.<span class="ident">push</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>));
@@ -375,14 +375,14 @@
         <span class="ident">start</span>: <span class="ident">usize</span>,
         <span class="ident">drain</span>: <span class="ident">usize</span>,
         <span class="ident">with</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span>,
-        <span class="ident">realloc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
-    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
+        <span class="ident">realloc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">buflen</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">len</span>();
         <span class="kw">if</span> <span class="ident">start</span> <span class="op">&lt;</span> <span class="ident">buflen</span> {
             <span class="kw">let</span> <span class="ident">remaining</span> <span class="op">=</span> <span class="ident">buflen</span> <span class="op">-</span> <span class="ident">start</span>;
             <span class="kw">let</span> <span class="ident">after</span> <span class="op">=</span> <span class="ident">remaining</span>.<span class="ident">checked_sub</span>(<span class="ident">drain</span>).<span class="ident">unwrap_or_default</span>();
             <span class="kw">let</span> <span class="ident">newlen</span> <span class="op">=</span> <span class="ident">start</span> <span class="op">+</span> <span class="ident">after</span> <span class="op">+</span> <span class="ident">with</span>.<span class="ident">len</span>();
-            <span class="kw">if</span> <span class="ident">newlen</span> <span class="op">&lt;=</span> <span class="ident">BUFFER_INLINE_MAX</span> {
+            <span class="kw">if</span> <span class="ident">newlen</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">BUFFER_INLINE_MAX</span> {
                 <span class="kw">let</span> <span class="ident">insert</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">buffer</span>) <span class="op">=</span> <span class="ident">with</span>.<span class="ident">downcast_ref</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>() {
                     <span class="ident">buffer</span>.<span class="number">0</span>.<span class="ident">clone</span>()
                 } <span class="kw">else</span> {
@@ -408,7 +408,7 @@
                 <span class="kw-2">*</span><span class="ident">realloc</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">alloc</span>);
             }
             <span class="prelude-val">Ok</span>(<span class="ident">remaining</span> <span class="op">-</span> <span class="ident">after</span>)
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">+</span> <span class="ident">with</span>.<span class="ident">len</span>() <span class="op">&lt;=</span> <span class="ident">BUFFER_INLINE_MAX</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">start</span> <span class="op">+</span> <span class="ident">with</span>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">BUFFER_INLINE_MAX</span> {
             <span class="kw">let</span> <span class="ident">newlen</span> <span class="op">=</span> <span class="ident">start</span> <span class="op">+</span> <span class="ident">with</span>.<span class="ident">len</span>();
             <span class="kw">if</span> <span class="ident">newlen</span> <span class="op">&gt;</span> <span class="ident">buflen</span> {
                 <span class="self">self</span>.<span class="number">0</span>.<span class="ident">reserve</span>(<span class="ident">newlen</span> <span class="op">-</span> <span class="ident">buflen</span>);
@@ -435,9 +435,9 @@
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
         <span class="ident">other</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span>,
-        <span class="ident">realloc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
-    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">other</span>.<span class="ident">len</span>() <span class="op">&lt;=</span> <span class="ident">BUFFER_INLINE_MAX</span> {
+        <span class="ident">realloc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">other</span>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">BUFFER_INLINE_MAX</span> {
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">buffer</span>) <span class="op">=</span> <span class="ident">other</span>.<span class="ident">downcast_ref</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>() {
                 <span class="self">self</span>.<span class="number">0</span>.<span class="ident">extend</span>(<span class="ident">buffer</span>.<span class="number">0</span>.<span class="ident">clone</span>());
             } <span class="kw">else</span> {
@@ -456,13 +456,13 @@
     <span class="kw">fn</span> <span class="ident">pop</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
-        <span class="ident">realloc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
-    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
+        <span class="ident">realloc</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">realloc</span>;
         <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">pop</span>()))
     }
 
-    <span class="kw">fn</span> <span class="ident">reverse</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">reverse</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ArrayType</span><span class="op">&gt;</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">len</span>());
         <span class="kw">for</span> <span class="ident">idx</span> <span class="kw">in</span> (<span class="number">0</span>..<span class="self">self</span>.<span class="number">0</span>.<span class="ident">len</span>()).<span class="ident">rev</span>() {

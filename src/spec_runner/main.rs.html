@@ -68,8 +68,8 @@
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">main</span>() {
     <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">artichoke_backend</span>::<span class="ident">interpreter</span>() {
-        <span class="prelude-val">Ok</span>(<span class="ident">interp</span>) <span class="op">=&gt;</span> <span class="ident">interp</span>,
-        <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> {
+        <span class="prelude-val">Ok</span>(<span class="ident">interp</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">interp</span>,
+        <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> {
             <span class="macro">eprintln</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">err</span>);
             <span class="ident">process</span>::<span class="ident">exit</span>(<span class="number">1</span>);
         }
@@ -86,7 +86,7 @@
     <span class="ident">args</span>.<span class="ident">next</span>();
     <span class="kw">for</span> <span class="ident">spec</span> <span class="kw">in</span> <span class="ident">args</span> {
         <span class="comment">// multi-threading is not supported</span>
-        <span class="kw">if</span> <span class="ident">spec</span>.<span class="ident">contains</span>(<span class="string">&quot;thread/&quot;</span>) <span class="op">||</span> <span class="ident">spec</span>.<span class="ident">contains</span>(<span class="string">&quot;mutex/owned_spec.rb&quot;</span>) {
+        <span class="kw">if</span> <span class="ident">spec</span>.<span class="ident">contains</span>(<span class="string">&quot;thread/&quot;</span>) <span class="op">|</span><span class="op">|</span> <span class="ident">spec</span>.<span class="ident">contains</span>(<span class="string">&quot;mutex/owned_spec.rb&quot;</span>) {
             <span class="kw">continue</span>;
         }
         <span class="comment">// access modifiers are a mess which means the fixtures in</span>
@@ -99,9 +99,9 @@
         <span class="ident">specs</span>.<span class="ident">push</span>(<span class="ident">spec</span>);
     }
     <span class="kw">match</span> <span class="ident">mspec_runner</span>.<span class="ident">run</span>() {
-        <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>) <span class="op">=&gt;</span> <span class="ident">process</span>::<span class="ident">exit</span>(<span class="number">0</span>),
-        <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>) <span class="op">=&gt;</span> <span class="ident">process</span>::<span class="ident">exit</span>(<span class="number">1</span>),
-        <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> {
+        <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">process</span>::<span class="ident">exit</span>(<span class="number">0</span>),
+        <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">process</span>::<span class="ident">exit</span>(<span class="number">1</span>),
+        <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> {
             <span class="macro">eprintln</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">err</span>);
             <span class="ident">process</span>::<span class="ident">exit</span>(<span class="number">1</span>);
         }

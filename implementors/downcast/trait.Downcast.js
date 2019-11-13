@@ -6,5 +6,4 @@ implementors["artichoke_backend"] = [{text:"impl&lt;_T:&nbsp;Any&gt; Downcast&lt
             } else {
                 window.pending_implementors = implementors;
             }
-        
-})()
+        })()

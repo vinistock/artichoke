@@ -8,5 +8,4 @@ implementors["artichoke_frontend"] = [{text:"impl <a class=\"trait\" href=\"http
             } else {
                 window.pending_implementors = implementors;
             }
-        
-})()
+        })()

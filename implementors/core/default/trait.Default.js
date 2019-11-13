@@ -8,5 +8,4 @@ implementors["artichoke_vfs"] = [{text:"impl&lt;Metadata:&nbsp;<a class=\"trait\
             } else {
                 window.pending_implementors = implementors;
             }
-        
-})()
+        })()

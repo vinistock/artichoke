@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["args",""],["backend",""],["ffi",""],["mruby",""],["trampoline",""]],"struct":[["Array",""]],"trait":[["ArrayType",""]]});
+initSidebarItems({"mod":[["args",""],["backend",""],["mruby",""],["trampoline",""]],"struct":[["Array",""]],"trait":[["ArrayType",""]]});
