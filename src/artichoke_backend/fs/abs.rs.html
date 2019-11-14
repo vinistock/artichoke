@@ -441,6 +441,12 @@
 <span id="441">441</span>
 <span id="442">442</span>
 <span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* Copyright (c) 2018 Garrett Berg, vitiral@gmail.com
  *
@@ -821,14 +827,17 @@
             <span class="ident">setup</span>();
 
             <span class="comment">// It&#39;s not likely this path would exist, but let&#39;s be sure.</span>
-            <span class="kw">let</span> <span class="ident">raw_path</span> <span class="op">=</span> <span class="ident">path</span>::<span class="ident">Path</span>::<span class="ident">new</span>(<span class="string">r&quot;C:\does\not\exist&quot;</span>, <span class="string">&quot;&quot;</span>);
+            <span class="kw">let</span> <span class="ident">raw_path</span> <span class="op">=</span> <span class="ident">path</span>::<span class="ident">Path</span>::<span class="ident">new</span>(<span class="string">r&quot;C:\does\not\exist&quot;</span>);
             <span class="macro">assert_eq</span><span class="macro">!</span>(
                 <span class="ident">raw_path</span>.<span class="ident">metadata</span>().<span class="ident">unwrap_err</span>().<span class="ident">kind</span>(),
                 <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">NotFound</span>,
             );
 
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">PathAbs</span>::<span class="ident">new</span>(<span class="ident">raw_path</span>, <span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>();
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">path</span>.<span class="ident">as_os_str</span>(), <span class="string">r&quot;\\?\C:\does\not\exist&quot;</span>);
+            <span class="macro">assert_eq</span><span class="macro">!</span>(
+                <span class="ident">path</span>::<span class="ident">Path</span>::<span class="ident">as_os_str</span>(<span class="ident">path</span>.<span class="ident">as_path</span>()),
+                <span class="string">r&quot;\\?\C:\does\not\exist&quot;</span>
+            );
         }
 
         <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -852,7 +861,7 @@
                 <span class="ident">env</span>::<span class="ident">current_dir</span>().<span class="ident">unwrap</span>().<span class="ident">components</span>().<span class="ident">take</span>(<span class="number">2</span>), <span class="comment">// the prefix (C:) and root (\) components</span>
             );
 
-            <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="ident">PathAbs</span>::<span class="ident">new</span>(<span class="ident">current_drive_root</span>.<span class="ident">join</span>(<span class="string">&quot;foo&quot;</span>)).<span class="ident">unwrap</span>();
+            <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="ident">PathAbs</span>::<span class="ident">new</span>(<span class="ident">current_drive_root</span>.<span class="ident">join</span>(<span class="string">&quot;foo&quot;</span>), <span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>();
 
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">actual</span>, <span class="ident">expected</span>);
         }
@@ -862,8 +871,11 @@
             <span class="ident">setup</span>();
             <span class="kw">let</span> <span class="ident">actual</span> <span class="op">=</span> <span class="ident">PathAbs</span>::<span class="ident">new</span>(<span class="string">r&quot;C:foo&quot;</span>, <span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>();
 
-            <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span>
-                <span class="ident">PathAbs</span>::<span class="ident">new</span>(<span class="ident">path</span>::<span class="ident">Path</span>::<span class="ident">new</span>(<span class="string">r&quot;C:&quot;</span>).<span class="ident">canonicalize</span>().<span class="ident">unwrap</span>().<span class="ident">join</span>(<span class="string">&quot;foo&quot;</span>)).<span class="ident">unwrap</span>();
+            <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="ident">PathAbs</span>::<span class="ident">new</span>(
+                <span class="ident">path</span>::<span class="ident">Path</span>::<span class="ident">new</span>(<span class="string">r&quot;C:&quot;</span>).<span class="ident">canonicalize</span>().<span class="ident">unwrap</span>().<span class="ident">join</span>(<span class="string">&quot;foo&quot;</span>),
+                <span class="string">&quot;&quot;</span>,
+            )
+            .<span class="ident">unwrap</span>();
 
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">actual</span>, <span class="ident">expected</span>);
         }
@@ -873,7 +885,7 @@
             <span class="ident">setup</span>();
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">PathAbs</span>::<span class="ident">new</span>(<span class="string">r&quot;\\?\bogus\path\&quot;</span>, <span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>();
 
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">path</span>.<span class="ident">as_os_str</span>(), <span class="string">r&quot;\\?\bogus\path&quot;</span>);
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">path</span>::<span class="ident">Path</span>::<span class="ident">as_os_str</span>(<span class="ident">path</span>.<span class="ident">as_path</span>()), <span class="string">r&quot;\\?\bogus\path&quot;</span>);
         }
     }
 
