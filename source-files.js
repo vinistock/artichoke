@@ -7,5 +7,4 @@ sourcesIndex["artichoke_frontend"] = {"name":"","files":["lib.rs","parser.rs","r
 sourcesIndex["artichoke_vfs"] = {"name":"","dirs":[{"name":"fake","files":["mod.rs","node.rs","registry.rs","tempdir.rs"]}],"files":["lib.rs"]};
 sourcesIndex["ruby"] = {"name":"","files":["ruby.rs"]};
 sourcesIndex["spec_runner"] = {"name":"","files":["main.rs","mspec.rs"]};
-sourcesIndex["string_scan_bench"] = {"name":"","files":["string_scan_bench.rs"]};
 createSourceSidebar();

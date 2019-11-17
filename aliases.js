@@ -7,4 +7,3 @@ ALIASES["artichoke_frontend"] = {};
 ALIASES["artichoke_vfs"] = {};
 ALIASES["ruby"] = {};
 ALIASES["spec_runner"] = {};
-ALIASES["string_scan_bench"] = {};
