@@ -777,6 +777,85 @@
 <span id="777">777</span>
 <span id="778">778</span>
 <span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
+<span id="840">840</span>
+<span id="841">841</span>
+<span id="842">842</span>
+<span id="843">843</span>
+<span id="844">844</span>
+<span id="845">845</span>
+<span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
+<span id="849">849</span>
+<span id="850">850</span>
+<span id="851">851</span>
+<span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">value</span>::<span class="ident">Value</span> <span class="kw">as</span> <span class="kw">_</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>::{<span class="self">self</span>, <span class="ident">Ordering</span>};
@@ -789,7 +868,7 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::{<span class="ident">Convert</span>, <span class="ident">RustBackedValue</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">exception</span>::{<span class="ident">ArgumentError</span>, <span class="ident">Fatal</span>, <span class="ident">RegexpError</span>, <span class="ident">RubyException</span>, <span class="ident">SyntaxError</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">matchdata</span>::<span class="ident">MatchData</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">regexp</span>::{<span class="ident">Config</span>, <span class="ident">Encoding</span>, <span class="ident">Regexp</span>, <span class="ident">RegexpType</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">regexp</span>::{<span class="self">self</span>, <span class="ident">Config</span>, <span class="ident">Encoding</span>, <span class="ident">Regexp</span>, <span class="ident">RegexpType</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">Int</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::{<span class="ident">Block</span>, <span class="ident">Value</span>};
@@ -999,13 +1078,19 @@
         <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">captures</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">regex</span>.<span class="ident">captures</span>(<span class="ident">pattern</span>) {
             <span class="kw">let</span> <span class="ident">globals_to_set</span> <span class="op">=</span> <span class="ident">cmp</span>::<span class="ident">max</span>(<span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">active_regexp_globals</span>, <span class="ident">captures</span>.<span class="ident">len</span>());
-            <span class="kw">let</span> <span class="ident">sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$&amp;&quot;</span>);
+            <span class="kw">let</span> <span class="ident">sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                .<span class="number">0</span>
+                .<span class="ident">borrow_mut</span>()
+                .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCHED_STRING</span>);
             <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">captures</span>.<span class="ident">at</span>(<span class="number">0</span>));
             <span class="kw">unsafe</span> {
                 <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">sym</span>, <span class="ident">value</span>.<span class="ident">inner</span>());
             }
             <span class="kw">for</span> <span class="ident">group</span> <span class="kw">in</span> <span class="number">1</span>..<span class="op">=</span><span class="ident">globals_to_set</span> {
-                <span class="kw">let</span> <span class="ident">sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;${}&quot;</span>, <span class="ident">group</span>));
+                <span class="kw">let</span> <span class="ident">sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                    .<span class="number">0</span>
+                    .<span class="ident">borrow_mut</span>()
+                    .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">nth_match_group</span>(<span class="ident">group</span>));
                 <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">captures</span>.<span class="ident">at</span>(<span class="ident">group</span>));
                 <span class="kw">unsafe</span> {
                     <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">sym</span>, <span class="ident">value</span>.<span class="ident">inner</span>());
@@ -1016,8 +1101,14 @@
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">match_pos</span>) <span class="op">=</span> <span class="ident">captures</span>.<span class="ident">pos</span>(<span class="number">0</span>) {
                 <span class="kw">let</span> <span class="ident">pre_match</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">pattern</span>[..<span class="ident">match_pos</span>.<span class="number">0</span>];
                 <span class="kw">let</span> <span class="ident">post_match</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">pattern</span>[<span class="ident">match_pos</span>.<span class="number">1</span>..];
-                <span class="kw">let</span> <span class="ident">pre_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$`&quot;</span>);
-                <span class="kw">let</span> <span class="ident">post_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$&#39;&quot;</span>);
+                <span class="kw">let</span> <span class="ident">pre_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                    .<span class="number">0</span>
+                    .<span class="ident">borrow_mut</span>()
+                    .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">STRING_LEFT_OF_MATCH</span>);
+                <span class="kw">let</span> <span class="ident">post_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                    .<span class="number">0</span>
+                    .<span class="ident">borrow_mut</span>()
+                    .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">STRING_RIGHT_OF_MATCH</span>);
                 <span class="kw">unsafe</span> {
                     <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">pre_match_sym</span>, <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">pre_match</span>).<span class="ident">inner</span>());
                     <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">post_match_sym</span>, <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">post_match</span>).<span class="ident">inner</span>());
@@ -1032,17 +1123,24 @@
             <span class="kw">let</span> <span class="ident">matchdata</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">matchdata</span>.<span class="ident">try_into_ruby</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="prelude-val">None</span>) }.<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
                 <span class="ident">Fatal</span>::<span class="ident">new</span>(<span class="ident">interp</span>, <span class="string">&quot;Could not create Ruby Value from Rust MatchData&quot;</span>)
             })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">matchdata_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$~&quot;</span>);
+            <span class="kw">let</span> <span class="ident">matchdata_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>);
             <span class="kw">unsafe</span> {
                 <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">matchdata_sym</span>, <span class="ident">matchdata</span>.<span class="ident">inner</span>());
             }
             <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>)
         } <span class="kw">else</span> {
-            <span class="kw">let</span> <span class="ident">pre_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$`&quot;</span>);
-            <span class="kw">let</span> <span class="ident">post_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$&#39;&quot;</span>);
+            <span class="kw">let</span> <span class="ident">pre_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                .<span class="number">0</span>
+                .<span class="ident">borrow_mut</span>()
+                .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">STRING_LEFT_OF_MATCH</span>);
+            <span class="kw">let</span> <span class="ident">post_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                .<span class="number">0</span>
+                .<span class="ident">borrow_mut</span>()
+                .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">STRING_RIGHT_OF_MATCH</span>);
+            <span class="kw">let</span> <span class="ident">nil</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>).<span class="ident">inner</span>();
             <span class="kw">unsafe</span> {
-                <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">pre_match_sym</span>, <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>).<span class="ident">inner</span>());
-                <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">post_match_sym</span>, <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>).<span class="ident">inner</span>());
+                <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">pre_match_sym</span>, <span class="ident">nil</span>);
+                <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">post_match_sym</span>, <span class="ident">nil</span>);
             }
             <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>)
         }
@@ -1123,13 +1221,19 @@
         <span class="kw">let</span> <span class="ident">match_target</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">pattern</span>[<span class="ident">byte_offset</span>..];
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">captures</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">regex</span>.<span class="ident">captures</span>(<span class="ident">match_target</span>) {
             <span class="kw">let</span> <span class="ident">globals_to_set</span> <span class="op">=</span> <span class="ident">cmp</span>::<span class="ident">max</span>(<span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">active_regexp_globals</span>, <span class="ident">captures</span>.<span class="ident">len</span>());
-            <span class="kw">let</span> <span class="ident">sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$&amp;&quot;</span>);
+            <span class="kw">let</span> <span class="ident">sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                .<span class="number">0</span>
+                .<span class="ident">borrow_mut</span>()
+                .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCHED_STRING</span>);
             <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">captures</span>.<span class="ident">at</span>(<span class="number">0</span>));
             <span class="kw">unsafe</span> {
                 <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">sym</span>, <span class="ident">value</span>.<span class="ident">inner</span>());
             }
             <span class="kw">for</span> <span class="ident">group</span> <span class="kw">in</span> <span class="number">1</span>..<span class="op">=</span><span class="ident">globals_to_set</span> {
-                <span class="kw">let</span> <span class="ident">sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;${}&quot;</span>, <span class="ident">group</span>));
+                <span class="kw">let</span> <span class="ident">sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                    .<span class="number">0</span>
+                    .<span class="ident">borrow_mut</span>()
+                    .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">nth_match_group</span>(<span class="ident">group</span>));
                 <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">captures</span>.<span class="ident">at</span>(<span class="ident">group</span>));
                 <span class="kw">unsafe</span> {
                     <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">sym</span>, <span class="ident">value</span>.<span class="ident">inner</span>());
@@ -1146,8 +1250,14 @@
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">match_pos</span>) <span class="op">=</span> <span class="ident">captures</span>.<span class="ident">pos</span>(<span class="number">0</span>) {
                 <span class="kw">let</span> <span class="ident">pre_match</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">match_target</span>[..<span class="ident">match_pos</span>.<span class="number">0</span>];
                 <span class="kw">let</span> <span class="ident">post_match</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">match_target</span>[<span class="ident">match_pos</span>.<span class="number">1</span>..];
-                <span class="kw">let</span> <span class="ident">pre_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$`&quot;</span>);
-                <span class="kw">let</span> <span class="ident">post_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$&#39;&quot;</span>);
+                <span class="kw">let</span> <span class="ident">pre_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                    .<span class="number">0</span>
+                    .<span class="ident">borrow_mut</span>()
+                    .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">STRING_LEFT_OF_MATCH</span>);
+                <span class="kw">let</span> <span class="ident">post_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                    .<span class="number">0</span>
+                    .<span class="ident">borrow_mut</span>()
+                    .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">STRING_RIGHT_OF_MATCH</span>);
                 <span class="kw">unsafe</span> {
                     <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">pre_match_sym</span>, <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">pre_match</span>).<span class="ident">inner</span>());
                     <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">post_match_sym</span>, <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">post_match</span>).<span class="ident">inner</span>());
@@ -1160,7 +1270,7 @@
                     <span class="string">&quot;Failed to initialize Ruby MatchData Value with Rust MatchData&quot;</span>,
                 )
             })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">matchdata_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$~&quot;</span>);
+            <span class="kw">let</span> <span class="ident">matchdata_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>);
             <span class="kw">unsafe</span> {
                 <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">matchdata_sym</span>, <span class="ident">data</span>.<span class="ident">inner</span>());
             }
@@ -1176,13 +1286,20 @@
                 <span class="prelude-val">Ok</span>(<span class="ident">data</span>)
             }
         } <span class="kw">else</span> {
-            <span class="kw">let</span> <span class="ident">last_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$~&quot;</span>);
-            <span class="kw">let</span> <span class="ident">pre_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$`&quot;</span>);
-            <span class="kw">let</span> <span class="ident">post_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$&#39;&quot;</span>);
+            <span class="kw">let</span> <span class="ident">last_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>);
+            <span class="kw">let</span> <span class="ident">pre_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                .<span class="number">0</span>
+                .<span class="ident">borrow_mut</span>()
+                .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">STRING_LEFT_OF_MATCH</span>);
+            <span class="kw">let</span> <span class="ident">post_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                .<span class="number">0</span>
+                .<span class="ident">borrow_mut</span>()
+                .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">STRING_RIGHT_OF_MATCH</span>);
+            <span class="kw">let</span> <span class="ident">nil</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>).<span class="ident">inner</span>();
             <span class="kw">unsafe</span> {
-                <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">last_match_sym</span>, <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>).<span class="ident">inner</span>());
-                <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">pre_match_sym</span>, <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>).<span class="ident">inner</span>());
-                <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">post_match_sym</span>, <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>).<span class="ident">inner</span>());
+                <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">last_match_sym</span>, <span class="ident">nil</span>);
+                <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">pre_match_sym</span>, <span class="ident">nil</span>);
+                <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">post_match_sym</span>, <span class="ident">nil</span>);
             }
             <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>))
         }
@@ -1202,13 +1319,19 @@
         })<span class="question-mark">?</span>;
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">captures</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">regex</span>.<span class="ident">captures</span>(<span class="ident">pattern</span>) {
             <span class="kw">let</span> <span class="ident">globals_to_set</span> <span class="op">=</span> <span class="ident">cmp</span>::<span class="ident">max</span>(<span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">active_regexp_globals</span>, <span class="ident">captures</span>.<span class="ident">len</span>());
-            <span class="kw">let</span> <span class="ident">sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$&amp;&quot;</span>);
+            <span class="kw">let</span> <span class="ident">sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                .<span class="number">0</span>
+                .<span class="ident">borrow_mut</span>()
+                .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCHED_STRING</span>);
             <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">captures</span>.<span class="ident">at</span>(<span class="number">0</span>));
             <span class="kw">unsafe</span> {
                 <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">sym</span>, <span class="ident">value</span>.<span class="ident">inner</span>());
             }
             <span class="kw">for</span> <span class="ident">group</span> <span class="kw">in</span> <span class="number">1</span>..<span class="op">=</span><span class="ident">globals_to_set</span> {
-                <span class="kw">let</span> <span class="ident">sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;${}&quot;</span>, <span class="ident">group</span>));
+                <span class="kw">let</span> <span class="ident">sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                    .<span class="number">0</span>
+                    .<span class="ident">borrow_mut</span>()
+                    .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">nth_match_group</span>(<span class="ident">group</span>));
                 <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">captures</span>.<span class="ident">at</span>(<span class="ident">group</span>));
                 <span class="kw">unsafe</span> {
                     <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">sym</span>, <span class="ident">value</span>.<span class="ident">inner</span>());
@@ -1228,15 +1351,21 @@
                     <span class="string">&quot;Failed to initialize Ruby MatchData Value with Rust MatchData&quot;</span>,
                 )
             })<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">matchdata_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$~&quot;</span>);
+            <span class="kw">let</span> <span class="ident">matchdata_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>);
             <span class="kw">unsafe</span> {
                 <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">matchdata_sym</span>, <span class="ident">matchdata</span>.<span class="ident">inner</span>());
             }
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">match_pos</span>) <span class="op">=</span> <span class="ident">captures</span>.<span class="ident">pos</span>(<span class="number">0</span>) {
                 <span class="kw">let</span> <span class="ident">pre_match</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="ident">pattern</span>[..<span class="ident">match_pos</span>.<span class="number">0</span>]);
                 <span class="kw">let</span> <span class="ident">post_match</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="kw-2">&amp;</span><span class="ident">pattern</span>[<span class="ident">match_pos</span>.<span class="number">1</span>..]);
-                <span class="kw">let</span> <span class="ident">pre_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$`&quot;</span>);
-                <span class="kw">let</span> <span class="ident">post_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$&#39;&quot;</span>);
+                <span class="kw">let</span> <span class="ident">pre_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                    .<span class="number">0</span>
+                    .<span class="ident">borrow_mut</span>()
+                    .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">STRING_LEFT_OF_MATCH</span>);
+                <span class="kw">let</span> <span class="ident">post_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                    .<span class="number">0</span>
+                    .<span class="ident">borrow_mut</span>()
+                    .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">STRING_RIGHT_OF_MATCH</span>);
                 <span class="kw">unsafe</span> {
                     <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">pre_match_sym</span>, <span class="ident">pre_match</span>.<span class="ident">inner</span>());
                     <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">post_match_sym</span>, <span class="ident">post_match</span>.<span class="ident">inner</span>());
@@ -1249,9 +1378,15 @@
                 <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="number">0</span>))
             }
         } <span class="kw">else</span> {
-            <span class="kw">let</span> <span class="ident">last_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$~&quot;</span>);
-            <span class="kw">let</span> <span class="ident">pre_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$`&quot;</span>);
-            <span class="kw">let</span> <span class="ident">post_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$&#39;&quot;</span>);
+            <span class="kw">let</span> <span class="ident">last_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>);
+            <span class="kw">let</span> <span class="ident">pre_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                .<span class="number">0</span>
+                .<span class="ident">borrow_mut</span>()
+                .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">STRING_LEFT_OF_MATCH</span>);
+            <span class="kw">let</span> <span class="ident">post_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                .<span class="number">0</span>
+                .<span class="ident">borrow_mut</span>()
+                .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">STRING_RIGHT_OF_MATCH</span>);
             <span class="kw">let</span> <span class="ident">nil</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>).<span class="ident">inner</span>();
             <span class="kw">unsafe</span> {
                 <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">last_match_sym</span>, <span class="ident">nil</span>);
@@ -1385,7 +1520,7 @@
             )
         })<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">mrb</span>;
-        <span class="kw">let</span> <span class="ident">last_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$~&quot;</span>);
+        <span class="kw">let</span> <span class="ident">last_match_sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">matchdata</span> <span class="op">=</span> <span class="ident">MatchData</span>::<span class="ident">new</span>(
             <span class="ident">haystack</span>.<span class="ident">as_bytes</span>().<span class="ident">to_vec</span>(),
             <span class="ident">Regexp</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">box_clone</span>()),
@@ -1398,29 +1533,39 @@
             <span class="kw">if</span> <span class="ident">len</span> <span class="op">&gt;</span> <span class="number">0</span> {
                 <span class="comment">// zero old globals</span>
                 <span class="kw">let</span> <span class="ident">globals</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">active_regexp_globals</span>;
+                <span class="kw">let</span> <span class="ident">nil</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>).<span class="ident">inner</span>();
                 <span class="kw">for</span> <span class="ident">group</span> <span class="kw">in</span> <span class="number">1</span>..<span class="op">=</span><span class="ident">globals</span> {
-                    <span class="kw">let</span> <span class="ident">sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;${}&quot;</span>, <span class="ident">group</span>));
+                    <span class="kw">let</span> <span class="ident">sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                        .<span class="number">0</span>
+                        .<span class="ident">borrow_mut</span>()
+                        .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">nth_match_group</span>(<span class="ident">group</span>));
                     <span class="kw">unsafe</span> {
-                        <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">sym</span>, <span class="ident">sys</span>::<span class="ident">mrb_sys_nil_value</span>());
+                        <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">sym</span>, <span class="ident">nil</span>);
                     }
                 }
                 <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">active_regexp_globals</span> <span class="op">=</span> <span class="ident">len</span>;
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">regex</span>.<span class="ident">captures_iter</span>(<span class="ident">haystack</span>).<span class="ident">peekable</span>();
                 <span class="kw">if</span> <span class="ident">iter</span>.<span class="ident">peek</span>().<span class="ident">is_none</span>() {
                     <span class="kw">unsafe</span> {
-                        <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">last_match_sym</span>, <span class="ident">sys</span>::<span class="ident">mrb_sys_nil_value</span>());
+                        <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">last_match_sym</span>, <span class="ident">nil</span>);
                     }
                     <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">value</span>);
                 }
                 <span class="kw">for</span> <span class="ident">captures</span> <span class="kw">in</span> <span class="ident">iter</span> {
-                    <span class="kw">let</span> <span class="ident">fullmatch</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$&amp;&quot;</span>);
+                    <span class="kw">let</span> <span class="ident">fullmatch</span> <span class="op">=</span> <span class="ident">interp</span>
+                        .<span class="number">0</span>
+                        .<span class="ident">borrow_mut</span>()
+                        .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCHED_STRING</span>);
                     <span class="kw">let</span> <span class="ident">fullcapture</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">captures</span>.<span class="ident">at</span>(<span class="number">0</span>));
                     <span class="kw">unsafe</span> {
                         <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">fullmatch</span>, <span class="ident">fullcapture</span>.<span class="ident">inner</span>());
                     }
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">groups</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
                     <span class="kw">for</span> <span class="ident">group</span> <span class="kw">in</span> <span class="number">1</span>..<span class="op">=</span><span class="ident">len</span> {
-                        <span class="kw">let</span> <span class="ident">sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;${}&quot;</span>, <span class="ident">group</span>));
+                        <span class="kw">let</span> <span class="ident">sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                            .<span class="number">0</span>
+                            .<span class="ident">borrow_mut</span>()
+                            .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">nth_match_group</span>(<span class="ident">group</span>));
                         <span class="kw">let</span> <span class="ident">capture</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">captures</span>.<span class="ident">at</span>(<span class="ident">group</span>));
                         <span class="ident">groups</span>.<span class="ident">push</span>(<span class="ident">captures</span>.<span class="ident">at</span>(<span class="ident">group</span>));
                         <span class="kw">unsafe</span> {
@@ -1449,7 +1594,7 @@
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">regex</span>.<span class="ident">find_iter</span>(<span class="ident">haystack</span>).<span class="ident">peekable</span>();
                 <span class="kw">if</span> <span class="ident">iter</span>.<span class="ident">peek</span>().<span class="ident">is_none</span>() {
                     <span class="kw">unsafe</span> {
-                        <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">last_match_sym</span>, <span class="ident">sys</span>::<span class="ident">mrb_sys_nil_value</span>());
+                        <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">last_match_sym</span>, <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>).<span class="ident">inner</span>());
                     }
                     <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">value</span>);
                 }
@@ -1478,19 +1623,23 @@
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">collected</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
                 <span class="comment">// zero old globals</span>
                 <span class="kw">let</span> <span class="ident">globals</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">active_regexp_globals</span>;
+                <span class="kw">let</span> <span class="ident">nil</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>).<span class="ident">inner</span>();
                 <span class="kw">for</span> <span class="ident">group</span> <span class="kw">in</span> <span class="number">1</span>..<span class="op">=</span><span class="ident">globals</span> {
-                    <span class="kw">let</span> <span class="ident">sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;${}&quot;</span>, <span class="ident">group</span>));
+                    <span class="kw">let</span> <span class="ident">sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                        .<span class="number">0</span>
+                        .<span class="ident">borrow_mut</span>()
+                        .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">nth_match_group</span>(<span class="ident">group</span>));
                     <span class="kw">unsafe</span> {
-                        <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">sym</span>, <span class="ident">sys</span>::<span class="ident">mrb_sys_nil_value</span>());
+                        <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">sym</span>, <span class="ident">nil</span>);
                     }
                 }
                 <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">active_regexp_globals</span> <span class="op">=</span> <span class="ident">len</span>;
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">regex</span>.<span class="ident">captures_iter</span>(<span class="ident">haystack</span>).<span class="ident">peekable</span>();
                 <span class="kw">if</span> <span class="ident">iter</span>.<span class="ident">peek</span>().<span class="ident">is_none</span>() {
                     <span class="kw">unsafe</span> {
-                        <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">last_match_sym</span>, <span class="ident">sys</span>::<span class="ident">mrb_sys_nil_value</span>());
+                        <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">last_match_sym</span>, <span class="ident">nil</span>);
                     }
-                    <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">new</span>()));
+                    <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">Vec</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>::<span class="ident">new</span>()));
                 }
                 <span class="kw">for</span> <span class="ident">captures</span> <span class="kw">in</span> <span class="ident">iter</span> {
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">groups</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
@@ -1509,16 +1658,22 @@
                 <span class="kw">unsafe</span> {
                     <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">last_match_sym</span>, <span class="ident">data</span>.<span class="ident">inner</span>());
                 }
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="ident">collected</span>.<span class="ident">iter</span>();
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">fullcapture</span>) <span class="op">=</span> <span class="ident">iter</span>.<span class="ident">next</span>() {
-                    <span class="kw">let</span> <span class="ident">fullmatch</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$&amp;&quot;</span>);
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="ident">collected</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>();
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="kw">_</span>, <span class="ident">fullcapture</span>)) <span class="op">=</span> <span class="ident">iter</span>.<span class="ident">next</span>() {
+                    <span class="kw">let</span> <span class="ident">fullmatch</span> <span class="op">=</span> <span class="ident">interp</span>
+                        .<span class="number">0</span>
+                        .<span class="ident">borrow_mut</span>()
+                        .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCHED_STRING</span>);
                     <span class="kw">let</span> <span class="ident">fullcapture</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">fullcapture</span>.<span class="ident">as_slice</span>());
                     <span class="kw">unsafe</span> {
                         <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">fullmatch</span>, <span class="ident">fullcapture</span>.<span class="ident">inner</span>());
                     }
                 }
-                <span class="kw">for</span> (<span class="ident">group</span>, <span class="ident">capture</span>) <span class="kw">in</span> <span class="ident">iter</span>.<span class="ident">enumerate</span>() {
-                    <span class="kw">let</span> <span class="ident">sym</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;${}&quot;</span>, <span class="ident">group</span>));
+                <span class="kw">for</span> (<span class="ident">group</span>, <span class="ident">capture</span>) <span class="kw">in</span> <span class="ident">iter</span> {
+                    <span class="kw">let</span> <span class="ident">sym</span> <span class="op">=</span> <span class="ident">interp</span>
+                        .<span class="number">0</span>
+                        .<span class="ident">borrow_mut</span>()
+                        .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">nth_match_group</span>(<span class="ident">group</span>));
                     <span class="kw">let</span> <span class="ident">capture</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">capture</span>.<span class="ident">as_slice</span>());
                     <span class="kw">unsafe</span> {
                         <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">sym</span>, <span class="ident">capture</span>.<span class="ident">inner</span>());
@@ -1530,9 +1685,9 @@
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">regex</span>.<span class="ident">find_iter</span>(<span class="ident">haystack</span>).<span class="ident">peekable</span>();
                 <span class="kw">if</span> <span class="ident">iter</span>.<span class="ident">peek</span>().<span class="ident">is_none</span>() {
                     <span class="kw">unsafe</span> {
-                        <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">last_match_sym</span>, <span class="ident">sys</span>::<span class="ident">mrb_sys_nil_value</span>());
+                        <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">last_match_sym</span>, <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>).<span class="ident">inner</span>());
                     }
-                    <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">new</span>()));
+                    <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">Vec</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>::<span class="ident">new</span>()));
                 }
                 <span class="kw">for</span> <span class="ident">pos</span> <span class="kw">in</span> <span class="ident">iter</span> {
                     <span class="kw">let</span> <span class="ident">scanned</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">haystack</span>[<span class="ident">pos</span>.<span class="number">0</span>..<span class="ident">pos</span>.<span class="number">1</span>];
@@ -1546,7 +1701,10 @@
                     <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">last_match_sym</span>, <span class="ident">data</span>.<span class="ident">inner</span>());
                 }
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">fullcapture</span>) <span class="op">=</span> <span class="ident">collected</span>.<span class="ident">last</span>().<span class="ident">copied</span>() {
-                    <span class="kw">let</span> <span class="ident">fullmatch</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">sym_intern</span>(<span class="string">&quot;$&amp;&quot;</span>);
+                    <span class="kw">let</span> <span class="ident">fullmatch</span> <span class="op">=</span> <span class="ident">interp</span>
+                        .<span class="number">0</span>
+                        .<span class="ident">borrow_mut</span>()
+                        .<span class="ident">sym_intern</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCHED_STRING</span>);
                     <span class="kw">let</span> <span class="ident">fullcapture</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="ident">fullcapture</span>);
                     <span class="kw">unsafe</span> {
                         <span class="ident">sys</span>::<span class="ident">mrb_gv_set</span>(<span class="ident">mrb</span>, <span class="ident">fullmatch</span>, <span class="ident">fullcapture</span>.<span class="ident">inner</span>());
