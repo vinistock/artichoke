@@ -777,21 +777,13 @@
 <span id="777">777</span>
 <span id="778">778</span>
 <span id="779">779</span>
-<span id="780">780</span>
-<span id="781">781</span>
-<span id="782">782</span>
-<span id="783">783</span>
-<span id="784">784</span>
-<span id="785">785</span>
-<span id="786">786</span>
-<span id="787">787</span>
-<span id="788">788</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">value</span>::<span class="ident">Value</span> <span class="kw">as</span> <span class="kw">_</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>::{<span class="self">self</span>, <span class="ident">Ordering</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">rc</span>::<span class="ident">Rc</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::{<span class="ident">Convert</span>, <span class="ident">RustBackedValue</span>};
@@ -803,11 +795,12 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::{<span class="ident">Block</span>, <span class="ident">Value</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Artichoke</span>;
 
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Onig</span> {
     <span class="ident">literal</span>: <span class="ident">Config</span>,
     <span class="ident">derived</span>: <span class="ident">Config</span>,
     <span class="ident">encoding</span>: <span class="ident">Encoding</span>,
-    <span class="ident">regex</span>: <span class="ident">onig</span>::<span class="ident">Regex</span>,
+    <span class="ident">regex</span>: <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">onig</span>::<span class="ident">Regex</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Onig</span> {
@@ -837,7 +830,7 @@
             <span class="ident">literal</span>,
             <span class="ident">derived</span>,
             <span class="ident">encoding</span>,
-            <span class="ident">regex</span>,
+            <span class="ident">regex</span>: <span class="ident">Rc</span>::<span class="ident">new</span>(<span class="ident">regex</span>),
         };
         <span class="prelude-val">Ok</span>(<span class="ident">regexp</span>)
     }
@@ -867,18 +860,7 @@
 
 <span class="kw">impl</span> <span class="ident">RegexpType</span> <span class="kw">for</span> <span class="ident">Onig</span> {
     <span class="kw">fn</span> <span class="ident">box_clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RegexpType</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">pattern</span> <span class="op">=</span> <span class="ident">str</span>::<span class="ident">from_utf8</span>(<span class="self">self</span>.<span class="ident">derived</span>.<span class="ident">pattern</span>.<span class="ident">as_slice</span>())
-            .<span class="ident">expect</span>(<span class="string">&quot;Pattern previously parsed as a valid onig pattern&quot;</span>);
-        <span class="kw">let</span> <span class="ident">regex</span> <span class="op">=</span>
-            <span class="ident">onig</span>::<span class="ident">Regex</span>::<span class="ident">with_options</span>(<span class="ident">pattern</span>, <span class="self">self</span>.<span class="ident">derived</span>.<span class="ident">options</span>.<span class="ident">flags</span>(), <span class="ident">onig</span>::<span class="ident">Syntax</span>::<span class="ident">ruby</span>())
-                .<span class="ident">expect</span>(<span class="string">&quot;Pattern previously parsed as a valid onig regex&quot;</span>);
-        <span class="kw">let</span> <span class="ident">regexp</span> <span class="op">=</span> <span class="self">Self</span> {
-            <span class="ident">literal</span>: <span class="self">self</span>.<span class="ident">literal</span>.<span class="ident">clone</span>(),
-            <span class="ident">derived</span>: <span class="self">self</span>.<span class="ident">derived</span>.<span class="ident">clone</span>(),
-            <span class="ident">encoding</span>: <span class="self">self</span>.<span class="ident">encoding</span>,
-            <span class="ident">regex</span>,
-        };
-        <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">regexp</span>)
+        <span class="ident">Box</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">clone</span>())
     }
 
     <span class="kw">fn</span> <span class="ident">captures</span>(

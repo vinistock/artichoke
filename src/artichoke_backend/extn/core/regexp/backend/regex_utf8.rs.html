@@ -827,20 +827,6 @@
 <span id="827">827</span>
 <span id="828">828</span>
 <span id="829">829</span>
-<span id="830">830</span>
-<span id="831">831</span>
-<span id="832">832</span>
-<span id="833">833</span>
-<span id="834">834</span>
-<span id="835">835</span>
-<span id="836">836</span>
-<span id="837">837</span>
-<span id="838">838</span>
-<span id="839">839</span>
-<span id="840">840</span>
-<span id="841">841</span>
-<span id="842">842</span>
-<span id="843">843</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">value</span>::<span class="ident">Value</span> <span class="kw">as</span> <span class="kw">_</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>::{<span class="self">self</span>, <span class="ident">Ordering</span>};
@@ -858,6 +844,7 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::{<span class="ident">Block</span>, <span class="ident">Value</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Artichoke</span>;
 
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RegexUtf8</span> {
     <span class="ident">literal</span>: <span class="ident">Config</span>,
     <span class="ident">derived</span>: <span class="ident">Config</span>,
@@ -924,22 +911,7 @@
 
 <span class="kw">impl</span> <span class="ident">RegexpType</span> <span class="kw">for</span> <span class="ident">RegexUtf8</span> {
     <span class="kw">fn</span> <span class="ident">box_clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RegexpType</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">pattern</span> <span class="op">=</span> <span class="ident">str</span>::<span class="ident">from_utf8</span>(<span class="self">self</span>.<span class="ident">derived</span>.<span class="ident">pattern</span>.<span class="ident">as_slice</span>())
-            .<span class="ident">expect</span>(<span class="string">&quot;Pattern previously parsed as a valid onig pattern&quot;</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">builder</span> <span class="op">=</span> <span class="ident">regex</span>::<span class="ident">RegexBuilder</span>::<span class="ident">new</span>(<span class="ident">pattern</span>);
-        <span class="ident">builder</span>.<span class="ident">case_insensitive</span>(<span class="self">self</span>.<span class="ident">derived</span>.<span class="ident">options</span>.<span class="ident">ignore_case</span>);
-        <span class="ident">builder</span>.<span class="ident">multi_line</span>(<span class="self">self</span>.<span class="ident">derived</span>.<span class="ident">options</span>.<span class="ident">multiline</span>);
-        <span class="ident">builder</span>.<span class="ident">ignore_whitespace</span>(<span class="self">self</span>.<span class="ident">derived</span>.<span class="ident">options</span>.<span class="ident">extended</span>);
-        <span class="kw">let</span> <span class="ident">regex</span> <span class="op">=</span> <span class="ident">builder</span>
-            .<span class="ident">build</span>()
-            .<span class="ident">expect</span>(<span class="string">&quot;Pattern previously parsed as a valid onig regex&quot;</span>);
-        <span class="kw">let</span> <span class="ident">regexp</span> <span class="op">=</span> <span class="self">Self</span> {
-            <span class="ident">literal</span>: <span class="self">self</span>.<span class="ident">literal</span>.<span class="ident">clone</span>(),
-            <span class="ident">derived</span>: <span class="self">self</span>.<span class="ident">derived</span>.<span class="ident">clone</span>(),
-            <span class="ident">encoding</span>: <span class="self">self</span>.<span class="ident">encoding</span>,
-            <span class="ident">regex</span>,
-        };
-        <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">regexp</span>)
+        <span class="ident">Box</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">clone</span>())
     }
 
     <span class="kw">fn</span> <span class="ident">captures</span>(
