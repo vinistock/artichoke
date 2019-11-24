@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["aggregate",""],["buffer",""],["fixed",""],["integer_range",""],["repeated",""]]});
+initSidebarItems({"mod":[["aggregate",""],["buffer",""],["fixed",""],["integer_range",""],["repeated",""]],"trait":[["ArrayType",""]]});
