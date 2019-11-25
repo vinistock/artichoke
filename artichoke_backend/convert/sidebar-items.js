@@ -1,1 +1,1 @@
-initSidebarItems({"trait":[["Convert","Infallible conversion between two types."],["RustBackedValue","Provides converters to and from [`Value`] with ruby type of [`Ruby::Data`]."],["TryConvert","Fallible conversions between two types."]],"type":[["Float",""]]});
+initSidebarItems({"trait":[["Convert","Infallible conversion between two types."],["RustBackedValue","Provides converters to and from [`Value`] with ruby type of [`Ruby::Data`]."],["TryConvert","Fallible conversions between two types."]]});

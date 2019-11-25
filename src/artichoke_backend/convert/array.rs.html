@@ -518,17 +518,15 @@
 <span id="518">518</span>
 <span id="519">519</span>
 <span id="520">520</span>
-<span id="521">521</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// use std::collections::HashMap;</span>
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::<span class="ident">float</span>::<span class="ident">Float</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::{<span class="ident">Convert</span>, <span class="ident">TryConvert</span>};
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;artichoke-array&quot;</span>)]</span>
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">array</span>::{<span class="ident">Array</span>, <span class="ident">InlineBuffer</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::{<span class="ident">Int</span>, <span class="ident">Ruby</span>, <span class="ident">Rust</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::{<span class="ident">Float</span>, <span class="ident">Int</span>, <span class="ident">Ruby</span>, <span class="ident">Rust</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::{<span class="ident">Value</span>, <span class="ident">ValueLike</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Artichoke</span>, <span class="ident">ArtichokeError</span>};
 

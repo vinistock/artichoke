@@ -415,17 +415,15 @@
 <span id="415">415</span>
 <span id="416">416</span>
 <span id="417">417</span>
-<span id="418">418</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Converters for nilable primitive Ruby types. Excludes collection types</span>
 <span class="doccomment">//! Array and Hash.</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::<span class="ident">float</span>::<span class="ident">Float</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::{<span class="ident">Convert</span>, <span class="ident">TryConvert</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::{<span class="ident">Int</span>, <span class="ident">Ruby</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::{<span class="ident">Float</span>, <span class="ident">Int</span>, <span class="ident">Ruby</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::{<span class="ident">Value</span>, <span class="ident">ValueLike</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Artichoke</span>, <span class="ident">ArtichokeError</span>};
 

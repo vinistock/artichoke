@@ -273,6 +273,20 @@
 <span id="273">273</span>
 <span id="274">274</span>
 <span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">any</span>::{<span class="ident">Any</span>, <span class="ident">TypeId</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::<span class="ident">Cow</span>;
@@ -301,6 +315,8 @@
     <span class="kw">pub</span> <span class="ident">active_regexp_globals</span>: <span class="ident">usize</span>,
     <span class="ident">symbol_cache</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, [<span class="ident">u8</span>]<span class="op">&gt;</span>, <span class="ident">sys</span>::<span class="ident">mrb_sym</span><span class="op">&gt;</span>,
     <span class="ident">captured_output</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;artichoke-random&quot;</span>)]</span>
+    <span class="ident">prng</span>: <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">random</span>::<span class="ident">Random</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">State</span> {
@@ -318,7 +334,19 @@
             <span class="ident">active_regexp_globals</span>: <span class="number">0</span>,
             <span class="ident">symbol_cache</span>: <span class="ident">HashMap</span>::<span class="ident">default</span>(),
             <span class="ident">captured_output</span>: <span class="prelude-val">None</span>,
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;artichoke-random&quot;</span>)]</span>
+            <span class="ident">prng</span>: <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">random</span>::<span class="ident">new</span>(<span class="prelude-val">None</span>),
         }
+    }
+
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;artichoke-random&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">prng</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">random</span>::<span class="ident">Random</span> {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">prng</span>
+    }
+
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;artichoke-random&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">prng_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">random</span>::<span class="ident">Random</span> {
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">prng</span>
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">capture_output</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
