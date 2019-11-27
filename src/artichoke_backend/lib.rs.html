@@ -272,6 +272,7 @@
 <span id="272">272</span>
 <span id="273">273</span>
 <span id="274">274</span>
+<span id="275">275</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">clippy</span>::<span class="ident">all</span>)]</span>
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">clippy</span>::<span class="ident">pedantic</span>)]</span>
@@ -296,11 +297,11 @@
 <span class="doccomment">//! across invocations.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! use artichoke_backend::eval::Eval;</span>
-<span class="doccomment">//! use artichoke_core::value::Value as ValueLike;</span>
+<span class="doccomment">//! use artichoke_core::eval::Eval;</span>
+<span class="doccomment">//! use artichoke_core::value::Value as _;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! let interp = artichoke_backend::interpreter().unwrap();</span>
-<span class="doccomment">//! let result = interp.eval(&quot;10 * 10&quot;).unwrap();</span>
+<span class="doccomment">//! let result = interp.eval(b&quot;10 * 10&quot;).unwrap();</span>
 <span class="doccomment">//! let result = result.try_into::&lt;i64&gt;();</span>
 <span class="doccomment">//! assert_eq!(result, Ok(100));</span>
 <span class="doccomment">//! ```</span>
@@ -332,19 +333,19 @@
 <span class="doccomment">//! custom metadata on [`File`](artichoke_vfs::FakeFileSystem) nodes in the VFS.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! use artichoke_backend::eval::Eval;</span>
-<span class="doccomment">//! use artichoke_backend::load::LoadSources;</span>
-<span class="doccomment">//! use artichoke_core::value::Value as ValueLike;</span>
+<span class="doccomment">//! use artichoke_core::eval::Eval;</span>
+<span class="doccomment">//! use artichoke_core::load::LoadSources;</span>
+<span class="doccomment">//! use artichoke_core::value::Value as _;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! let mut interp = artichoke_backend::interpreter().unwrap();</span>
-<span class="doccomment">//! let code = &quot;</span>
+<span class="doccomment">//! let code = b&quot;</span>
 <span class="doccomment">//! def source_location</span>
 <span class="doccomment">//!   __FILE__</span>
 <span class="doccomment">//! end</span>
 <span class="doccomment">//! &quot;;</span>
-<span class="doccomment">//! interp.def_rb_source_file(&quot;source.rb&quot;, code).unwrap();</span>
-<span class="doccomment">//! interp.eval(&quot;require &#39;source&#39;&quot;).unwrap();</span>
-<span class="doccomment">//! let result = interp.eval(&quot;source_location&quot;).unwrap();</span>
+<span class="doccomment">//! interp.def_rb_source_file(b&quot;source.rb&quot;, &amp;code[..]).unwrap();</span>
+<span class="doccomment">//! interp.eval(b&quot;require &#39;source&#39;&quot;).unwrap();</span>
+<span class="doccomment">//! let result = interp.eval(b&quot;source_location&quot;).unwrap();</span>
 <span class="doccomment">//! let result = result.try_into::&lt;&amp;str&gt;().unwrap();</span>
 <span class="doccomment">//! assert_eq!(result, &quot;/src/lib/source.rb&quot;);</span>
 <span class="doccomment">//! ```</span>
@@ -382,13 +383,13 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! use artichoke_backend::convert::{Convert, RustBackedValue, TryConvert};</span>
 <span class="doccomment">//! use artichoke_backend::def::{rust_data_free, ClassLike, Define};</span>
-<span class="doccomment">//! use artichoke_backend::eval::Eval;</span>
-<span class="doccomment">//! use artichoke_backend::file::File;</span>
-<span class="doccomment">//! use artichoke_backend::load::LoadSources;</span>
 <span class="doccomment">//! use artichoke_backend::sys;</span>
 <span class="doccomment">//! use artichoke_backend::value::Value;</span>
 <span class="doccomment">//! use artichoke_backend::{Artichoke, ArtichokeError};</span>
-<span class="doccomment">//! use artichoke_core::value::Value as ValueLike;</span>
+<span class="doccomment">//! use artichoke_core::eval::Eval;</span>
+<span class="doccomment">//! use artichoke_core::file::File;</span>
+<span class="doccomment">//! use artichoke_core::load::LoadSources;</span>
+<span class="doccomment">//! use artichoke_core::value::Value as _;</span>
 <span class="doccomment">//! use std::io::Write;</span>
 <span class="doccomment">//! use std::mem;</span>
 <span class="doccomment">//!</span>
@@ -426,7 +427,9 @@
 <span class="doccomment">//! }</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! impl File for Container {</span>
-<span class="doccomment">//!   fn require(interp: Artichoke) -&gt; Result&lt;(), ArtichokeError&gt; {</span>
+<span class="doccomment">//!     type Artichoke = Artichoke;</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!     fn require(interp: &amp;Artichoke) -&gt; Result&lt;(), ArtichokeError&gt; {</span>
 <span class="doccomment">//!         let spec = interp.0.borrow_mut().def_class::&lt;Self&gt;(&quot;Container&quot;, None, Some(rust_data_free::&lt;Self&gt;));</span>
 <span class="doccomment">//!         spec.borrow_mut().add_method(&quot;initialize&quot;, Self::initialize, sys::mrb_args_req(1));</span>
 <span class="doccomment">//!         spec.borrow_mut().add_method(&quot;value&quot;, Self::value, sys::mrb_args_none());</span>
@@ -438,9 +441,9 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! fn main() {</span>
 <span class="doccomment">//!     let interp = artichoke_backend::interpreter().unwrap();</span>
-<span class="doccomment">//!     interp.def_file_for_type::&lt;_, Container&gt;(&quot;container.rb&quot;).unwrap();</span>
-<span class="doccomment">//!     interp.eval(&quot;require &#39;container&#39;&quot;).unwrap();</span>
-<span class="doccomment">//!     let result = interp.eval(&quot;Container.new(15).value * 24&quot;).unwrap();</span>
+<span class="doccomment">//!     interp.def_file_for_type::&lt;Container&gt;(b&quot;container.rb&quot;).unwrap();</span>
+<span class="doccomment">//!     interp.eval(b&quot;require &#39;container&#39;&quot;).unwrap();</span>
+<span class="doccomment">//!     let result = interp.eval(b&quot;Container.new(15).value * 24&quot;).unwrap();</span>
 <span class="doccomment">//!     assert_eq!(result.try_into::&lt;i64&gt;(), Ok(360));</span>
 <span class="doccomment">//! }</span>
 <span class="doccomment">//! ```</span>
@@ -505,7 +508,6 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">exception</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">extn</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ffi</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">file</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">fs</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">gc</span>;
 <span class="kw">mod</span> <span class="ident">interpreter</span>;

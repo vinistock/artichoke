@@ -18,8 +18,10 @@
 <span id="18">18</span>
 <span id="19">19</span>
 <span id="20">20</span>
+<span id="21">21</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
+<span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
+
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Artichoke</span>, <span class="ident">ArtichokeError</span>};
 
@@ -28,9 +30,9 @@
         .<span class="number">0</span>
         .<span class="ident">borrow_mut</span>()
         .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">Float</span><span class="op">&gt;</span>(<span class="string">&quot;Float&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
-    <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="macro">include_str</span><span class="macro">!</span>(<span class="string">&quot;float.rb&quot;</span>))<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="kw-2">&amp;</span><span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;float.rb&quot;</span>)[..])<span class="question-mark">?</span>;
     <span class="comment">// TODO: Add proper constant defs to class::Spec, see GH-158.</span>
-    <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;class Float; EPSILON={} end&quot;</span>, <span class="ident">Float</span>::<span class="ident">EPSILON</span>,))<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;class Float; EPSILON={} end&quot;</span>, <span class="ident">Float</span>::<span class="ident">EPSILON</span>).<span class="ident">as_bytes</span>())<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(())
 }
 

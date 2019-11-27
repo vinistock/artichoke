@@ -357,6 +357,7 @@
 <span id="357">357</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">value</span>::<span class="ident">Value</span> <span class="kw">as</span> <span class="kw">_</span>;
+<span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">warn</span>::<span class="ident">Warn</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::{<span class="ident">Convert</span>, <span class="ident">RustBackedValue</span>};
@@ -365,7 +366,6 @@
 };
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">types</span>::<span class="ident">Int</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::{<span class="ident">Block</span>, <span class="ident">Value</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">warn</span>::<span class="ident">Warn</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Artichoke</span>;
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">args</span>;
@@ -423,7 +423,7 @@
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">block</span>) <span class="op">=</span> <span class="ident">block</span> {
                     <span class="kw">if</span> <span class="ident">second</span>.<span class="ident">is_some</span>() {
                         <span class="ident">interp</span>
-                            .<span class="ident">warn</span>(<span class="string">&quot;warning: block supersedes default value argument&quot;</span>)
+                            .<span class="ident">warn</span>(<span class="kw-2">&amp;</span><span class="string">b&quot;warning: block supersedes default value argument&quot;</span>[..])
                             .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">Fatal</span>::<span class="ident">new</span>(<span class="ident">interp</span>, <span class="string">&quot;Could not emit warning&quot;</span>))<span class="question-mark">?</span>;
                     }
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">len</span>);
@@ -474,7 +474,7 @@
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">block</span>) <span class="op">=</span> <span class="ident">block</span> {
                     <span class="kw">if</span> <span class="ident">second</span>.<span class="ident">is_some</span>() {
                         <span class="ident">interp</span>
-                            .<span class="ident">warn</span>(<span class="string">&quot;warning: block supersedes default value argument&quot;</span>)
+                            .<span class="ident">warn</span>(<span class="kw-2">&amp;</span><span class="string">b&quot;warning: block supersedes default value argument&quot;</span>[..])
                             .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">Fatal</span>::<span class="ident">new</span>(<span class="ident">interp</span>, <span class="string">&quot;Could not emit warning&quot;</span>))<span class="question-mark">?</span>;
                     }
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">len</span>);

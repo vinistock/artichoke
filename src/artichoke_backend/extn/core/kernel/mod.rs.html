@@ -355,11 +355,20 @@
 <span id="355">355</span>
 <span id="356">356</span>
 <span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
 </pre><div class="example-wrap"><pre class="rust ">
+<span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
 <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">value</span>::<span class="ident">Value</span> <span class="kw">as</span> <span class="kw">_</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">def</span>::{<span class="ident">ClassLike</span>, <span class="ident">Define</span>, <span class="ident">EnclosingRubyScope</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">artichoke</span>::<span class="ident">RArtichoke</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">exception</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>;
@@ -410,7 +419,7 @@
         .<span class="ident">borrow_mut</span>()
         .<span class="ident">add_method</span>(<span class="string">&quot;puts&quot;</span>, <span class="ident">Kernel</span>::<span class="ident">puts</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_rest</span>());
     <span class="ident">kernel</span>.<span class="ident">borrow</span>().<span class="ident">define</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>;
-    <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="macro">include_str</span><span class="macro">!</span>(<span class="string">&quot;kernel.rb&quot;</span>))<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="kw-2">&amp;</span><span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;kernel.rb&quot;</span>)[..])<span class="question-mark">?</span>;
     <span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;Patched Kernel#require onto interpreter&quot;</span>);
     <span class="prelude-val">Ok</span>(())
 }
@@ -505,10 +514,11 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">file</span>::<span class="ident">File</span>;
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">load</span>::<span class="ident">LoadSources</span>;
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::<span class="ident">ValueLike</span>;
+    <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
+    <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">file</span>::<span class="ident">File</span>;
+    <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">load</span>::<span class="ident">LoadSources</span>;
+    <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">value</span>::<span class="ident">Value</span> <span class="kw">as</span> <span class="kw">_</span>;
+
     <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Artichoke</span>, <span class="ident">ArtichokeError</span>};
 
     <span class="comment">// Integration test for `Kernel::require`:</span>
@@ -523,29 +533,31 @@
         <span class="kw">struct</span> <span class="ident">TestFile</span>;
 
         <span class="kw">impl</span> <span class="ident">File</span> <span class="kw">for</span> <span class="ident">TestFile</span> {
-            <span class="kw">fn</span> <span class="ident">require</span>(<span class="ident">interp</span>: <span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
-                <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;@i = 255&quot;</span>)<span class="question-mark">?</span>;
+            <span class="kw">type</span> <span class="ident">Artichoke</span> <span class="op">=</span> <span class="ident">Artichoke</span>;
+
+            <span class="kw">fn</span> <span class="ident">require</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
+                <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;@i = 255&quot;</span>)<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(())
             }
         }
 
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="ident">interp</span>
-            .<span class="ident">def_file_for_type</span>::<span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">TestFile</span><span class="op">&gt;</span>(<span class="string">&quot;file.rb&quot;</span>)
+            .<span class="ident">def_file_for_type</span>::<span class="op">&lt;</span><span class="ident">TestFile</span><span class="op">&gt;</span>(<span class="string">b&quot;file.rb&quot;</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;def file&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;require &#39;file&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;require &#39;file&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
         <span class="kw">let</span> <span class="ident">require_result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">require_result</span>, <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>));
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;@i&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;@i&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
         <span class="kw">let</span> <span class="ident">i_result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">i_result</span>, <span class="prelude-val">Ok</span>(<span class="number">255</span>));
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;@i = 1000; require &#39;file&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;@i = 1000; require &#39;file&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
         <span class="kw">let</span> <span class="ident">second_require_result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">second_require_result</span>, <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>));
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;@i&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;@i&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
         <span class="kw">let</span> <span class="ident">second_i_result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">second_i_result</span>, <span class="prelude-val">Ok</span>(<span class="number">1000</span>));
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;require &#39;non-existent-source&#39;&quot;</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ());
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;require &#39;non-existent-source&#39;&quot;</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ());
         <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="string">r#&quot;
 (eval):1: cannot load such file -- non-existent-source (LoadError)
 (eval):1
@@ -560,11 +572,11 @@
     <span class="kw">fn</span> <span class="ident">require_absolute_path</span>() {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="ident">interp</span>
-            .<span class="ident">def_rb_source_file</span>(<span class="string">&quot;/foo/bar/source.rb&quot;</span>, <span class="string">&quot;# a source file&quot;</span>)
+            .<span class="ident">def_rb_source_file</span>(<span class="string">b&quot;/foo/bar/source.rb&quot;</span>, <span class="kw-2">&amp;</span><span class="string">b&quot;# a source file&quot;</span>[..])
             .<span class="ident">expect</span>(<span class="string">&quot;def file&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;require &#39;/foo/bar/source.rb&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;value&quot;</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;require &#39;/foo/bar/source.rb&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;value&quot;</span>);
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>));
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;require &#39;/foo/bar/source.rb&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;value&quot;</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;require &#39;/foo/bar/source.rb&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;value&quot;</span>);
         <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>));
     }
 
@@ -572,19 +584,19 @@
     <span class="kw">fn</span> <span class="ident">require_relative_with_dotted_path</span>() {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="ident">interp</span>
-            .<span class="ident">def_rb_source_file</span>(<span class="string">&quot;/foo/bar/source.rb&quot;</span>, <span class="string">&quot;require_relative &#39;../bar.rb&#39;&quot;</span>)
+            .<span class="ident">def_rb_source_file</span>(<span class="string">b&quot;/foo/bar/source.rb&quot;</span>, <span class="kw-2">&amp;</span><span class="string">b&quot;require_relative &#39;../bar.rb&#39;&quot;</span>[..])
             .<span class="ident">expect</span>(<span class="string">&quot;def file&quot;</span>);
         <span class="ident">interp</span>
-            .<span class="ident">def_rb_source_file</span>(<span class="string">&quot;/foo/bar.rb&quot;</span>, <span class="string">&quot;# a source file&quot;</span>)
+            .<span class="ident">def_rb_source_file</span>(<span class="string">b&quot;/foo/bar.rb&quot;</span>, <span class="kw-2">&amp;</span><span class="string">b&quot;# a source file&quot;</span>[..])
             .<span class="ident">expect</span>(<span class="string">&quot;def file&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;require &#39;/foo/bar/source.rb&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;value&quot;</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;require &#39;/foo/bar/source.rb&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;value&quot;</span>);
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">require_directory</span>() {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;require &#39;/src&#39;&quot;</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ());
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;require &#39;/src&#39;&quot;</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ());
         <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="string">r#&quot;
 (eval):1: cannot load such file -- /src (LoadError)
 (eval):1
@@ -598,21 +610,24 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">require_path_defined_as_source_then_mrbfile</span>() {
         <span class="kw">struct</span> <span class="ident">Foo</span>;
+
         <span class="kw">impl</span> <span class="ident">File</span> <span class="kw">for</span> <span class="ident">Foo</span> {
-            <span class="kw">fn</span> <span class="ident">require</span>(<span class="ident">interp</span>: <span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
-                <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;module Foo; RUST = 7; end&quot;</span>)<span class="question-mark">?</span>;
+            <span class="kw">type</span> <span class="ident">Artichoke</span> <span class="op">=</span> <span class="ident">Artichoke</span>;
+
+            <span class="kw">fn</span> <span class="ident">require</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
+                <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;module Foo; RUST = 7; end&quot;</span>)<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(())
             }
         }
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="ident">interp</span>
-            .<span class="ident">def_rb_source_file</span>(<span class="string">&quot;foo.rb&quot;</span>, <span class="string">&quot;module Foo; RUBY = 3; end&quot;</span>)
+            .<span class="ident">def_rb_source_file</span>(<span class="string">b&quot;foo.rb&quot;</span>, <span class="kw-2">&amp;</span><span class="string">b&quot;module Foo; RUBY = 3; end&quot;</span>[..])
             .<span class="ident">expect</span>(<span class="string">&quot;def&quot;</span>);
-        <span class="ident">interp</span>.<span class="ident">def_file_for_type</span>::<span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">Foo</span><span class="op">&gt;</span>(<span class="string">&quot;foo.rb&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;def&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;require &#39;foo&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
+        <span class="ident">interp</span>.<span class="ident">def_file_for_type</span>::<span class="op">&lt;</span><span class="ident">Foo</span><span class="op">&gt;</span>(<span class="string">b&quot;foo.rb&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;def&quot;</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;require &#39;foo&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="string">&quot;successfully required foo.rb&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;Foo::RUBY + Foo::RUST&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;Foo::RUBY + Foo::RUST&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">result</span>, <span class="number">10</span>,
@@ -623,21 +638,24 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">require_path_defined_as_mrbfile_then_source</span>() {
         <span class="kw">struct</span> <span class="ident">Foo</span>;
+
         <span class="kw">impl</span> <span class="ident">File</span> <span class="kw">for</span> <span class="ident">Foo</span> {
-            <span class="kw">fn</span> <span class="ident">require</span>(<span class="ident">interp</span>: <span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
-                <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;module Foo; RUST = 7; end&quot;</span>)<span class="question-mark">?</span>;
+            <span class="kw">type</span> <span class="ident">Artichoke</span> <span class="op">=</span> <span class="ident">Artichoke</span>;
+
+            <span class="kw">fn</span> <span class="ident">require</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
+                <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;module Foo; RUST = 7; end&quot;</span>)<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(())
             }
         }
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
-        <span class="ident">interp</span>.<span class="ident">def_file_for_type</span>::<span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">Foo</span><span class="op">&gt;</span>(<span class="string">&quot;foo.rb&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;def&quot;</span>);
+        <span class="ident">interp</span>.<span class="ident">def_file_for_type</span>::<span class="op">&lt;</span><span class="ident">Foo</span><span class="op">&gt;</span>(<span class="string">b&quot;foo.rb&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;def&quot;</span>);
         <span class="ident">interp</span>
-            .<span class="ident">def_rb_source_file</span>(<span class="string">&quot;foo.rb&quot;</span>, <span class="string">&quot;module Foo; RUBY = 3; end&quot;</span>)
+            .<span class="ident">def_rb_source_file</span>(<span class="string">b&quot;foo.rb&quot;</span>, <span class="kw-2">&amp;</span><span class="string">b&quot;module Foo; RUBY = 3; end&quot;</span>[..])
             .<span class="ident">expect</span>(<span class="string">&quot;def&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;require &#39;foo&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;require &#39;foo&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="string">&quot;successfully required foo.rb&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;Foo::RUBY + Foo::RUST&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;Foo::RUBY + Foo::RUST&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">result</span>, <span class="number">10</span>,
@@ -651,25 +669,25 @@
         <span class="comment">// https://ruby-doc.org/core-2.6.3/Kernel.html#method-i-catch</span>
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>
-            .<span class="ident">eval</span>(<span class="string">&quot;catch(1) { 123 }&quot;</span>)
+            .<span class="ident">eval</span>(<span class="string">b&quot;catch(1) { 123 }&quot;</span>)
             .<span class="ident">unwrap</span>()
             .<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>()
             .<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="number">123</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>
-            .<span class="ident">eval</span>(<span class="string">&quot;catch(1) { throw(1, 456) }&quot;</span>)
+            .<span class="ident">eval</span>(<span class="string">b&quot;catch(1) { throw(1, 456) }&quot;</span>)
             .<span class="ident">unwrap</span>()
             .<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>()
             .<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="number">456</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>
-            .<span class="ident">eval</span>(<span class="string">&quot;catch(1) { throw(1) }&quot;</span>)
+            .<span class="ident">eval</span>(<span class="string">b&quot;catch(1) { throw(1) }&quot;</span>)
             .<span class="ident">unwrap</span>()
             .<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span><span class="op">&gt;</span>()
             .<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="prelude-val">None</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>
-            .<span class="ident">eval</span>(<span class="string">&quot;catch(1) {|x| x + 2 }&quot;</span>)
+            .<span class="ident">eval</span>(<span class="string">b&quot;catch(1) {|x| x + 2 }&quot;</span>)
             .<span class="ident">unwrap</span>()
             .<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>()
             .<span class="ident">unwrap</span>();
@@ -677,7 +695,7 @@
 
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>
             .<span class="ident">eval</span>(
-                <span class="string">r#&quot;
+                <span class="string">br#&quot;
 catch do |obj_A|
   catch do |obj_B|
     throw(obj_B, 123)
@@ -695,7 +713,7 @@ end
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="number">456</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>
             .<span class="ident">eval</span>(
-                <span class="string">r#&quot;
+                <span class="string">br#&quot;
 catch do |obj_A|
   catch do |obj_B|
     throw(obj_A, 123)

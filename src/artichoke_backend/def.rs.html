@@ -453,6 +453,7 @@
 <span id="453">453</span>
 <span id="454">454</span>
 <span id="455">455</span>
+<span id="456">456</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cell</span>::<span class="ident">RefCell</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::{<span class="ident">c_void</span>, <span class="ident">CString</span>};
@@ -831,8 +832,9 @@
     }
 
     <span class="kw">mod</span> <span class="ident">functional</span> {
+        <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
+
         <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">def</span>::{<span class="ident">ClassLike</span>, <span class="ident">Define</span>};
-        <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
         <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>;
         <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::<span class="ident">ValueLike</span>;
 
@@ -873,7 +875,7 @@
 
             <span class="ident">interp</span>
                 .<span class="ident">eval</span>(
-                    <span class="string">r#&quot;
+                    <span class="string">br#&quot;
                     class DynamicTestClass
                         include DefineMethodTestModule
                         extend DefineMethodTestModule
@@ -887,23 +889,23 @@
                 .<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
 
             <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>
-                .<span class="ident">eval</span>(<span class="string">&quot;DefineMethodTestClass.new.value&quot;</span>)
+                .<span class="ident">eval</span>(<span class="string">b&quot;DefineMethodTestClass.new.value&quot;</span>)
                 .<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
             <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="number">64</span>);
-            <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;DefineMethodTestClass.value&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
+            <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;DefineMethodTestClass.value&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
             <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="number">8</span>);
-            <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;DefineMethodTestModule.value&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
+            <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;DefineMethodTestModule.value&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
             <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="number">27</span>);
-            <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;DynamicTestClass.new.value&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
+            <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;DynamicTestClass.new.value&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
             <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="number">64</span>);
-            <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;DynamicTestClass.value&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
+            <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;DynamicTestClass.value&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
             <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="number">8</span>);
-            <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;DynamicTestModule.value&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
+            <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;DynamicTestModule.value&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
             <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;convert&quot;</span>);
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="number">27</span>);
         }

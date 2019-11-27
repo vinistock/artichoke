@@ -319,10 +319,10 @@
 <span id="319">319</span>
 <span id="320">320</span>
 </pre><div class="example-wrap"><pre class="rust ">
+<span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">def</span>::{<span class="ident">rust_data_free</span>, <span class="ident">ClassLike</span>, <span class="ident">Define</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">exception</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">regexp</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>;
@@ -407,7 +407,7 @@
         <span class="ident">regexp</span>::<span class="ident">MULTILINE</span>,
         <span class="ident">regexp</span>::<span class="ident">FIXEDENCODING</span>,
         <span class="ident">regexp</span>::<span class="ident">NOENCODING</span>,
-    ))<span class="question-mark">?</span>;
+    ).<span class="ident">as_bytes</span>())<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(())
 }
 

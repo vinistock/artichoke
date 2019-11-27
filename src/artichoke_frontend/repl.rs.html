@@ -152,6 +152,7 @@
 <span id="152">152</span>
 <span id="153">153</span>
 <span id="154">154</span>
+<span id="155">155</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! A REPL (read–eval–print–loop) for an artichoke interpreter exposed by</span>
 <span class="doccomment">//! the [`artichoke-backend`](artichoke_backend) crate.</span>
@@ -160,9 +161,10 @@
 <span class="doccomment">//! multi-line Ruby expressions, CTRL-C to break out of an expression, and can</span>
 <span class="doccomment">//! inspect return values and exception backtraces.</span>
 
-<span class="kw">use</span> <span class="ident">artichoke_backend</span>::<span class="ident">eval</span>::{<span class="ident">Context</span>, <span class="ident">Eval</span>};
+<span class="kw">use</span> <span class="ident">artichoke_backend</span>::<span class="ident">eval</span>::<span class="ident">Context</span>;
 <span class="kw">use</span> <span class="ident">artichoke_backend</span>::<span class="ident">gc</span>::<span class="ident">MrbGarbageCollection</span>;
 <span class="kw">use</span> <span class="ident">artichoke_backend</span>::{<span class="ident">Artichoke</span>, <span class="ident">ArtichokeError</span>};
+<span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
 <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">value</span>::<span class="ident">Value</span>;
 <span class="kw">use</span> <span class="ident">rustyline</span>::<span class="ident">error</span>::<span class="ident">ReadlineError</span>;
 <span class="kw">use</span> <span class="ident">rustyline</span>::<span class="ident">Editor</span>;
@@ -211,12 +213,12 @@
 
 <span class="kw">fn</span> <span class="ident">preamble</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">description</span> <span class="op">=</span> <span class="ident">interp</span>
-        .<span class="ident">eval</span>(<span class="string">&quot;RUBY_DESCRIPTION&quot;</span>)
+        .<span class="ident">eval</span>(<span class="string">b&quot;RUBY_DESCRIPTION&quot;</span>)
         .<span class="ident">map_err</span>(<span class="ident">Error</span>::<span class="ident">Ruby</span>)<span class="question-mark">?</span>
         .<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>()
         .<span class="ident">map_err</span>(<span class="ident">Error</span>::<span class="ident">Ruby</span>)<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">compiler</span> <span class="op">=</span> <span class="ident">interp</span>
-        .<span class="ident">eval</span>(<span class="string">&quot;ARTICHOKE_COMPILER_VERSION&quot;</span>)
+        .<span class="ident">eval</span>(<span class="string">b&quot;ARTICHOKE_COMPILER_VERSION&quot;</span>)
         .<span class="ident">map_err</span>(<span class="ident">Error</span>::<span class="ident">Ruby</span>)<span class="question-mark">?</span>
         .<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>()
         .<span class="ident">map_err</span>(<span class="ident">Error</span>::<span class="ident">Ruby</span>)<span class="question-mark">?</span>;
@@ -268,7 +270,7 @@
                     <span class="ident">buf</span>.<span class="ident">push</span>(<span class="string">&#39;\n&#39;</span>);
                     <span class="kw">continue</span>;
                 }
-                <span class="kw">match</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="ident">buf</span>.<span class="ident">as_str</span>()) {
+                <span class="kw">match</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="ident">buf</span>.<span class="ident">as_bytes</span>()) {
                     <span class="prelude-val">Ok</span>(<span class="ident">value</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">output</span>, <span class="string">&quot;{}{}&quot;</span>, <span class="ident">config</span>.<span class="ident">result_prefix</span>, <span class="ident">value</span>.<span class="ident">inspect</span>())
                         .<span class="ident">map_err</span>(<span class="ident">Error</span>::<span class="ident">Io</span>)<span class="question-mark">?</span>,
                     <span class="prelude-val">Err</span>(<span class="ident">ArtichokeError</span>::<span class="ident">Exec</span>(<span class="ident">backtrace</span>)) <span class="op">=</span><span class="op">&gt;</span> {

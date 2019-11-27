@@ -31,8 +31,15 @@
 <span id="31">31</span>
 <span id="32">32</span>
 <span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">load</span>::<span class="ident">LoadSources</span>;
+<span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">load</span>::<span class="ident">LoadSources</span>;
+
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Artichoke</span>, <span class="ident">ArtichokeError</span>};
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">init</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ArtichokeError</span><span class="op">&gt;</span> {
@@ -40,7 +47,7 @@
         .<span class="number">0</span>
         .<span class="ident">borrow_mut</span>()
         .<span class="ident">def_module</span>::<span class="op">&lt;</span><span class="ident">StringScanner</span><span class="op">&gt;</span>(<span class="string">&quot;StringScanner&quot;</span>, <span class="prelude-val">None</span>);
-    <span class="ident">interp</span>.<span class="ident">def_rb_source_file</span>(<span class="string">&quot;strscan.rb&quot;</span>, <span class="macro">include_str</span><span class="macro">!</span>(<span class="string">&quot;strscan.rb&quot;</span>))<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_rb_source_file</span>(<span class="string">b&quot;strscan.rb&quot;</span>, <span class="kw-2">&amp;</span><span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;strscan.rb&quot;</span>)[..])<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(())
 }
 
@@ -50,17 +57,22 @@
 <span class="comment">// https://ruby-doc.org/stdlib-2.6.3/libdoc/strscan/rdoc/StringScanner.html</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">load</span>::<span class="ident">LoadSources</span>;
+    <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
+    <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">load</span>::<span class="ident">LoadSources</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">strscan_spec</span>() {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="ident">interp</span>
-            .<span class="ident">def_rb_source_file</span>(<span class="string">&quot;/src/test/strscan_test.rb&quot;</span>, <span class="macro">include_str</span><span class="macro">!</span>(<span class="string">&quot;strscan_test.rb&quot;</span>))
+            .<span class="ident">def_rb_source_file</span>(
+                <span class="string">b&quot;/src/test/strscan_test.rb&quot;</span>,
+                <span class="kw-2">&amp;</span><span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;strscan_test.rb&quot;</span>)[..],
+            )
             .<span class="ident">unwrap</span>();
-        <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;require &#39;/src/test/strscan_test.rb&#39;&quot;</span>).<span class="ident">unwrap</span>();
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;spec&quot;</span>) {
+        <span class="ident">interp</span>
+            .<span class="ident">eval</span>(<span class="kw-2">&amp;</span><span class="string">b&quot;require &#39;/src/test/strscan_test.rb&#39;&quot;</span>[..])
+            .<span class="ident">unwrap</span>();
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;spec&quot;</span>) {
             <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">err</span>);
         }
     }

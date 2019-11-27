@@ -79,11 +79,11 @@
 <span id="79">79</span>
 <span id="80">80</span>
 </pre><div class="example-wrap"><pre class="rust ">
+<span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cell</span>::<span class="ident">RefCell</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">c_void</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">rc</span>::<span class="ident">Rc</span>;
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">fs</span>::<span class="ident">Filesystem</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">gc</span>::<span class="ident">MrbGarbageCollection</span>;
@@ -142,7 +142,7 @@
     <span class="comment">// lot of garbage on startup. Eagerly initialize the interpreter to provide</span>
     <span class="comment">// predictable initialization behavior.</span>
     <span class="kw">let</span> <span class="ident">arena</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">create_arena_savepoint</span>();
-    <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;&quot;</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">ArtichokeError</span>::<span class="ident">New</span>)<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="kw-2">&amp;</span>[]).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">ArtichokeError</span>::<span class="ident">New</span>)<span class="question-mark">?</span>;
     <span class="ident">arena</span>.<span class="ident">restore</span>();
 
     <span class="ident">interp</span>.<span class="ident">enable_gc</span>();

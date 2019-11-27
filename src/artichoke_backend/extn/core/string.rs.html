@@ -177,10 +177,13 @@
 <span id="177">177</span>
 <span id="178">178</span>
 <span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
 </pre><div class="example-wrap"><pre class="rust ">
+<span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
+
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::<span class="ident">TryConvert</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">def</span>::{<span class="ident">ClassLike</span>, <span class="ident">Define</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">exception</span>::{<span class="self">self</span>, <span class="ident">ArgumentError</span>, <span class="ident">Fatal</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">sys</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::{<span class="ident">Value</span>, <span class="ident">ValueLike</span>};
@@ -196,7 +199,7 @@
         .<span class="number">0</span>
         .<span class="ident">borrow_mut</span>()
         .<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">RString</span><span class="op">&gt;</span>(<span class="string">&quot;String&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
-    <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="macro">include_str</span><span class="macro">!</span>(<span class="string">&quot;string.rb&quot;</span>))<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="kw-2">&amp;</span><span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;string.rb&quot;</span>)[..])<span class="question-mark">?</span>;
     <span class="ident">string</span>
         .<span class="ident">borrow_mut</span>()
         .<span class="ident">add_method</span>(<span class="string">&quot;ord&quot;</span>, <span class="ident">RString</span>::<span class="ident">ord</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_none</span>());
@@ -250,19 +253,20 @@
 <span class="comment">// https://ruby-doc.org/core-2.6.3/String.html</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
+    <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">value</span>::<span class="ident">Value</span> <span class="kw">as</span> <span class="kw">_</span>;
+
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">convert</span>::<span class="ident">Convert</span>;
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">string</span>;
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::<span class="ident">ValueLike</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">string_equal_squiggle</span>() {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="ident">string</span>::<span class="ident">init</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;string init&quot;</span>);
 
-        <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;&quot;cat o&#39; 9 tails&quot; =~ /\d/&quot;#</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">br#&quot;&quot;cat o&#39; 9 tails&quot; =~ /\d/&quot;#</span>).<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">value</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span><span class="op">&gt;</span>(), <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="number">7</span>)));
-        <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;&quot;cat o&#39; 9 tails&quot; =~ 9&quot;#</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">br#&quot;&quot;cat o&#39; 9 tails&quot; =~ 9&quot;#</span>).<span class="ident">unwrap</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">value</span>.<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span><span class="op">&gt;</span>(), <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>));
     }
 
@@ -273,7 +277,7 @@
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="kw-2">&amp;</span><span class="ident">interp</span>
-                .<span class="ident">eval</span>(<span class="string">r&quot;&#39;hello there&#39;[/[aeiou](.)\1/]&quot;</span>)
+                .<span class="ident">eval</span>(<span class="string">br&quot;&#39;hello there&#39;[/[aeiou](.)\1/]&quot;</span>)
                 .<span class="ident">unwrap</span>()
                 .<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>()
                 .<span class="ident">unwrap</span>(),
@@ -281,7 +285,7 @@
         );
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="kw-2">&amp;</span><span class="ident">interp</span>
-                .<span class="ident">eval</span>(<span class="string">r&quot;&#39;hello there&#39;[/[aeiou](.)\1/, 0]&quot;</span>)
+                .<span class="ident">eval</span>(<span class="string">br&quot;&#39;hello there&#39;[/[aeiou](.)\1/, 0]&quot;</span>)
                 .<span class="ident">unwrap</span>()
                 .<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>()
                 .<span class="ident">unwrap</span>(),
@@ -289,7 +293,7 @@
         );
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="kw-2">&amp;</span><span class="ident">interp</span>
-                .<span class="ident">eval</span>(<span class="string">r&quot;&#39;hello there&#39;[/[aeiou](.)\1/, 1]&quot;</span>)
+                .<span class="ident">eval</span>(<span class="string">br&quot;&#39;hello there&#39;[/[aeiou](.)\1/, 1]&quot;</span>)
                 .<span class="ident">unwrap</span>()
                 .<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>()
                 .<span class="ident">unwrap</span>(),
@@ -297,7 +301,7 @@
         );
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="ident">interp</span>
-                .<span class="ident">eval</span>(<span class="string">r&quot;&#39;hello there&#39;[/[aeiou](.)\1/, 2]&quot;</span>)
+                .<span class="ident">eval</span>(<span class="string">br&quot;&#39;hello there&#39;[/[aeiou](.)\1/, 2]&quot;</span>)
                 .<span class="ident">unwrap</span>()
                 .<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>()
                 .<span class="ident">unwrap</span>(),
@@ -305,7 +309,7 @@
         );
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="kw-2">&amp;</span><span class="ident">interp</span>
-                .<span class="ident">eval</span>(<span class="string">r&quot;&#39;hello there&#39;[/(?&lt;vowel&gt;[aeiou])(?&lt;non_vowel&gt;[^aeiou])/, &#39;non_vowel&#39;]&quot;</span>)
+                .<span class="ident">eval</span>(<span class="string">br&quot;&#39;hello there&#39;[/(?&lt;vowel&gt;[aeiou])(?&lt;non_vowel&gt;[^aeiou])/, &#39;non_vowel&#39;]&quot;</span>)
                 .<span class="ident">unwrap</span>()
                 .<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>()
                 .<span class="ident">unwrap</span>(),
@@ -313,7 +317,7 @@
         );
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="kw-2">&amp;</span><span class="ident">interp</span>
-                .<span class="ident">eval</span>(<span class="string">r&quot;&#39;hello there&#39;[/(?&lt;vowel&gt;[aeiou])(?&lt;non_vowel&gt;[^aeiou])/, &#39;vowel&#39;]&quot;</span>)
+                .<span class="ident">eval</span>(<span class="string">br&quot;&#39;hello there&#39;[/(?&lt;vowel&gt;[aeiou])(?&lt;non_vowel&gt;[^aeiou])/, &#39;vowel&#39;]&quot;</span>)
                 .<span class="ident">unwrap</span>()
                 .<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>()
                 .<span class="ident">unwrap</span>(),
@@ -328,19 +332,19 @@
 
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert</span>(<span class="string">&quot;abababa&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">s</span>
-            .<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="string">&quot;scan&quot;</span>, <span class="kw-2">&amp;</span>[<span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;/./&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>)], <span class="prelude-val">None</span>)
+            .<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="string">&quot;scan&quot;</span>, <span class="kw-2">&amp;</span>[<span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;/./&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>)], <span class="prelude-val">None</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;funcall&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;a&quot;</span>]);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">s</span>
-            .<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="string">&quot;scan&quot;</span>, <span class="kw-2">&amp;</span>[<span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;/../&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>)], <span class="prelude-val">None</span>)
+            .<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="string">&quot;scan&quot;</span>, <span class="kw-2">&amp;</span>[<span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;/../&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>)], <span class="prelude-val">None</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;funcall&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;ab&quot;</span>, <span class="string">&quot;ab&quot;</span>, <span class="string">&quot;ab&quot;</span>]);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">s</span>
-            .<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="string">&quot;scan&quot;</span>, <span class="kw-2">&amp;</span>[<span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;&#39;aba&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>)], <span class="prelude-val">None</span>)
+            .<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="string">&quot;scan&quot;</span>, <span class="kw-2">&amp;</span>[<span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;&#39;aba&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>)], <span class="prelude-val">None</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;funcall&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;aba&quot;</span>, <span class="string">&quot;aba&quot;</span>]);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">s</span>
-            .<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="string">&quot;scan&quot;</span>, <span class="kw-2">&amp;</span>[<span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;&#39;no no no&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>)], <span class="prelude-val">None</span>)
+            .<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="string">&quot;scan&quot;</span>, <span class="kw-2">&amp;</span>[<span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;&#39;no no no&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>)], <span class="prelude-val">None</span>)
             .<span class="ident">expect</span>(<span class="string">&quot;funcall&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">new</span>());
     }
@@ -350,7 +354,7 @@
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="ident">string</span>::<span class="ident">init</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>).<span class="ident">expect</span>(<span class="string">&quot;string init&quot;</span>);
 
-        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;-&#39;abababa&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;-&#39;abababa&#39;&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;eval&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>(<span class="string">&quot;frozen?&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="prelude-val">None</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>));
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>(<span class="string">&quot;itself&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="prelude-val">None</span>);

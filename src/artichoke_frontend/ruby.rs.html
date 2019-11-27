@@ -174,15 +174,17 @@
 <span id="174">174</span>
 <span id="175">175</span>
 <span id="176">176</span>
+<span id="177">177</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Infrastructure for `ruby` CLI.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Exported as `ruby` and `artichoke` binaries.</span>
 
 <span class="kw">use</span> <span class="ident">artichoke_backend</span>::<span class="ident">convert</span>::<span class="ident">Convert</span>;
-<span class="kw">use</span> <span class="ident">artichoke_backend</span>::<span class="ident">eval</span>::{<span class="ident">Context</span>, <span class="ident">Eval</span>};
+<span class="kw">use</span> <span class="ident">artichoke_backend</span>::<span class="ident">eval</span>::<span class="ident">Context</span>;
 <span class="kw">use</span> <span class="ident">artichoke_backend</span>::<span class="ident">fs</span>;
 <span class="kw">use</span> <span class="ident">artichoke_backend</span>::<span class="ident">sys</span>;
+<span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
 <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">ArtichokeError</span>;
 <span class="kw">use</span> <span class="ident">bstr</span>::<span class="ident">BStr</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">OsString</span>;
@@ -239,7 +241,7 @@
     <span class="kw">let</span> <span class="ident">opt</span> <span class="op">=</span> <span class="ident">Opt</span>::<span class="ident">from_args</span>();
     <span class="kw">if</span> <span class="ident">opt</span>.<span class="ident">copyright</span> {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="ident">artichoke_backend</span>::<span class="ident">interpreter</span>()<span class="question-mark">?</span>;
-        <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;puts RUBY_COPYRIGHT&quot;</span>)<span class="question-mark">?</span>;
+        <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;puts RUBY_COPYRIGHT&quot;</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
     } <span class="kw">else</span> <span class="kw">if</span> <span class="op">!</span><span class="ident">opt</span>.<span class="ident">commands</span>.<span class="ident">is_empty</span>() {
         <span class="ident">execute_inline_eval</span>(<span class="ident">opt</span>.<span class="ident">commands</span>, <span class="ident">opt</span>.<span class="ident">fixture</span>.<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="ident">Path</span>::<span class="ident">new</span>))

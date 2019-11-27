@@ -187,6 +187,7 @@
 <span id="187">187</span>
 <span id="188">188</span>
 <span id="189">189</span>
+<span id="190">190</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">c_void</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
@@ -316,7 +317,8 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
+    <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
+
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">exception</span>::<span class="ident">Exception</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">value</span>::{<span class="ident">Value</span>, <span class="ident">ValueLike</span>};
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ArtichokeError</span>;
@@ -325,7 +327,7 @@
     <span class="kw">fn</span> <span class="ident">return_exception</span>() {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>
-            .<span class="ident">eval</span>(<span class="string">&quot;raise ArgumentError.new(&#39;waffles&#39;)&quot;</span>)
+            .<span class="ident">eval</span>(<span class="string">b&quot;raise ArgumentError.new(&#39;waffles&#39;)&quot;</span>)
             .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ());
         <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="ident">Exception</span>::<span class="ident">new</span>(
             <span class="string">&quot;ArgumentError&quot;</span>,
@@ -339,7 +341,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">return_exception_with_no_backtrace</span>() {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">&quot;def bad; (; end&quot;</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ());
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;def bad; (; end&quot;</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ());
         <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="ident">Exception</span>::<span class="ident">new</span>(<span class="string">&quot;SyntaxError&quot;</span>, <span class="string">&quot;waffles&quot;</span>, <span class="prelude-val">None</span>, <span class="string">&quot;SyntaxError: syntax error&quot;</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="prelude-val">Err</span>(<span class="ident">ArtichokeError</span>::<span class="ident">Exec</span>(<span class="ident">expected</span>.<span class="ident">to_string</span>())));
     }
@@ -347,20 +349,20 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">raise_does_not_panic_or_segfault</span>() {
         <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;raise &#39;foo&#39;&quot;#</span>);
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;raise &#39;foo&#39;&quot;#</span>);
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;eval &quot;raise &#39;foo&#39;&quot;&quot;#</span>);
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;eval &quot;raise &#39;foo&#39;&quot;&quot;#</span>);
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;require &#39;foo&#39;&quot;#</span>);
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;require &#39;foo&#39;&quot;#</span>);
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;eval &quot;require &#39;foo&#39;&quot;&quot;#</span>);
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;eval &quot;require &#39;foo&#39;&quot;&quot;#</span>);
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;Regexp.compile(2)&quot;#</span>);
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;Regexp.compile(2)&quot;#</span>);
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;eval &quot;Regexp.compile(2)&quot;&quot;#</span>);
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;eval &quot;Regexp.compile(2)&quot;&quot;#</span>);
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">br#&quot;raise &#39;foo&#39;&quot;#</span>);
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">br#&quot;raise &#39;foo&#39;&quot;#</span>);
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">br#&quot;eval(b&quot;raise &#39;foo&#39;&quot;&quot;#</span>);
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">br#&quot;eval(b&quot;raise &#39;foo&#39;&quot;&quot;#</span>);
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">br#&quot;require &#39;foo&#39;&quot;#</span>);
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">br#&quot;require &#39;foo&#39;&quot;#</span>);
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">br#&quot;eval(b&quot;require &#39;foo&#39;&quot;&quot;#</span>);
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">br#&quot;eval(b&quot;require &#39;foo&#39;&quot;&quot;#</span>);
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">br#&quot;Regexp.compile(2)&quot;#</span>);
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">br#&quot;Regexp.compile(2)&quot;#</span>);
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">br#&quot;eval(b&quot;Regexp.compile(2)&quot;&quot;#</span>);
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">br#&quot;eval(b&quot;Regexp.compile(2)&quot;&quot;#</span>);
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(
-            <span class="string">r#&quot;
+            <span class="string">br#&quot;
 def fail
   begin
     require &#39;foo&#39;
@@ -372,7 +374,7 @@ end
 fail
             &quot;#</span>,
         );
-        <span class="kw">let</span> <span class="ident">kernel</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">r#&quot;Kernel&quot;#</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">kernel</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">br#&quot;Kernel&quot;#</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">kernel</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>(<span class="string">&quot;raise&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="prelude-val">None</span>);
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">kernel</span>.<span class="ident">funcall</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>(<span class="string">&quot;raise&quot;</span>, <span class="kw-2">&amp;</span>[], <span class="prelude-val">None</span>);
     }

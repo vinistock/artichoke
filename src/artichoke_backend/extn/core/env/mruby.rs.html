@@ -106,9 +106,11 @@
 <span id="106">106</span>
 <span id="107">107</span>
 <span id="108">108</span>
+<span id="109">109</span>
 </pre><div class="example-wrap"><pre class="rust ">
+<span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
+
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">def</span>::{<span class="ident">rust_data_free</span>, <span class="ident">ClassLike</span>, <span class="ident">Define</span>, <span class="ident">EnclosingRubyScope</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">artichoke</span>::<span class="ident">RArtichoke</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">env</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">exception</span>;
@@ -120,7 +122,7 @@
     <span class="kw">if</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>().<span class="ident">class_spec</span>::<span class="op">&lt;</span><span class="ident">env</span>::<span class="ident">Environ</span><span class="op">&gt;</span>().<span class="ident">is_some</span>() {
         <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
     }
-    <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="macro">include_str</span><span class="macro">!</span>(<span class="string">&quot;env.rb&quot;</span>))<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="kw-2">&amp;</span><span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;env.rb&quot;</span>)[..])<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">artichoke_environ</span> <span class="op">=</span> {
         <span class="kw">let</span> <span class="ident">scope</span> <span class="op">=</span> <span class="ident">interp</span>
