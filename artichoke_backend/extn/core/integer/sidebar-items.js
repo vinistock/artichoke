@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["init",""]],"struct":[["Integer",""]]});
+initSidebarItems({"fn":[["chr",""],["div",""]],"mod":[["mruby",""],["trampoline",""]],"struct":[["Integer",""]]});

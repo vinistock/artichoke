@@ -1,1 +1,1 @@
-initSidebarItems({"trait":[["Value","A value in the Artichoke VM, equivalent to an `RValue` in MRI."]]});
+initSidebarItems({"trait":[["Value","A boxed Ruby value owned by the interpreter."]]});

@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["init",""]],"struct":[["RArtichoke",""]]});
+initSidebarItems({"fn":[["init",""]],"struct":[["Artichoke",""],["Kernel",""]]});

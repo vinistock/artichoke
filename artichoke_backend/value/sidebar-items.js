@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["MRB_FUNCALL_ARGC_MAX","Max argument count for function calls including initialize and yield."]],"struct":[["Block",""],["Value","Wrapper around a [`sys::mrb_value`]."]]});
+initSidebarItems({"constant":[["MRB_FUNCALL_ARGC_MAX","Max argument count for function calls including initialize and yield."]],"struct":[["ArgCountError","Argument count exceeds maximum allowed by the VM."],["Block",""],["Value","Wrapper around a [`sys::mrb_value`]."]]});

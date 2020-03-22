@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `artichoke-backend/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../artichoke_backend/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `artichoke-backend/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../artichoke_backend/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -200,297 +200,103 @@
 <span id="200">200</span>
 <span id="201">201</span>
 <span id="202">202</span>
-<span id="203">203</span>
-<span id="204">204</span>
-<span id="205">205</span>
-<span id="206">206</span>
-<span id="207">207</span>
-<span id="208">208</span>
-<span id="209">209</span>
-<span id="210">210</span>
-<span id="211">211</span>
-<span id="212">212</span>
-<span id="213">213</span>
-<span id="214">214</span>
-<span id="215">215</span>
-<span id="216">216</span>
-<span id="217">217</span>
-<span id="218">218</span>
-<span id="219">219</span>
-<span id="220">220</span>
-<span id="221">221</span>
-<span id="222">222</span>
-<span id="223">223</span>
-<span id="224">224</span>
-<span id="225">225</span>
-<span id="226">226</span>
-<span id="227">227</span>
-<span id="228">228</span>
-<span id="229">229</span>
-<span id="230">230</span>
-<span id="231">231</span>
-<span id="232">232</span>
-<span id="233">233</span>
-<span id="234">234</span>
-<span id="235">235</span>
-<span id="236">236</span>
-<span id="237">237</span>
-<span id="238">238</span>
-<span id="239">239</span>
-<span id="240">240</span>
-<span id="241">241</span>
-<span id="242">242</span>
-<span id="243">243</span>
-<span id="244">244</span>
-<span id="245">245</span>
-<span id="246">246</span>
-<span id="247">247</span>
-<span id="248">248</span>
-<span id="249">249</span>
-<span id="250">250</span>
-<span id="251">251</span>
-<span id="252">252</span>
-<span id="253">253</span>
-<span id="254">254</span>
-<span id="255">255</span>
-<span id="256">256</span>
-<span id="257">257</span>
-<span id="258">258</span>
-<span id="259">259</span>
-<span id="260">260</span>
-<span id="261">261</span>
-<span id="262">262</span>
-<span id="263">263</span>
-<span id="264">264</span>
-<span id="265">265</span>
-<span id="266">266</span>
-<span id="267">267</span>
-<span id="268">268</span>
-<span id="269">269</span>
-<span id="270">270</span>
-<span id="271">271</span>
-<span id="272">272</span>
-<span id="273">273</span>
-<span id="274">274</span>
-<span id="275">275</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">clippy</span>::<span class="ident">all</span>)]</span>
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">clippy</span>::<span class="ident">pedantic</span>)]</span>
-<span class="attribute">#![<span class="ident">deny</span>(<span class="ident">warnings</span>, <span class="ident">intra_doc_link_resolution_failure</span>)]</span>
-<span class="attribute">#![<span class="ident">doc</span>(<span class="ident">deny</span>(<span class="ident">warnings</span>))]</span>
+<span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">missing_errors_doc</span>)]</span>
+<span class="attribute">#![<span class="ident">deny</span>(<span class="ident">intra_doc_link_resolution_failure</span>)]</span>
+<span class="attribute">#![<span class="ident">warn</span>(<span class="ident">rust_2018_idioms</span>)]</span>
 
 <span class="doccomment">//! # artichoke-backend</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! artichoke-backend crate provides a Ruby interpreter. It currently is</span>
+<span class="doccomment">//! `artichoke-backend` crate provides a Ruby interpreter. It currently is</span>
 <span class="doccomment">//! implemented with [mruby](https://github.com/mruby/mruby) bindings exported</span>
 <span class="doccomment">//! by the [`sys`] module.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ## Execute Ruby Code</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! artichoke-backend crate exposes several mechanisms for executing Ruby code</span>
+<span class="doccomment">//! `artichoke-backend` crate exposes several mechanisms for executing Ruby code</span>
 <span class="doccomment">//! on the interpreter.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ### Evaling Source Code</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! artichoke-backend crate exposes eval on the `State` with the</span>
-<span class="doccomment">//! [`Eval`](eval::Eval) trait. Side effects from eval are persisted</span>
-<span class="doccomment">//! across invocations.</span>
+<span class="doccomment">//! The `artichoke-backend` interpreter implements</span>
+<span class="doccomment">//! [`Eval` from `artichoke-core`](crate::Eval).</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! use artichoke_core::eval::Eval;</span>
-<span class="doccomment">//! use artichoke_core::value::Value as _;</span>
+<span class="doccomment">//! use artichoke_backend::{Eval, ValueLike};</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! let interp = artichoke_backend::interpreter().unwrap();</span>
+<span class="doccomment">//! let mut interp = artichoke_backend::interpreter().unwrap();</span>
 <span class="doccomment">//! let result = interp.eval(b&quot;10 * 10&quot;).unwrap();</span>
-<span class="doccomment">//! let result = result.try_into::&lt;i64&gt;();</span>
-<span class="doccomment">//! assert_eq!(result, Ok(100));</span>
+<span class="doccomment">//! let result = result.try_into::&lt;i64&gt;().unwrap();</span>
+<span class="doccomment">//! assert_eq!(result, 100);</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! ### Calling Ruby Functions from Rust</span>
+<span class="doccomment">//! ### Calling Functions on Ruby Objects</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! The [`ValueLike`](value::ValueLike) trait exposes a _funcall interface_</span>
-<span class="doccomment">//! which can call Ruby functions on a [`Value`](value::Value) using a `String`</span>
-<span class="doccomment">//! function name and a `Vec&lt;Value&gt;` of arguments. funcall takes a type</span>
-<span class="doccomment">//! parameter bound by [`TryConvert`](convert::TryConvert) and converts the</span>
-<span class="doccomment">//! result of the function call to a Rust type (which may be `Value` or another</span>
-<span class="doccomment">//! &quot;native&quot; type).</span>
+<span class="doccomment">//! [`Value`](value::Value)s returned by the `artichoke-backend` interpreter</span>
+<span class="doccomment">//! implement [`Value` from `artichoke-core`](crate::ValueLike), which enables</span>
+<span class="doccomment">//! calling Ruby functions from Rust.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! artichoke-backend limits functions to a maximum of 16 arguments.</span>
+<span class="doccomment">//! ```rust</span>
+<span class="doccomment">//! use artichoke_backend::{Eval, ValueLike};</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! let mut interp = artichoke_backend::interpreter().unwrap();</span>
+<span class="doccomment">//! let result = interp.eval(b&quot;&#39;ruby funcall&#39;&quot;).unwrap();</span>
+<span class="doccomment">//! let result = result.funcall::&lt;usize&gt;(&quot;length&quot;, &amp;[], None).unwrap();</span>
+<span class="doccomment">//! assert_eq!(result, 12);</span>
+<span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ## Virtual Filesystem and `Kernel#require`</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! The artichoke-backend [`State`](state::State) embeds an</span>
-<span class="doccomment">//! [in-memory virtual Unix filesystem](artichoke_vfs). The VFS stores Ruby</span>
-<span class="doccomment">//! sources that are either pure Ruby, implemented with a Rust</span>
-<span class="doccomment">//! [`File`](file::File), or both.</span>
+<span class="doccomment">//! The `artichoke-backend` interpreter includes an in-memory virtual</span>
+<span class="doccomment">//! filesystem.  The filesystem stores Ruby sources and Rust extension functions</span>
+<span class="doccomment">//! that are similar to MRI C extensions.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! artichoke-backend crate implements</span>
-<span class="doccomment">//! [`Kernel#require` and `Kernel#require_relative`](extn::core::kernel::Kernel)</span>
-<span class="doccomment">//! which loads sources from the VFS. For Ruby sources, the source is loaded</span>
-<span class="doccomment">//! from the VFS as a `Vec&lt;u8&gt;` and evaled with</span>
-<span class="doccomment">//! [`Eval::eval_with_context`](eval::Eval::eval_with_context). For Rust</span>
-<span class="doccomment">//! sources, [`File::require`](file::File::require) methods are stored as</span>
-<span class="doccomment">//! custom metadata on [`File`](artichoke_vfs::FakeFileSystem) nodes in the VFS.</span>
+<span class="doccomment">//! The virtual filesystem enables applications built with `artichoke-backend`</span>
+<span class="doccomment">//! to `require` sources that are embedded in the binary without host filesystem</span>
+<span class="doccomment">//! access.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! use artichoke_core::eval::Eval;</span>
-<span class="doccomment">//! use artichoke_core::load::LoadSources;</span>
-<span class="doccomment">//! use artichoke_core::value::Value as _;</span>
+<span class="doccomment">//! ## Embed Rust Types in Ruby `Value`s</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! let mut interp = artichoke_backend::interpreter().unwrap();</span>
-<span class="doccomment">//! let code = b&quot;</span>
-<span class="doccomment">//! def source_location</span>
-<span class="doccomment">//!   __FILE__</span>
-<span class="doccomment">//! end</span>
-<span class="doccomment">//! &quot;;</span>
-<span class="doccomment">//! interp.def_rb_source_file(b&quot;source.rb&quot;, &amp;code[..]).unwrap();</span>
-<span class="doccomment">//! interp.eval(b&quot;require &#39;source&#39;&quot;).unwrap();</span>
-<span class="doccomment">//! let result = interp.eval(b&quot;source_location&quot;).unwrap();</span>
-<span class="doccomment">//! let result = result.try_into::&lt;&amp;str&gt;().unwrap();</span>
-<span class="doccomment">//! assert_eq!(result, &quot;/src/lib/source.rb&quot;);</span>
-<span class="doccomment">//! ```</span>
+<span class="doccomment">//! `artichoke-backend` exposes a concept similar to `data`-typed values in MRI</span>
+<span class="doccomment">//! and mruby.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! ## Embed Rust Objects in `mrb_value`</span>
+<span class="doccomment">//! When Rust types implement a special trait, they can be embedded in a Ruby</span>
+<span class="doccomment">//! [`Value`](value::Value) and passed through the Ruby VM as a Ruby object.</span>
+<span class="doccomment">//! Classes defined in this way can define methods in Rust or Ruby.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! The [`mrb_value`](sys::mrb_value) struct is a data type that represents a</span>
-<span class="doccomment">//! Ruby object. The concrete type of an `mrb_value` is specified by its type</span>
-<span class="doccomment">//! tag, an [`mrb_vtype`](sys::mrb_vtype) enum value.</span>
+<span class="doccomment">//! Examples of these types include:</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! One `mrb_vtype` is `MRB_TT_DATA`, which allows an `mrb_value` to store an</span>
-<span class="doccomment">//! owned `c_void` pointer. artichoke-backend crate leverages this to store an</span>
-<span class="doccomment">//! owned copy of an `Rc&lt;RefCell&lt;T&gt;&gt;` for any `T` that implements</span>
-<span class="doccomment">//! [`RustBackedValue`](convert::RustBackedValue).</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! [`RustBackedValue`](convert::RustBackedValue) provides two methods for working with</span>
-<span class="doccomment">//! `MRB_TT_DATA`:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! - [`RustBackedValue::try_into_ruby`](convert::RustBackedValue::try_into_ruby)</span>
-<span class="doccomment">//!   consumes `self` and returns a live</span>
-<span class="doccomment">//!   `mrb_value` that wraps `T`.</span>
-<span class="doccomment">//! - [`RustBackedValue::try_from_ruby`](convert::RustBackedValue::try_from_ruby)</span>
-<span class="doccomment">//!   extracts an `Rc&lt;RefCell&lt;T&gt;&gt;` from an `mrb_value` and manages the strong</span>
-<span class="doccomment">//!   count of the `Rc` smart pointer to ensure that the `mrb_value` continues</span>
-<span class="doccomment">//!   to point to valid memory.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! These `mrb_value`s with type tag `MRB_TT_DATA` can be used to implement Ruby</span>
-<span class="doccomment">//! `Class`es and `Module`s with Rust structs. An example of this is the</span>
-<span class="doccomment">//! [`Regexp`](extn::core::regexp::Regexp) class which wraps an Oniguruma regex</span>
-<span class="doccomment">//! provided by the [`onig`] crate.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! #[macro_use]</span>
-<span class="doccomment">//! extern crate artichoke_backend;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! use artichoke_backend::convert::{Convert, RustBackedValue, TryConvert};</span>
-<span class="doccomment">//! use artichoke_backend::def::{rust_data_free, ClassLike, Define};</span>
-<span class="doccomment">//! use artichoke_backend::sys;</span>
-<span class="doccomment">//! use artichoke_backend::value::Value;</span>
-<span class="doccomment">//! use artichoke_backend::{Artichoke, ArtichokeError};</span>
-<span class="doccomment">//! use artichoke_core::eval::Eval;</span>
-<span class="doccomment">//! use artichoke_core::file::File;</span>
-<span class="doccomment">//! use artichoke_core::load::LoadSources;</span>
-<span class="doccomment">//! use artichoke_core::value::Value as _;</span>
-<span class="doccomment">//! use std::io::Write;</span>
-<span class="doccomment">//! use std::mem;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! struct Container { inner: i64 }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! impl Container {</span>
-<span class="doccomment">//!     unsafe extern &quot;C&quot; fn initialize(mrb: *mut sys::mrb_state, mut slf: sys::mrb_value) -&gt; sys::mrb_value {</span>
-<span class="doccomment">//!         let inner = mrb_get_args!(mrb, required = 1);</span>
-<span class="doccomment">//!         let interp = unwrap_interpreter!(mrb);</span>
-<span class="doccomment">//!         let inner = Value::new(&amp;interp, inner);</span>
-<span class="doccomment">//!         let inner = inner.try_into::&lt;i64&gt;().unwrap_or_default();</span>
-<span class="doccomment">//!         let cont = Self { inner };</span>
-<span class="doccomment">//!         cont</span>
-<span class="doccomment">//!             .try_into_ruby(&amp;interp, Some(slf))</span>
-<span class="doccomment">//!             .unwrap_or_else(|_| interp.convert(None::&lt;Value&gt;))</span>
-<span class="doccomment">//!             .inner()</span>
-<span class="doccomment">//!     }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     unsafe extern &quot;C&quot; fn value(mrb: *mut sys::mrb_state, slf: sys::mrb_value) -&gt; sys::mrb_value {</span>
-<span class="doccomment">//!         let interp = unwrap_interpreter!(mrb);</span>
-<span class="doccomment">//!         let container = Value::new(&amp;interp, slf);</span>
-<span class="doccomment">//!         if let Ok(cont) = Self::try_from_ruby(&amp;interp, &amp;container) {</span>
-<span class="doccomment">//!             let borrow = cont.borrow();</span>
-<span class="doccomment">//!             interp.convert(borrow.inner).inner()</span>
-<span class="doccomment">//!         } else {</span>
-<span class="doccomment">//!             interp.convert(None::&lt;Value&gt;).inner()</span>
-<span class="doccomment">//!         }</span>
-<span class="doccomment">//!     }</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! impl RustBackedValue for Container {</span>
-<span class="doccomment">//!     fn ruby_type_name() -&gt; &amp;&#39;static str {</span>
-<span class="doccomment">//!         &quot;Container&quot;</span>
-<span class="doccomment">//!     }</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! impl File for Container {</span>
-<span class="doccomment">//!     type Artichoke = Artichoke;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     fn require(interp: &amp;Artichoke) -&gt; Result&lt;(), ArtichokeError&gt; {</span>
-<span class="doccomment">//!         let spec = interp.0.borrow_mut().def_class::&lt;Self&gt;(&quot;Container&quot;, None, Some(rust_data_free::&lt;Self&gt;));</span>
-<span class="doccomment">//!         spec.borrow_mut().add_method(&quot;initialize&quot;, Self::initialize, sys::mrb_args_req(1));</span>
-<span class="doccomment">//!         spec.borrow_mut().add_method(&quot;value&quot;, Self::value, sys::mrb_args_none());</span>
-<span class="doccomment">//!         spec.borrow_mut().mrb_value_is_rust_backed(true);</span>
-<span class="doccomment">//!         spec.borrow().define(&amp;interp)?;</span>
-<span class="doccomment">//!         Ok(())</span>
-<span class="doccomment">//!     }</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! fn main() {</span>
-<span class="doccomment">//!     let interp = artichoke_backend::interpreter().unwrap();</span>
-<span class="doccomment">//!     interp.def_file_for_type::&lt;Container&gt;(b&quot;container.rb&quot;).unwrap();</span>
-<span class="doccomment">//!     interp.eval(b&quot;require &#39;container&#39;&quot;).unwrap();</span>
-<span class="doccomment">//!     let result = interp.eval(b&quot;Container.new(15).value * 24&quot;).unwrap();</span>
-<span class="doccomment">//!     assert_eq!(result.try_into::&lt;i64&gt;(), Ok(360));</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//! ```</span>
+<span class="doccomment">//! - `Regexp` and `MatchData`, which are backed by regular expressions from the</span>
+<span class="doccomment">//!   `onig` and `regex` crates.</span>
+<span class="doccomment">//! - `ENV`, which glues Ruby to an environ backend.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ## Converters Between Ruby and Rust Types</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! The [`convert` module](convert) provides implementations for conversions</span>
-<span class="doccomment">//! between `mrb_value` Ruby types and native Rust types like `i64` and</span>
-<span class="doccomment">//! `HashMap&lt;String, Option&lt;Vec&lt;u8&gt;&gt;&gt;` using an [`Artichoke`](interpreter::Artichoke)</span>
-<span class="doccomment">//! interpreter.</span>
+<span class="doccomment">//! between boxed Ruby values and native Rust types like `i64` and</span>
+<span class="doccomment">//! `HashMap&lt;String, Option&lt;Vec&lt;u8&gt;&gt;&gt;` using an `artichoke-backend` interpreter.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! There are two converter traits:</span>
+<span class="doccomment">//! ## License</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! - [`Convert`](convert::Convert) provides infallible conversions that return</span>
-<span class="doccomment">//!   `Self`. Converting from a Rust native type to a Ruby `mrb_value` is</span>
-<span class="doccomment">//!   usually an infallible conversion.</span>
-<span class="doccomment">//! - [`TryConvert`](convert::TryConvert) provides fallible conversions that</span>
-<span class="doccomment">//!   return `Result&lt;Self, Error&gt;`. Converting from a Ruby `mrb_value` to a Rust</span>
-<span class="doccomment">//!   native type is always an fallible conversion because an `mrb_value` may be</span>
-<span class="doccomment">//!   any type tag.</span>
+<span class="doccomment">//! artichoke-backend is licensed with the MIT License (c) Ryan Lopopolo.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! Supported conversions:</span>
+<span class="doccomment">//! Some portions of artichoke-backend are derived from</span>
+<span class="doccomment">//! [mruby](https://github.com/mruby/mruby) which is Copyright (c) 2019 mruby</span>
+<span class="doccomment">//! developers. mruby is licensed with the</span>
+<span class="doccomment">//! [MIT License](https://github.com/mruby/mruby/blob/master/LICENSE).</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! - Ruby _primitive types_ to Rust types. Primitive Ruby types are</span>
-<span class="doccomment">//!   `TrueClass`, `FalseClass`, `String` (both UTF-8 and binary), `Fixnum`</span>
-<span class="doccomment">//!   (`i64`), `Float` (`f64`).</span>
-<span class="doccomment">//! - Rust types to Ruby types. Supported Rust types are `bool`, `Vec&lt;u8&gt;`,</span>
-<span class="doccomment">//!   `&amp;[u8]`, integer types that losslessly convert to `i64` (`i64`, `i32`,</span>
-<span class="doccomment">//!   `i16`, `i8`, `u32`, `u16`, `u8`), `f64`, `String`, `&amp;str`.</span>
-<span class="doccomment">//! - Ruby `nil`able types to Rust `Option&lt;T&gt;`.</span>
-<span class="doccomment">//! - Rust `Option&lt;T&gt;` types to Ruby `nil` or an `mrb_value` converted from `T`.</span>
-<span class="doccomment">//! - Ruby `Array` to Rust `Vec&lt;T&gt;` where `T` corresponds to a Ruby _primitive</span>
-<span class="doccomment">//!   type_.</span>
-<span class="doccomment">//! - Rust `Vec&lt;T&gt;` to Ruby `Array` where `T` corresponds to a Ruby _primitive</span>
-<span class="doccomment">//!   type_.</span>
-<span class="doccomment">//! - Ruby `Hash` to Rust `Vec&lt;(Key, Value)&gt;` or `HashMap&lt;Key, Value&gt;` where</span>
-<span class="doccomment">//!   `Key` and `Value` correspond to Ruby _primitive types_.</span>
-<span class="doccomment">//! - Rust `Vec&lt;(Key, Value)&gt;` or `HashMap&lt;Key, Value&gt;` to Ruby `Hash` where</span>
-<span class="doccomment">//!   `Key` and `Value` correspond to Ruby _primitive types_.</span>
-<span class="doccomment">//! - Identity conversion from `Value` to `Value`, which is useful when working</span>
-<span class="doccomment">//!   with collection types.</span>
+<span class="doccomment">//! Some portions of artichoke-backend are derived from Ruby @</span>
+<span class="doccomment">//! [2.6.3](https://github.com/ruby/ruby/tree/v2_6_3) which is copyright Yukihiro</span>
+<span class="doccomment">//! Matsumoto \&lt;matz@netlab.jp\&gt;. Ruby is licensed with the</span>
+<span class="doccomment">//! [2-clause BSDL License](https://github.com/ruby/ruby/blob/v2_6_3/COPYING).</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! The infallible converters are safe Rust functions. The fallibile converters are</span>
-<span class="doccomment">//! `unsafe` Rust functions.</span>
+<span class="doccomment">//! artichoke-backend vendors headers provided by</span>
+<span class="doccomment">//! [emsdk](https://github.com/emscripten-core/emsdk) which is Copyright (c) 2018</span>
+<span class="doccomment">//! Emscripten authors. emsdk is licensed with the</span>
+<span class="doccomment">//! [MIT/Expat License](https://github.com/emscripten-core/emsdk/blob/master/LICENSE).</span>
 
-<span class="attribute">#[<span class="ident">macro_use</span>]</span>
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">downcast</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">log</span>;
 
@@ -502,27 +308,52 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">macros</span>;
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">class</span>;
+<span class="kw">mod</span> <span class="ident">constant</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">convert</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">def</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">eval</span>;
+<span class="kw">mod</span> <span class="ident">eval</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">exception</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">exception_handler</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">extn</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ffi</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">fs</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">gc</span>;
+<span class="kw">mod</span> <span class="ident">globals</span>;
+<span class="kw">mod</span> <span class="ident">intern</span>;
 <span class="kw">mod</span> <span class="ident">interpreter</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">load</span>;
+<span class="kw">mod</span> <span class="ident">io</span>;
+<span class="kw">mod</span> <span class="ident">load</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">method</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">module</span>;
+<span class="kw">mod</span> <span class="ident">parser</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">state</span>;
-<span class="doccomment">/// C bindings for mruby, customized for Artichoke.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">string</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">sys</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">top_self</span>;
+<span class="kw">mod</span> <span class="ident">top_self</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">types</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">value</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">warn</span>;
+<span class="kw">mod</span> <span class="ident">warn</span>;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">ArtichokeError</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">test</span>;
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">artichoke_core</span> <span class="kw">as</span> <span class="ident">core</span>;
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">constant</span>::<span class="ident">DefineConstant</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">convert</span>::<span class="ident">Convert</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">convert</span>::<span class="ident">ConvertMut</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">convert</span>::<span class="ident">TryConvert</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">convert</span>::<span class="ident">TryConvertMut</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">eval</span>::<span class="ident">Eval</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">file</span>::<span class="ident">File</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">globals</span>::<span class="ident">Globals</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">intern</span>::<span class="ident">Intern</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">load</span>::<span class="ident">LoadSources</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">parser</span>::<span class="ident">Parser</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">top_self</span>::<span class="ident">TopSelf</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">value</span>::<span class="ident">Value</span> <span class="kw">as</span> <span class="ident">ValueLike</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">artichoke_core</span>::<span class="ident">warn</span>::<span class="ident">Warn</span>;
+
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">interpreter</span>::<span class="ident">interpreter</span>;
 
 <span class="doccomment">/// Interpreter instance.</span>
@@ -543,11 +374,34 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Artichoke</span>(<span class="kw">pub</span> <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">state</span>::<span class="ident">State</span><span class="op">&gt;</span><span class="op">&gt;</span>); <span class="comment">// TODO: this should not be pub</span>
 
 <span class="kw">impl</span> <span class="ident">Artichoke</span> {
+    <span class="doccomment">/// Consume an interpreter and return the pointer to the underlying</span>
+    <span class="doccomment">/// [`sys::mrb_state`].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This function does not free any interpreter resources. Its intended use</span>
+    <span class="doccomment">/// is to prepare the interpreter to cross over an FFI boundary.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is an associated function and must be called as</span>
+    <span class="doccomment">/// `Artichoke::into_raw(interp)`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Safety</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// After calling this function, the caller is responsible for properly</span>
+    <span class="doccomment">/// freeing the memory occupied by the interpreter heap. The easiest way to</span>
+    <span class="doccomment">/// do this is to call `ffi::from_user_data` with the returned pointer and</span>
+    <span class="doccomment">/// then call `Artichoke::close`.</span>
+    <span class="attribute">#[<span class="ident">must_use</span>]</span>
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">into_raw</span>(<span class="ident">interp</span>: <span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span> {
+        <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">mrb</span>;
+        <span class="ident">drop</span>(<span class="ident">interp</span>);
+        <span class="ident">mrb</span>
+    }
+
     <span class="doccomment">/// Consume an interpreter and free all</span>
-    <span class="doccomment">/// [live](gc::MrbGarbageCollection::live_objects) [`Value`](value::Value)s.</span>
+    <span class="doccomment">/// [live](gc::MrbGarbageCollection::live_object_count)</span>
+    <span class="doccomment">/// [`Value`](value::Value)s.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">close</span>(<span class="self">self</span>) {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">close</span>();
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "artichoke_backend";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "artichoke_backend";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

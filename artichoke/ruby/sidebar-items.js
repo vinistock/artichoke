@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["entrypoint","Main entrypoint for Artichoke's version of the `ruby` CLI."]]});

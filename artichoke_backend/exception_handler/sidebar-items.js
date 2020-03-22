@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["last_error","Transform a `Exception` Ruby `Value` into an [`Exception`]."]]});

@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["memory",""],["system",""]]});
+initSidebarItems({"mod":[["memory",""],["system",""]],"trait":[["EnvType",""]]});

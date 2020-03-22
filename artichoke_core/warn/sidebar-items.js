@@ -1,1 +1,1 @@
-initSidebarItems({"trait":[["Warn","Interpreters that implement [`Warn`] expose methods for emitting warnings during execution."]]});
+initSidebarItems({"trait":[["Warn","Emit warnings during interpreter execution to stderr."]]});

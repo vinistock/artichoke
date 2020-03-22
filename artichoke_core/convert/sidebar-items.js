@@ -1,1 +1,1 @@
-initSidebarItems({"trait":[["Convert","Infallible conversion between two types."],["TryConvert","Fallible conversions between two types."]]});
+initSidebarItems({"trait":[["Convert","Infallible conversion between two types."],["ConvertMut","Mutable infallible conversion between two types."],["TryConvert","Fallible conversions between two types."],["TryConvertMut","Mutable fallible conversions between two types."]]});

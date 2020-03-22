@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["init",""]],"struct":[["RString",""]]});
+initSidebarItems({"mod":[["mruby",""],["trampoline",""]],"struct":[["String",""]]});

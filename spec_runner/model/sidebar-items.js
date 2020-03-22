@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["_IMPL_DESERIALIZE_FOR_Config",""],["_IMPL_DESERIALIZE_FOR_Suite",""],["_IMPL_SERIALIZE_FOR_Config",""],["_IMPL_SERIALIZE_FOR_Suite",""]],"struct":[["Config","Config file format for declaring the set of ruby/spec suites to run."],["Suite","The specs to run for a suite or API group."]]});

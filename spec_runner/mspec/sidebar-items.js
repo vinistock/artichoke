@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["init","Load `MSpec` sources into the Artichoke virtual filesystem."],["run","Load the Artichoke `MSpec` entry point end execute the specs."]],"struct":[["Sources","`MSpec` source code."]]});

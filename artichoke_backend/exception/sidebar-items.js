@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["LastError",""]],"struct":[["Exception","Metadata about a Ruby exception."]],"trait":[["ExceptionHandler","Extract the last exception thrown on the interpreter."]]});
+initSidebarItems({"fn":[["raise","Raise implementation for `RubyException` boxed trait objects."]],"struct":[["Exception",""]],"trait":[["RubyException","Polymorphic exception type that corresponds to Ruby's `Exception`."]]});

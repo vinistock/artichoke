@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["init",""]],"struct":[["IPAddr",""],["IPSocket",""],["URI",""]]});
+initSidebarItems({"fn":[["init",""]],"struct":[["IpAddr",""],["IpSocket",""],["Uri",""]]});

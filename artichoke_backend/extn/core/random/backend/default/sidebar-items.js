@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["new",""]],"struct":[["Default",""]]});
+initSidebarItems({"struct":[["Default",""]]});

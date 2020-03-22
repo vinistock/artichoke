@@ -1,1 +1,1 @@
-initSidebarItems({"trait":[["File","Types that implement `File` can be loaded into an interpreter and modify the VM when `require`d."]]});
+initSidebarItems({"trait":[["File","Rust extension hook that can be required."]]});

@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["element_assignment",""],["element_reference",""],["initialize",""],["to_h",""]],"mod":[["backend",""],["mruby",""]],"struct":[["Environ",""]],"trait":[["Env",""]]});
+initSidebarItems({"fn":[["element_assignment",""],["element_reference",""],["initialize",""],["to_h",""]],"mod":[["backend",""],["mruby",""]],"struct":[["Environ",""]]});

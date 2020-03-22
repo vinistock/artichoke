@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["Context","`Context` is used to manipulate the state of a wrapped [`sys::mrb_state`]. [`Artichoke`] maintains a stack of `Context`s and [`Eval::eval`] uses the current context to set the `__FILE__` magic constant on the [`sys::mrbc_context`]."]]});

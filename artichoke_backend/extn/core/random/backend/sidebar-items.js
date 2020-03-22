@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["default",""],["rand",""]],"trait":[["Rand","Common API for `Random` backends."]]});
+initSidebarItems({"enum":[["InternalState",""]],"mod":[["default",""],["rand",""]],"trait":[["RandType","Common API for `Random` backends."]]});
