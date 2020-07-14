@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["init",""]],"struct":[["Symbol",""]]});
+initSidebarItems({"mod":[["ffi",""],["mruby",""],["trampoline",""]],"struct":[["Symbol",""]]});

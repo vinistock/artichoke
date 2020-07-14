@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `artichoke-backend/src/extn/core/exception/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../../light.css" id="themeStyle"><script src="../../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../../../artichoke_backend/index.html'><div class='logo-container'><img src='../../../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../../settings.html"><img src="../../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `artichoke-backend/src/extn/core/exception/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../../light.css" id="themeStyle"><script src="../../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../../noscript.css"></noscript><link rel="shortcut icon" href="https://www.artichokeruby.org/favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../../../artichoke_backend/index.html'><div class='logo-container'><img src='https://www.artichokeruby.org/artichoke-logo.svg' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../../settings.html"><img src="../../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -440,6 +440,28 @@
 <span id="440">440</span>
 <span id="441">441</span>
 <span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! # Ruby Exception Hierarchy</span>
 <span class="doccomment">//!</span>
@@ -481,6 +503,7 @@
 <span class="doccomment">//! - `SystemStackError`</span>
 <span class="doccomment">//! - `fatal` -- impossible to rescue</span>
 
+<span class="kw">use</span> <span class="ident">bstr</span>::{<span class="ident">BStr</span>, <span class="ident">ByteSlice</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::<span class="ident">Cow</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">error</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
@@ -488,217 +511,209 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">init</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">InitializeResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">borrow</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>();
-
     <span class="kw">let</span> <span class="ident">exception_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;Exception&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
-    <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">exception_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">None</span>)
-        .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">exception_spec</span>).<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">Exception</span><span class="op">&gt;</span>(<span class="ident">exception_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">nomemory_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;NoMemoryError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">nomemory_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">exception_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">Exception</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;Exception&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">NoMemoryError</span><span class="op">&gt;</span>(<span class="ident">nomemory_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">script_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;ScriptError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">script_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">exception_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">Exception</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;Exception&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">ScriptError</span><span class="op">&gt;</span>(<span class="ident">script_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">load_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;LoadError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">load_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">script_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">ScriptError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;ScriptError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">LoadError</span><span class="op">&gt;</span>(<span class="ident">load_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">notimplemented_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;NotImplementedError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">notimplemented_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">script_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">ScriptError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;ScriptError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">NotImplementedError</span><span class="op">&gt;</span>(<span class="ident">notimplemented_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">syntax_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;SyntaxError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">syntax_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">script_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">ScriptError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;ScriptError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">SyntaxError</span><span class="op">&gt;</span>(<span class="ident">syntax_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">security_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;SecurityError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">security_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">exception_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">Exception</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;Exception&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">SecurityError</span><span class="op">&gt;</span>(<span class="ident">security_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">signal_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;SignalException&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">signal_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">exception_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">Exception</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;Exception&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">SignalException</span><span class="op">&gt;</span>(<span class="ident">signal_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">interrupt_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;Interrupt&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">interrupt_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">signal_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">SignalException</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;SignalException&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">Interrupt</span><span class="op">&gt;</span>(<span class="ident">interrupt_spec</span>)<span class="question-mark">?</span>;
 
     <span class="comment">// Default for `rescue`.</span>
     <span class="kw">let</span> <span class="ident">standard_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;StandardError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">standard_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">exception_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">Exception</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;Exception&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">StandardError</span><span class="op">&gt;</span>(<span class="ident">standard_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">argument_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;ArgumentError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">argument_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">standard_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">StandardError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;StandardError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">ArgumentError</span><span class="op">&gt;</span>(<span class="ident">argument_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">uncaughthrow_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;UncaughtThrowError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">uncaughthrow_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">argument_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">ArgumentError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;ArgumentError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">UncaughtThrowError</span><span class="op">&gt;</span>(<span class="ident">uncaughthrow_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">encoding_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;EncodingError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">encoding_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">standard_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">StandardError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;StandardError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">EncodingError</span><span class="op">&gt;</span>(<span class="ident">encoding_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">fiber_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;FiberError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">fiber_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">standard_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">StandardError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;StandardError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">FiberError</span><span class="op">&gt;</span>(<span class="ident">fiber_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">io_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;IOError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">io_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">standard_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">StandardError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;StandardError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">IOError</span><span class="op">&gt;</span>(<span class="ident">io_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">eof_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;EOFError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">eof_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">io_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">IOError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;IOError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">EOFError</span><span class="op">&gt;</span>(<span class="ident">eof_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">index_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;IndexError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">index_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">standard_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">StandardError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;StandardError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">IndexError</span><span class="op">&gt;</span>(<span class="ident">index_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">key_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;KeyError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">key_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">index_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">IndexError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;IndexError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">KeyError</span><span class="op">&gt;</span>(<span class="ident">key_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">stopiteration_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;StopIteration&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">stopiteration_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">index_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">IndexError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;IndexError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">StopIteration</span><span class="op">&gt;</span>(<span class="ident">stopiteration_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">localjump_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;LocalJumpError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">localjump_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">standard_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">StandardError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;StandardError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">LocalJumpError</span><span class="op">&gt;</span>(<span class="ident">localjump_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">name_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;NameError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">name_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">standard_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">StandardError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;StandardError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">NameError</span><span class="op">&gt;</span>(<span class="ident">name_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">nomethod_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;NoMethodError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">nomethod_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">name_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">NameError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;NameError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">NoMethodError</span><span class="op">&gt;</span>(<span class="ident">nomethod_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">range_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;RangeError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">range_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">standard_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">StandardError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;StandardError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">RangeError</span><span class="op">&gt;</span>(<span class="ident">range_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">floatdomain_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;FloatDomainError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">floatdomain_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">range_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">RangeError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;RangeError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">FloatDomainError</span><span class="op">&gt;</span>(<span class="ident">floatdomain_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">regexp_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;RegexpError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">regexp_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">standard_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">StandardError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;StandardError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">RegexpError</span><span class="op">&gt;</span>(<span class="ident">regexp_spec</span>)<span class="question-mark">?</span>;
 
     <span class="comment">// Default `Exception` type for `raise`.</span>
     <span class="kw">let</span> <span class="ident">runtime_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;RuntimeError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">runtime_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">standard_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">StandardError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;StandardError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">RuntimeError</span><span class="op">&gt;</span>(<span class="ident">runtime_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">frozen_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;FrozenError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">frozen_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">runtime_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">RuntimeError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;RuntimeError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">FrozenError</span><span class="op">&gt;</span>(<span class="ident">frozen_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">systemcall_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;SystemCallError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">systemcall_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">standard_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">StandardError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;StandardError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">SystemCallError</span><span class="op">&gt;</span>(<span class="ident">systemcall_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">thread_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;ThreadError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">thread_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">standard_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">StandardError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;StandardError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">ThreadError</span><span class="op">&gt;</span>(<span class="ident">thread_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">type_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;TypeError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">type_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">standard_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">StandardError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;StandardError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">TypeError</span><span class="op">&gt;</span>(<span class="ident">type_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">zerodivision_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;ZeroDivisionError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">zerodivision_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">standard_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">StandardError</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;StandardError&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">ZeroDivisionError</span><span class="op">&gt;</span>(<span class="ident">zerodivision_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">systemexit_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;SystemExit&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">systemexit_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">exception_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">Exception</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;Exception&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">SystemExit</span><span class="op">&gt;</span>(<span class="ident">systemexit_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">systemstack_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;SystemStackError&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">systemstack_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">exception_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">Exception</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;Exception&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">SystemStackError</span><span class="op">&gt;</span>(<span class="ident">systemstack_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">fatal_spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;fatal&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">fatal_spec</span>)
-        .<span class="ident">with_super_class</span>(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">exception_spec</span>))
+        .<span class="ident">with_super_class</span>::<span class="op">&lt;</span><span class="ident">Exception</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="string">&quot;Exception&quot;</span>)<span class="question-mark">?</span>
         .<span class="ident">define</span>()<span class="question-mark">?</span>;
-
-    <span class="ident">drop</span>(<span class="ident">borrow</span>);
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">borrow</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>();
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">Exception</span><span class="op">&gt;</span>(<span class="ident">exception_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">NoMemoryError</span><span class="op">&gt;</span>(<span class="ident">nomemory_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">ScriptError</span><span class="op">&gt;</span>(<span class="ident">script_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">LoadError</span><span class="op">&gt;</span>(<span class="ident">load_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">NotImplementedError</span><span class="op">&gt;</span>(<span class="ident">notimplemented_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">SyntaxError</span><span class="op">&gt;</span>(<span class="ident">syntax_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">SecurityError</span><span class="op">&gt;</span>(<span class="ident">security_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">SignalException</span><span class="op">&gt;</span>(<span class="ident">signal_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">Interrupt</span><span class="op">&gt;</span>(<span class="ident">interrupt_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">StandardError</span><span class="op">&gt;</span>(<span class="ident">standard_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">ArgumentError</span><span class="op">&gt;</span>(<span class="ident">argument_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">UncaughtThrowError</span><span class="op">&gt;</span>(<span class="ident">uncaughthrow_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">EncodingError</span><span class="op">&gt;</span>(<span class="ident">encoding_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">FiberError</span><span class="op">&gt;</span>(<span class="ident">fiber_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">IOError</span><span class="op">&gt;</span>(<span class="ident">io_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">EOFError</span><span class="op">&gt;</span>(<span class="ident">eof_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">IndexError</span><span class="op">&gt;</span>(<span class="ident">index_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">KeyError</span><span class="op">&gt;</span>(<span class="ident">key_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">StopIteration</span><span class="op">&gt;</span>(<span class="ident">stopiteration_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">LocalJumpError</span><span class="op">&gt;</span>(<span class="ident">localjump_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">NameError</span><span class="op">&gt;</span>(<span class="ident">name_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">NoMethodError</span><span class="op">&gt;</span>(<span class="ident">nomethod_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">RangeError</span><span class="op">&gt;</span>(<span class="ident">range_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">FloatDomainError</span><span class="op">&gt;</span>(<span class="ident">floatdomain_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">RegexpError</span><span class="op">&gt;</span>(<span class="ident">regexp_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">RuntimeError</span><span class="op">&gt;</span>(<span class="ident">runtime_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">FrozenError</span><span class="op">&gt;</span>(<span class="ident">frozen_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">SystemCallError</span><span class="op">&gt;</span>(<span class="ident">systemcall_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">ThreadError</span><span class="op">&gt;</span>(<span class="ident">thread_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">TypeError</span><span class="op">&gt;</span>(<span class="ident">type_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">ZeroDivisionError</span><span class="op">&gt;</span>(<span class="ident">zerodivision_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">SystemExit</span><span class="op">&gt;</span>(<span class="ident">systemexit_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">SystemStackError</span><span class="op">&gt;</span>(<span class="ident">systemstack_spec</span>);
-    <span class="ident">borrow</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">Fatal</span><span class="op">&gt;</span>(<span class="ident">fatal_spec</span>);
-    <span class="ident">drop</span>(<span class="ident">borrow</span>);
+    <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="ident">Fatal</span><span class="op">&gt;</span>(<span class="ident">fatal_spec</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="kw-2">&amp;</span><span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;exception.rb&quot;</span>)[..])<span class="question-mark">?</span>;
     <span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;Patched Exception onto interpreter&quot;</span>);
@@ -708,57 +723,88 @@
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">ruby_exception_impl</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> {
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>)]</span>
         <span class="kw">pub</span> <span class="kw">struct</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span> {
-            <span class="ident">message</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, [<span class="ident">u8</span>]<span class="op">&gt;</span>,
+            <span class="ident">message</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">BStr</span><span class="op">&gt;</span>,
         }
 
         <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span> {
-            <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>, <span class="ident">message</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
-            <span class="kw">where</span>
-                <span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-            {
-                <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>;
-                <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">message</span>.<span class="ident">into</span>() {
-                    <span class="ident">Cow</span>::<span class="ident">Borrowed</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Cow</span>::<span class="ident">Borrowed</span>(<span class="ident">s</span>.<span class="ident">as_bytes</span>()),
-                    <span class="ident">Cow</span>::<span class="ident">Owned</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Cow</span>::<span class="ident">Owned</span>(<span class="ident">s</span>.<span class="ident">into_bytes</span>()),
-                };
+            <span class="attribute">#[<span class="ident">must_use</span>]</span>
+            <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+                <span class="comment">// `Exception`s initialized via `raise RuntimeError` or</span>
+                <span class="comment">// `RuntimeError.new` have `message` equal to the `Exception`</span>
+                <span class="comment">// class name.</span>
+                <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">Cow</span>::<span class="ident">Borrowed</span>(<span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span>).<span class="ident">as_bytes</span>().<span class="ident">into</span>());
                 <span class="self">Self</span> { <span class="ident">message</span> }
-            }
-
-            <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_raw</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>, <span class="ident">message</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
-            <span class="kw">where</span>
-                <span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, [<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span>,
-            {
-                <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>;
-                <span class="self">Self</span> {
-                    <span class="ident">message</span>: <span class="ident">message</span>.<span class="ident">into</span>(),
-                }
             }
         }
 
-        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">use_self</span>)]</span>
+        <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span> {
+            <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">message</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+                <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">Cow</span>::<span class="ident">Owned</span>(<span class="ident">message</span>.<span class="ident">into_bytes</span>().<span class="ident">into</span>());
+                <span class="self">Self</span> { <span class="ident">message</span> }
+            }
+        }
+
+        <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span> {
+            <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">message</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+                <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">Cow</span>::<span class="ident">Borrowed</span>(<span class="ident">message</span>.<span class="ident">as_bytes</span>().<span class="ident">into</span>());
+                <span class="self">Self</span> { <span class="ident">message</span> }
+            }
+        }
+
+        <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span> {
+            <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">message</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">str</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+                <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">message</span> {
+                    <span class="ident">Cow</span>::<span class="ident">Borrowed</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Cow</span>::<span class="ident">Borrowed</span>(<span class="ident">s</span>.<span class="ident">as_bytes</span>().<span class="ident">into</span>()),
+                    <span class="ident">Cow</span>::<span class="ident">Owned</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Cow</span>::<span class="ident">Owned</span>(<span class="ident">s</span>.<span class="ident">into_bytes</span>().<span class="ident">into</span>()),
+                };
+                <span class="self">Self</span> { <span class="ident">message</span> }
+            }
+        }
+
+        <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span> {
+            <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">message</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+                <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">Cow</span>::<span class="ident">Owned</span>(<span class="ident">message</span>.<span class="ident">into</span>());
+                <span class="self">Self</span> { <span class="ident">message</span> }
+            }
+        }
+
+        <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="ident">u8</span>]<span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span> {
+            <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">message</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+                <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">message</span>.<span class="ident">as_bstr</span>().<span class="ident">into</span>();
+                <span class="self">Self</span> { <span class="ident">message</span> }
+            }
+        }
+
+        <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, [<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span> {
+            <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">message</span>: <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, [<span class="ident">u8</span>]<span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+                <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">message</span> {
+                    <span class="ident">Cow</span>::<span class="ident">Borrowed</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Cow</span>::<span class="ident">Borrowed</span>(<span class="ident">s</span>.<span class="ident">into</span>()),
+                    <span class="ident">Cow</span>::<span class="ident">Owned</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Cow</span>::<span class="ident">Owned</span>(<span class="ident">s</span>.<span class="ident">into</span>()),
+                };
+                <span class="self">Self</span> { <span class="ident">message</span> }
+            }
+        }
+
         <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">exception</span>::<span class="ident">Exception</span> {
             <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">exception</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">exception</span>::<span class="ident">Exception</span> {
                 <span class="ident">exception</span>::<span class="ident">Exception</span>::<span class="ident">from</span>(<span class="ident">Box</span>::<span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span>::<span class="ident">from</span>(<span class="ident">exception</span>))
             }
         }
 
-        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">use_self</span>)]</span>
         <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">exception</span>::<span class="ident">Exception</span> {
             <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">exception</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">exception</span>::<span class="ident">Exception</span> {
                 <span class="ident">exception</span>::<span class="ident">Exception</span>::<span class="ident">from</span>(<span class="ident">Box</span>::<span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span>::<span class="ident">from</span>(<span class="ident">exception</span>))
             }
         }
 
-        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">use_self</span>)]</span>
         <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span> {
             <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">exception</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span> {
                 <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">exception</span>)
             }
         }
 
-        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">use_self</span>)]</span>
         <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span> {
             <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">exception</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">RubyException</span><span class="op">&gt;</span> {
                 <span class="ident">exception</span>
@@ -766,12 +812,12 @@
         }
 
         <span class="kw">impl</span> <span class="ident">RubyException</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span> {
-            <span class="kw">fn</span> <span class="ident">message</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] {
-                <span class="self">self</span>.<span class="ident">message</span>.<span class="ident">as_ref</span>()
+            <span class="kw">fn</span> <span class="ident">message</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, [<span class="ident">u8</span>]<span class="op">&gt;</span> {
+                <span class="ident">Cow</span>::<span class="ident">Borrowed</span>(<span class="self">self</span>.<span class="ident">message</span>.<span class="ident">as_ref</span>())
             }
 
-            <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-                <span class="ident">String</span>::<span class="ident">from</span>(<span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span>))
+            <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">str</span><span class="op">&gt;</span> {
+                <span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span>).<span class="ident">into</span>()
             }
 
             <span class="kw">fn</span> <span class="ident">vm_backtrace</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> {
@@ -781,20 +827,19 @@
 
             <span class="kw">fn</span> <span class="ident">as_mrb_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">sys</span>::<span class="ident">mrb_value</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert_mut</span>(<span class="self">self</span>.<span class="ident">message</span>());
-                <span class="kw">let</span> <span class="ident">borrow</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow</span>();
-                <span class="kw">let</span> <span class="ident">spec</span> <span class="op">=</span> <span class="ident">borrow</span>.<span class="ident">class_spec</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
-                <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">spec</span>.<span class="ident">new_instance</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span>[<span class="ident">message</span>])<span class="question-mark">?</span>;
+                <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">new_instance</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">message</span>]).<span class="ident">ok</span>().<span class="ident">flatten</span>()<span class="question-mark">?</span>;
                 <span class="prelude-val">Some</span>(<span class="ident">value</span>.<span class="ident">inner</span>())
             }
         }
 
         <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">exception</span> {
             <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
-                <span class="kw">let</span> <span class="ident">classname</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">name</span>();
-                <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{} (&quot;</span>, <span class="ident">classname</span>)<span class="question-mark">?</span>;
-                <span class="ident">string</span>::<span class="ident">format_unicode_debug_into</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">f</span>, <span class="self">self</span>.<span class="ident">message</span>())
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">name</span>())<span class="question-mark">?</span>;
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; (&quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">string</span>::<span class="ident">format_unicode_debug_into</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">f</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">message</span>())
                     .<span class="ident">map_err</span>(<span class="ident">string</span>::<span class="ident">WriteError</span>::<span class="ident">into_inner</span>)<span class="question-mark">?</span>;
-                <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;)&quot;</span>)
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;)&quot;</span>)<span class="question-mark">?</span>;
+                <span class="prelude-val">Ok</span>(())
             }
         }
 
@@ -847,12 +892,11 @@
 
     <span class="kw">struct</span> <span class="ident">Run</span>;
 
-    <span class="kw">impl</span> <span class="ident">Run</span> {
-        <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">run</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">_slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
-            <span class="kw">let</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
-            <span class="kw">let</span> <span class="ident">exc</span> <span class="op">=</span> <span class="ident">RuntimeError</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="string">&quot;something went wrong&quot;</span>);
-            <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">interp</span>, <span class="ident">exc</span>)
-        }
+    <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">run_run</span>(<span class="ident">mrb</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">sys</span>::<span class="ident">mrb_state</span>, <span class="ident">_slf</span>: <span class="ident">sys</span>::<span class="ident">mrb_value</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">sys</span>::<span class="ident">mrb_value</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">interp</span> <span class="op">=</span> <span class="macro">unwrap_interpreter</span><span class="macro">!</span>(<span class="ident">mrb</span>);
+        <span class="kw">let</span> <span class="ident">guard</span> <span class="op">=</span> <span class="ident">Guard</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">interp</span>);
+        <span class="kw">let</span> <span class="ident">exc</span> <span class="op">=</span> <span class="ident">RuntimeError</span>::<span class="ident">from</span>(<span class="string">&quot;something went wrong&quot;</span>);
+        <span class="ident">exception</span>::<span class="ident">raise</span>(<span class="ident">guard</span>, <span class="ident">exc</span>)
     }
 
     <span class="kw">impl</span> <span class="ident">File</span> <span class="kw">for</span> <span class="ident">Run</span> {
@@ -863,9 +907,9 @@
         <span class="kw">fn</span> <span class="ident">require</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
             <span class="kw">let</span> <span class="ident">spec</span> <span class="op">=</span> <span class="ident">class</span>::<span class="ident">Spec</span>::<span class="ident">new</span>(<span class="string">&quot;Run&quot;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).<span class="ident">unwrap</span>();
             <span class="ident">class</span>::<span class="ident">Builder</span>::<span class="ident">for_spec</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">spec</span>)
-                .<span class="ident">add_self_method</span>(<span class="string">&quot;run&quot;</span>, <span class="self">Self</span>::<span class="ident">run</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_none</span>())<span class="question-mark">?</span>
+                .<span class="ident">add_self_method</span>(<span class="string">&quot;run&quot;</span>, <span class="ident">run_run</span>, <span class="ident">sys</span>::<span class="ident">mrb_args_none</span>())<span class="question-mark">?</span>
                 .<span class="ident">define</span>()<span class="question-mark">?</span>;
-            <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>(<span class="ident">spec</span>);
+            <span class="ident">interp</span>.<span class="ident">def_class</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>(<span class="ident">spec</span>)<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(())
         }
     }
@@ -875,8 +919,8 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">interp</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">interpreter</span>().<span class="ident">expect</span>(<span class="string">&quot;init&quot;</span>);
         <span class="ident">Run</span>::<span class="ident">require</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">interp</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">eval</span>(<span class="string">b&quot;Run.run&quot;</span>).<span class="ident">unwrap_err</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;RuntimeError&quot;</span>, <span class="ident">err</span>.<span class="ident">name</span>().<span class="ident">as_str</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Vec</span>::<span class="ident">from</span>(<span class="kw-2">&amp;</span><span class="string">b&quot;something went wrong&quot;</span>[..]), <span class="ident">err</span>.<span class="ident">message</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;RuntimeError&quot;</span>, <span class="ident">err</span>.<span class="ident">name</span>().<span class="ident">as_ref</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="string">b&quot;something went wrong&quot;</span>[..], <span class="ident">err</span>.<span class="ident">message</span>().<span class="ident">as_ref</span>());
         <span class="macro">assert_eq</span><span class="macro">!</span>(
             <span class="prelude-val">Some</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="ident">Vec</span>::<span class="ident">from</span>(<span class="kw-2">&amp;</span><span class="string">b&quot;(eval):1&quot;</span>[..])]),
             <span class="ident">err</span>.<span class="ident">vm_backtrace</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">interp</span>)

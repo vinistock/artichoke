@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["factory",""]],"mod":[["backend",""],["mruby",""],["trampoline",""]],"struct":[["Time",""]]});
+initSidebarItems({"mod":[["backend",""],["mruby",""],["trampoline",""]],"struct":[["Time",""]]});

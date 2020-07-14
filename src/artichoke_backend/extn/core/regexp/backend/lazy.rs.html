@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `artichoke-backend/src/extn/core/regexp/backend/lazy.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lazy.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../../../light.css" id="themeStyle"><script src="../../../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../../../../artichoke_backend/index.html'><div class='logo-container'><img src='../../../../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../../../settings.html"><img src="../../../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `artichoke-backend/src/extn/core/regexp/backend/lazy.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lazy.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../../../light.css" id="themeStyle"><script src="../../../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../../../noscript.css"></noscript><link rel="shortcut icon" href="https://www.artichokeruby.org/favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../../../../artichoke_backend/index.html'><div class='logo-container'><img src='https://www.artichokeruby.org/artichoke-logo.svg' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../../../settings.html"><img src="../../../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -168,75 +168,42 @@
 <span id="168">168</span>
 <span id="169">169</span>
 <span id="170">170</span>
-<span id="171">171</span>
-<span id="172">172</span>
-<span id="173">173</span>
-<span id="174">174</span>
-<span id="175">175</span>
-<span id="176">176</span>
-<span id="177">177</span>
-<span id="178">178</span>
-<span id="179">179</span>
-<span id="180">180</span>
-<span id="181">181</span>
-<span id="182">182</span>
-<span id="183">183</span>
-<span id="184">184</span>
-<span id="185">185</span>
-<span id="186">186</span>
-<span id="187">187</span>
-<span id="188">188</span>
-<span id="189">189</span>
-<span id="190">190</span>
-<span id="191">191</span>
-<span id="192">192</span>
-<span id="193">193</span>
-<span id="194">194</span>
-<span id="195">195</span>
-<span id="196">196</span>
-<span id="197">197</span>
-<span id="198">198</span>
-<span id="199">199</span>
-<span id="200">200</span>
-<span id="201">201</span>
-<span id="202">202</span>
-<span id="203">203</span>
-<span id="204">204</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">once_cell</span>::<span class="ident">sync</span>::<span class="ident">OnceCell</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">regexp</span>::{<span class="ident">Config</span>, <span class="ident">Encoding</span>, <span class="ident">Regexp</span>, <span class="ident">RegexpType</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">regexp</span>::{<span class="ident">Config</span>, <span class="ident">Encoding</span>, <span class="ident">Regexp</span>, <span class="ident">RegexpType</span>, <span class="ident">Scan</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">NameToCaptureLocations</span>, <span class="ident">NilableString</span>};
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>, <span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Lazy</span> {
     <span class="ident">literal</span>: <span class="ident">Config</span>,
     <span class="ident">encoding</span>: <span class="ident">Encoding</span>,
     <span class="ident">regexp</span>: <span class="ident">OnceCell</span><span class="op">&lt;</span><span class="ident">Regexp</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span> <span class="ident">Lazy</span> {
-    <span class="attribute">#[<span class="ident">must_use</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">literal</span>: <span class="ident">Config</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Config</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Lazy</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">config</span>: <span class="ident">Config</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
-            <span class="ident">literal</span>,
+            <span class="ident">literal</span>: <span class="ident">config</span>,
             <span class="ident">encoding</span>: <span class="ident">Encoding</span>::<span class="ident">default</span>(),
             <span class="ident">regexp</span>: <span class="ident">OnceCell</span>::<span class="ident">new</span>(),
         }
     }
+}
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">regexp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Regexp</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
+<span class="kw">impl</span> <span class="ident">Lazy</span> {
+    <span class="attribute">#[<span class="ident">must_use</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span>::<span class="ident">default</span>()
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">regexp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Regexp</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">regexp</span>.<span class="ident">get_or_try_init</span>(<span class="op">|</span><span class="op">|</span> {
-            <span class="ident">Regexp</span>::<span class="ident">new</span>(
-                <span class="ident">interp</span>,
-                <span class="self">self</span>.<span class="ident">literal</span>.<span class="ident">clone</span>(),
-                <span class="self">self</span>.<span class="ident">literal</span>.<span class="ident">clone</span>(),
-                <span class="self">self</span>.<span class="ident">encoding</span>,
-            )
+            <span class="ident">Regexp</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">literal</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="ident">literal</span>.<span class="ident">clone</span>(), <span class="self">self</span>.<span class="ident">encoding</span>)
         })
     }
 }
@@ -250,7 +217,7 @@
 
 <span class="kw">impl</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">Lazy</span> {
     <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">literal</span>.<span class="ident">clone</span>())
+        <span class="self">self</span>.<span class="ident">literal</span>.<span class="ident">clone</span>().<span class="ident">into</span>()
     }
 }
 
@@ -259,38 +226,20 @@
         <span class="ident">Box</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">clone</span>())
     }
 
-    <span class="kw">fn</span> <span class="ident">captures</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
-        <span class="ident">haystack</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">NilableString</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">regexp</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>.<span class="ident">inner</span>().<span class="ident">captures</span>(<span class="ident">interp</span>, <span class="ident">haystack</span>)
+    <span class="kw">fn</span> <span class="ident">captures</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">haystack</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">NilableString</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">regexp</span>()<span class="question-mark">?</span>.<span class="ident">inner</span>().<span class="ident">captures</span>(<span class="ident">haystack</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">capture_indexes_for_name</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
-        <span class="ident">name</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">regexp</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>
-            .<span class="ident">inner</span>()
-            .<span class="ident">capture_indexes_for_name</span>(<span class="ident">interp</span>, <span class="ident">name</span>)
+    <span class="kw">fn</span> <span class="ident">capture_indexes_for_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">regexp</span>()<span class="question-mark">?</span>.<span class="ident">inner</span>().<span class="ident">capture_indexes_for_name</span>(<span class="ident">name</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">captures_len</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
-        <span class="ident">haystack</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">regexp</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>.<span class="ident">inner</span>().<span class="ident">captures_len</span>(<span class="ident">interp</span>, <span class="ident">haystack</span>)
+    <span class="kw">fn</span> <span class="ident">captures_len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">haystack</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">regexp</span>()<span class="question-mark">?</span>.<span class="ident">inner</span>().<span class="ident">captures_len</span>(<span class="ident">haystack</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">capture0</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
-        <span class="ident">haystack</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">regexp</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>.<span class="ident">inner</span>().<span class="ident">capture0</span>(<span class="ident">interp</span>, <span class="ident">haystack</span>)
+    <span class="kw">fn</span> <span class="ident">capture0</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">haystack</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">regexp</span>()<span class="question-mark">?</span>.<span class="ident">inner</span>().<span class="ident">capture0</span>(<span class="ident">haystack</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">debug</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
@@ -305,8 +254,8 @@
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">string</span>::<span class="ident">format_unicode_debug_into</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pattern</span>, <span class="self">self</span>.<span class="ident">literal</span>.<span class="ident">pattern</span>.<span class="ident">as_slice</span>());
         <span class="ident">debug</span>.<span class="ident">push_str</span>(<span class="ident">pattern</span>.<span class="ident">replace</span>(<span class="string">&quot;/&quot;</span>, <span class="string">r&quot;\/&quot;</span>).<span class="ident">as_str</span>());
         <span class="ident">debug</span>.<span class="ident">push</span>(<span class="string">&#39;/&#39;</span>);
-        <span class="ident">debug</span>.<span class="ident">push_str</span>(<span class="self">self</span>.<span class="ident">literal</span>.<span class="ident">options</span>.<span class="ident">modifier_string</span>().<span class="ident">as_str</span>());
-        <span class="ident">debug</span>.<span class="ident">push_str</span>(<span class="self">self</span>.<span class="ident">encoding</span>.<span class="ident">string</span>());
+        <span class="ident">debug</span>.<span class="ident">push_str</span>(<span class="self">self</span>.<span class="ident">literal</span>.<span class="ident">options</span>.<span class="ident">as_display_modifier</span>());
+        <span class="ident">debug</span>.<span class="ident">push_str</span>(<span class="self">self</span>.<span class="ident">encoding</span>.<span class="ident">modifier_string</span>());
         <span class="ident">debug</span>
     }
 
@@ -322,29 +271,24 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">encoding</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">inspect</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">regexp</span>(<span class="ident">interp</span>)
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">regexp</span><span class="op">|</span> <span class="ident">regexp</span>.<span class="ident">inner</span>().<span class="ident">inspect</span>(<span class="ident">interp</span>))
+    <span class="kw">fn</span> <span class="ident">inspect</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">regexp</span>()
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">regexp</span><span class="op">|</span> <span class="ident">regexp</span>.<span class="ident">inner</span>().<span class="ident">inspect</span>())
             .<span class="ident">unwrap_or_default</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] {
-        <span class="self">self</span>.<span class="ident">regexp</span>(<span class="ident">interp</span>)
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">regexp</span><span class="op">|</span> <span class="ident">regexp</span>.<span class="ident">inner</span>().<span class="ident">string</span>(<span class="ident">interp</span>))
+    <span class="kw">fn</span> <span class="ident">string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] {
+        <span class="self">self</span>.<span class="ident">regexp</span>()
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">regexp</span><span class="op">|</span> <span class="ident">regexp</span>.<span class="ident">inner</span>().<span class="ident">string</span>())
             .<span class="ident">unwrap_or_default</span>()
     }
 
     <span class="kw">fn</span> <span class="ident">case_match</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Artichoke</span>, <span class="ident">haystack</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">regexp</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>.<span class="ident">inner</span>().<span class="ident">case_match</span>(<span class="ident">interp</span>, <span class="ident">haystack</span>)
+        <span class="self">self</span>.<span class="ident">regexp</span>()<span class="question-mark">?</span>.<span class="ident">inner</span>().<span class="ident">case_match</span>(<span class="ident">interp</span>, <span class="ident">haystack</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">is_match</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
-        <span class="ident">haystack</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
-        <span class="ident">pos</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Int</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">regexp</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>.<span class="ident">inner</span>().<span class="ident">is_match</span>(<span class="ident">interp</span>, <span class="ident">haystack</span>, <span class="ident">pos</span>)
+    <span class="kw">fn</span> <span class="ident">is_match</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">haystack</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">pos</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Int</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">regexp</span>()<span class="question-mark">?</span>.<span class="ident">inner</span>().<span class="ident">is_match</span>(<span class="ident">haystack</span>, <span class="ident">pos</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">match_</span>(
@@ -354,57 +298,45 @@
         <span class="ident">pos</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Int</span><span class="op">&gt;</span>,
         <span class="ident">block</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Block</span><span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">regexp</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>
-            .<span class="ident">inner</span>()
-            .<span class="ident">match_</span>(<span class="ident">interp</span>, <span class="ident">haystack</span>, <span class="ident">pos</span>, <span class="ident">block</span>)
+        <span class="self">self</span>.<span class="ident">regexp</span>()<span class="question-mark">?</span>.<span class="ident">inner</span>().<span class="ident">match_</span>(<span class="ident">interp</span>, <span class="ident">haystack</span>, <span class="ident">pos</span>, <span class="ident">block</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">match_operator</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Artichoke</span>,
         <span class="ident">haystack</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Int</span><span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">regexp</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>
-            .<span class="ident">inner</span>()
-            .<span class="ident">match_operator</span>(<span class="ident">interp</span>, <span class="ident">haystack</span>)
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">regexp</span>()<span class="question-mark">?</span>.<span class="ident">inner</span>().<span class="ident">match_operator</span>(<span class="ident">interp</span>, <span class="ident">haystack</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">named_captures</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">NameToCaptureLocations</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">regexp</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>.<span class="ident">inner</span>().<span class="ident">named_captures</span>(<span class="ident">interp</span>)
+    <span class="kw">fn</span> <span class="ident">named_captures</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">NameToCaptureLocations</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">regexp</span>()<span class="question-mark">?</span>.<span class="ident">inner</span>().<span class="ident">named_captures</span>()
     }
 
     <span class="kw">fn</span> <span class="ident">named_captures_for_haystack</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
         <span class="ident">haystack</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">NilableString</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">regexp</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>
-            .<span class="ident">inner</span>()
-            .<span class="ident">named_captures_for_haystack</span>(<span class="ident">interp</span>, <span class="ident">haystack</span>)
+        <span class="self">self</span>.<span class="ident">regexp</span>()<span class="question-mark">?</span>.<span class="ident">inner</span>().<span class="ident">named_captures_for_haystack</span>(<span class="ident">haystack</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">names</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">regexp</span>(<span class="ident">interp</span>)
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">regexp</span><span class="op">|</span> <span class="ident">regexp</span>.<span class="ident">inner</span>().<span class="ident">names</span>(<span class="ident">interp</span>))
+    <span class="kw">fn</span> <span class="ident">names</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">regexp</span>()
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">regexp</span><span class="op">|</span> <span class="ident">regexp</span>.<span class="ident">inner</span>().<span class="ident">names</span>())
             .<span class="ident">unwrap_or_default</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">pos</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
-        <span class="ident">haystack</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
-        <span class="ident">at</span>: <span class="ident">usize</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="ident">usize</span>)<span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">regexp</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>.<span class="ident">inner</span>().<span class="ident">pos</span>(<span class="ident">interp</span>, <span class="ident">haystack</span>, <span class="ident">at</span>)
+    <span class="kw">fn</span> <span class="ident">pos</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">haystack</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">at</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="ident">usize</span>)<span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">regexp</span>()<span class="question-mark">?</span>.<span class="ident">inner</span>().<span class="ident">pos</span>(<span class="ident">haystack</span>, <span class="ident">at</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">scan</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Artichoke</span>,
-        <span class="ident">haystack</span>: <span class="ident">Value</span>,
+        <span class="ident">haystack</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
         <span class="ident">block</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Block</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">regexp</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>.<span class="ident">inner</span>().<span class="ident">scan</span>(<span class="ident">interp</span>, <span class="ident">haystack</span>, <span class="ident">block</span>)
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Scan</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">regexp</span>()<span class="question-mark">?</span>.<span class="ident">inner</span>().<span class="ident">scan</span>(<span class="ident">interp</span>, <span class="ident">haystack</span>, <span class="ident">block</span>)
     }
 }
 </pre></div>

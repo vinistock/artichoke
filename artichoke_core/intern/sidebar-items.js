@@ -1,1 +1,1 @@
-initSidebarItems({"trait":[["Intern","Store and retrieve byte vectors that have the same lifetime as the interpreter."]]});
+initSidebarItems({"trait":[["Intern","Store and retrieve bytestrings that have the same lifetime as the interpreter."]]});

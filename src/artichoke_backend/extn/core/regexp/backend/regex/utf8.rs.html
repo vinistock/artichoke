@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `artichoke-backend/src/extn/core/regexp/backend/regex/utf8.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>utf8.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../../../../light.css" id="themeStyle"><script src="../../../../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../../../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../../../../../artichoke_backend/index.html'><div class='logo-container'><img src='../../../../../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../../../../settings.html"><img src="../../../../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `artichoke-backend/src/extn/core/regexp/backend/regex/utf8.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>utf8.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../../../../light.css" id="themeStyle"><script src="../../../../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../../../../noscript.css"></noscript><link rel="shortcut icon" href="https://www.artichokeruby.org/favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../../../../../artichoke_backend/index.html'><div class='logo-container'><img src='https://www.artichokeruby.org/artichoke-logo.svg' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../../../../settings.html"><img src="../../../../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -590,119 +590,6 @@
 <span id="590">590</span>
 <span id="591">591</span>
 <span id="592">592</span>
-<span id="593">593</span>
-<span id="594">594</span>
-<span id="595">595</span>
-<span id="596">596</span>
-<span id="597">597</span>
-<span id="598">598</span>
-<span id="599">599</span>
-<span id="600">600</span>
-<span id="601">601</span>
-<span id="602">602</span>
-<span id="603">603</span>
-<span id="604">604</span>
-<span id="605">605</span>
-<span id="606">606</span>
-<span id="607">607</span>
-<span id="608">608</span>
-<span id="609">609</span>
-<span id="610">610</span>
-<span id="611">611</span>
-<span id="612">612</span>
-<span id="613">613</span>
-<span id="614">614</span>
-<span id="615">615</span>
-<span id="616">616</span>
-<span id="617">617</span>
-<span id="618">618</span>
-<span id="619">619</span>
-<span id="620">620</span>
-<span id="621">621</span>
-<span id="622">622</span>
-<span id="623">623</span>
-<span id="624">624</span>
-<span id="625">625</span>
-<span id="626">626</span>
-<span id="627">627</span>
-<span id="628">628</span>
-<span id="629">629</span>
-<span id="630">630</span>
-<span id="631">631</span>
-<span id="632">632</span>
-<span id="633">633</span>
-<span id="634">634</span>
-<span id="635">635</span>
-<span id="636">636</span>
-<span id="637">637</span>
-<span id="638">638</span>
-<span id="639">639</span>
-<span id="640">640</span>
-<span id="641">641</span>
-<span id="642">642</span>
-<span id="643">643</span>
-<span id="644">644</span>
-<span id="645">645</span>
-<span id="646">646</span>
-<span id="647">647</span>
-<span id="648">648</span>
-<span id="649">649</span>
-<span id="650">650</span>
-<span id="651">651</span>
-<span id="652">652</span>
-<span id="653">653</span>
-<span id="654">654</span>
-<span id="655">655</span>
-<span id="656">656</span>
-<span id="657">657</span>
-<span id="658">658</span>
-<span id="659">659</span>
-<span id="660">660</span>
-<span id="661">661</span>
-<span id="662">662</span>
-<span id="663">663</span>
-<span id="664">664</span>
-<span id="665">665</span>
-<span id="666">666</span>
-<span id="667">667</span>
-<span id="668">668</span>
-<span id="669">669</span>
-<span id="670">670</span>
-<span id="671">671</span>
-<span id="672">672</span>
-<span id="673">673</span>
-<span id="674">674</span>
-<span id="675">675</span>
-<span id="676">676</span>
-<span id="677">677</span>
-<span id="678">678</span>
-<span id="679">679</span>
-<span id="680">680</span>
-<span id="681">681</span>
-<span id="682">682</span>
-<span id="683">683</span>
-<span id="684">684</span>
-<span id="685">685</span>
-<span id="686">686</span>
-<span id="687">687</span>
-<span id="688">688</span>
-<span id="689">689</span>
-<span id="690">690</span>
-<span id="691">691</span>
-<span id="692">692</span>
-<span id="693">693</span>
-<span id="694">694</span>
-<span id="695">695</span>
-<span id="696">696</span>
-<span id="697">697</span>
-<span id="698">698</span>
-<span id="699">699</span>
-<span id="700">700</span>
-<span id="701">701</span>
-<span id="702">702</span>
-<span id="703">703</span>
-<span id="704">704</span>
-<span id="705">705</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">regex</span>::{<span class="ident">Regex</span>, <span class="ident">RegexBuilder</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">Ordering</span>;
@@ -713,7 +600,7 @@
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">matchdata</span>::<span class="ident">MatchData</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">regexp</span>::{<span class="self">self</span>, <span class="ident">Config</span>, <span class="ident">Encoding</span>, <span class="ident">Regexp</span>, <span class="ident">RegexpType</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">core</span>::<span class="ident">regexp</span>::{<span class="self">self</span>, <span class="ident">Config</span>, <span class="ident">Encoding</span>, <span class="ident">Regexp</span>, <span class="ident">RegexpType</span>, <span class="ident">Scan</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extn</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 
 <span class="kw">use</span> <span class="kw">super</span>::<span class="kw">super</span>::{<span class="ident">NameToCaptureLocations</span>, <span class="ident">NilableString</span>};
@@ -727,29 +614,21 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Utf8</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(
-        <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
-        <span class="ident">literal</span>: <span class="ident">Config</span>,
-        <span class="ident">derived</span>: <span class="ident">Config</span>,
-        <span class="ident">encoding</span>: <span class="ident">Encoding</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">literal</span>: <span class="ident">Config</span>, <span class="ident">derived</span>: <span class="ident">Config</span>, <span class="ident">encoding</span>: <span class="ident">Encoding</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">pattern</span> <span class="op">=</span> <span class="ident">str</span>::<span class="ident">from_utf8</span>(<span class="ident">derived</span>.<span class="ident">pattern</span>.<span class="ident">as_slice</span>()).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-            <span class="ident">ArgumentError</span>::<span class="ident">new</span>(
-                <span class="ident">interp</span>,
-                <span class="string">&quot;regex crate utf8 backend for Regexp only supports UTF-8 patterns&quot;</span>,
-            )
+            <span class="ident">ArgumentError</span>::<span class="ident">from</span>(<span class="string">&quot;regex crate utf8 backend for Regexp only supports UTF-8 patterns&quot;</span>)
         })<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">builder</span> <span class="op">=</span> <span class="ident">RegexBuilder</span>::<span class="ident">new</span>(<span class="ident">pattern</span>);
         <span class="ident">builder</span>.<span class="ident">case_insensitive</span>(<span class="ident">derived</span>.<span class="ident">options</span>.<span class="ident">ignore_case</span>);
         <span class="ident">builder</span>.<span class="ident">multi_line</span>(<span class="ident">derived</span>.<span class="ident">options</span>.<span class="ident">multiline</span>);
         <span class="ident">builder</span>.<span class="ident">ignore_whitespace</span>(<span class="ident">derived</span>.<span class="ident">options</span>.<span class="ident">extended</span>);
-        <span class="kw">let</span> <span class="ident">regex</span> <span class="op">=</span> <span class="ident">builder</span>.<span class="ident">build</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> {
-            <span class="kw">if</span> <span class="ident">literal</span>.<span class="ident">options</span>.<span class="ident">literal</span> {
-                <span class="ident">Exception</span>::<span class="ident">from</span>(<span class="ident">SyntaxError</span>::<span class="ident">new</span>(<span class="ident">interp</span>, <span class="ident">err</span>.<span class="ident">to_string</span>()))
-            } <span class="kw">else</span> {
-                <span class="ident">Exception</span>::<span class="ident">from</span>(<span class="ident">RegexpError</span>::<span class="ident">new</span>(<span class="ident">interp</span>, <span class="ident">err</span>.<span class="ident">to_string</span>()))
+        <span class="kw">let</span> <span class="ident">regex</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">builder</span>.<span class="ident">build</span>() {
+            <span class="prelude-val">Ok</span>(<span class="ident">regex</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">regex</span>,
+            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="kw">if</span> <span class="ident">literal</span>.<span class="ident">options</span>.<span class="ident">literal</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">SyntaxError</span>::<span class="ident">from</span>(<span class="ident">err</span>.<span class="ident">to_string</span>()).<span class="ident">into</span>());
             }
-        })<span class="question-mark">?</span>;
+            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RegexpError</span>::<span class="ident">from</span>(<span class="ident">err</span>.<span class="ident">to_string</span>()).<span class="ident">into</span>()),
+        };
         <span class="kw">let</span> <span class="ident">regexp</span> <span class="op">=</span> <span class="self">Self</span> {
             <span class="ident">literal</span>,
             <span class="ident">derived</span>,
@@ -772,16 +651,9 @@
         <span class="ident">Box</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">clone</span>())
     }
 
-    <span class="kw">fn</span> <span class="ident">captures</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
-        <span class="ident">haystack</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">NilableString</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">captures</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">haystack</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">NilableString</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">haystack</span> <span class="op">=</span> <span class="ident">str</span>::<span class="ident">from_utf8</span>(<span class="ident">haystack</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-            <span class="ident">ArgumentError</span>::<span class="ident">new</span>(
-                <span class="ident">interp</span>,
-                <span class="string">&quot;regex crate utf8 backend for Regexp only supports UTF-8 haystacks&quot;</span>,
-            )
+            <span class="ident">ArgumentError</span>::<span class="ident">from</span>(<span class="string">&quot;regex crate utf8 backend for Regexp only supports UTF-8 haystacks&quot;</span>)
         })<span class="question-mark">?</span>;
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">captures</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">regex</span>.<span class="ident">captures</span>(<span class="ident">haystack</span>) {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">captures</span>.<span class="ident">len</span>());
@@ -798,12 +670,7 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">capture_indexes_for_name</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
-        <span class="ident">name</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>;
+    <span class="kw">fn</span> <span class="ident">capture_indexes_for_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
         <span class="kw">for</span> (<span class="ident">index</span>, <span class="ident">group</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">regex</span>.<span class="ident">capture_names</span>().<span class="ident">enumerate</span>() {
             <span class="kw">if</span> <span class="prelude-val">Some</span>(<span class="ident">name</span>) <span class="op">=</span><span class="op">=</span> <span class="ident">group</span>.<span class="ident">map</span>(<span class="ident">str</span>::<span class="ident">as_bytes</span>) {
@@ -817,15 +684,10 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">captures_len</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
-        <span class="ident">haystack</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">captures_len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">haystack</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">haystack</span>) <span class="op">=</span> <span class="ident">haystack</span> {
             <span class="kw">let</span> <span class="ident">haystack</span> <span class="op">=</span> <span class="ident">str</span>::<span class="ident">from_utf8</span>(<span class="ident">haystack</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-                <span class="ident">ArgumentError</span>::<span class="ident">new</span>(
-                    <span class="ident">interp</span>,
+                <span class="ident">ArgumentError</span>::<span class="ident">from</span>(
                     <span class="string">&quot;regex crate utf8 backend for Regexp only supports UTF-8 haystacks&quot;</span>,
                 )
             })<span class="question-mark">?</span>;
@@ -839,16 +701,9 @@
         <span class="prelude-val">Ok</span>(<span class="ident">result</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">capture0</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
-        <span class="ident">haystack</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">capture0</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">haystack</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">haystack</span> <span class="op">=</span> <span class="ident">str</span>::<span class="ident">from_utf8</span>(<span class="ident">haystack</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-            <span class="ident">ArgumentError</span>::<span class="ident">new</span>(
-                <span class="ident">interp</span>,
-                <span class="string">&quot;regex crate utf8 backend for Regexp only supports UTF-8 haystacks&quot;</span>,
-            )
+            <span class="ident">ArgumentError</span>::<span class="ident">from</span>(<span class="string">&quot;regex crate utf8 backend for Regexp only supports UTF-8 haystacks&quot;</span>)
         })<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">regex</span>
@@ -872,8 +727,8 @@
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">string</span>::<span class="ident">format_unicode_debug_into</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pattern</span>, <span class="self">self</span>.<span class="ident">literal</span>.<span class="ident">pattern</span>.<span class="ident">as_slice</span>());
         <span class="ident">debug</span>.<span class="ident">push_str</span>(<span class="ident">pattern</span>.<span class="ident">replace</span>(<span class="string">&quot;/&quot;</span>, <span class="string">r&quot;\/&quot;</span>).<span class="ident">as_str</span>());
         <span class="ident">debug</span>.<span class="ident">push</span>(<span class="string">&#39;/&#39;</span>);
-        <span class="ident">debug</span>.<span class="ident">push_str</span>(<span class="self">self</span>.<span class="ident">literal</span>.<span class="ident">options</span>.<span class="ident">modifier_string</span>().<span class="ident">as_str</span>());
-        <span class="ident">debug</span>.<span class="ident">push_str</span>(<span class="self">self</span>.<span class="ident">encoding</span>.<span class="ident">string</span>());
+        <span class="ident">debug</span>.<span class="ident">push_str</span>(<span class="self">self</span>.<span class="ident">literal</span>.<span class="ident">options</span>.<span class="ident">as_display_modifier</span>());
+        <span class="ident">debug</span>.<span class="ident">push_str</span>(<span class="self">self</span>.<span class="ident">encoding</span>.<span class="ident">modifier_string</span>());
         <span class="ident">debug</span>
     }
 
@@ -889,8 +744,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">encoding</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">inspect</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>;
+    <span class="kw">fn</span> <span class="ident">inspect</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
         <span class="comment">// pattern length + 2x &#39;/&#39; + mix + encoding</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">inspect</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="self">self</span>.<span class="ident">literal</span>.<span class="ident">pattern</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="number">2</span> <span class="op">+</span> <span class="number">4</span>);
         <span class="ident">inspect</span>.<span class="ident">push</span>(<span class="string">b&#39;/&#39;</span>);
@@ -900,22 +754,18 @@
             <span class="ident">inspect</span>.<span class="ident">extend</span>(<span class="self">self</span>.<span class="ident">literal</span>.<span class="ident">pattern</span>.<span class="ident">iter</span>());
         }
         <span class="ident">inspect</span>.<span class="ident">push</span>(<span class="string">b&#39;/&#39;</span>);
-        <span class="ident">inspect</span>.<span class="ident">extend</span>(<span class="self">self</span>.<span class="ident">literal</span>.<span class="ident">options</span>.<span class="ident">modifier_string</span>().<span class="ident">as_bytes</span>());
-        <span class="ident">inspect</span>.<span class="ident">extend</span>(<span class="self">self</span>.<span class="ident">encoding</span>.<span class="ident">string</span>().<span class="ident">as_bytes</span>());
+        <span class="ident">inspect</span>.<span class="ident">extend</span>(<span class="self">self</span>.<span class="ident">literal</span>.<span class="ident">options</span>.<span class="ident">as_display_modifier</span>().<span class="ident">as_bytes</span>());
+        <span class="ident">inspect</span>.<span class="ident">extend</span>(<span class="self">self</span>.<span class="ident">encoding</span>.<span class="ident">modifier_string</span>().<span class="ident">as_bytes</span>());
         <span class="ident">inspect</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] {
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">interp</span>;
+    <span class="kw">fn</span> <span class="ident">string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] {
         <span class="self">self</span>.<span class="ident">derived</span>.<span class="ident">pattern</span>.<span class="ident">as_slice</span>()
     }
 
     <span class="kw">fn</span> <span class="ident">case_match</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Artichoke</span>, <span class="ident">haystack</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">haystack</span> <span class="op">=</span> <span class="ident">str</span>::<span class="ident">from_utf8</span>(<span class="ident">haystack</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-            <span class="ident">ArgumentError</span>::<span class="ident">new</span>(
-                <span class="ident">interp</span>,
-                <span class="string">&quot;regex crate utf8 backend for Regexp only supports UTF-8 haystack&quot;</span>,
-            )
+            <span class="ident">ArgumentError</span>::<span class="ident">from</span>(<span class="string">&quot;regex crate utf8 backend for Regexp only supports UTF-8 haystack&quot;</span>)
         })<span class="question-mark">?</span>;
         <span class="ident">regexp</span>::<span class="ident">clear_capture_globals</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>;
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">captures</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">regex</span>.<span class="ident">captures</span>(<span class="ident">haystack</span>) {
@@ -925,8 +775,7 @@
             <span class="comment">// &gt; capture group that corresponds to the full match.</span>
             <span class="comment">//</span>
             <span class="comment">// [docs]: https://docs.rs/regex/1.3.4/regex/struct.Captures.html#method.len</span>
-            <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">active_regexp_globals</span> <span class="op">=</span>
-                <span class="ident">captures</span>.<span class="ident">len</span>().<span class="ident">checked_sub</span>(<span class="number">1</span>).<span class="ident">and_then</span>(<span class="ident">NonZeroUsize</span>::<span class="ident">new</span>);
+            <span class="ident">interp</span>.<span class="ident">set_active_regexp_globals</span>(<span class="ident">captures</span>.<span class="ident">len</span>().<span class="ident">checked_sub</span>(<span class="number">1</span>).<span class="ident">unwrap_or_default</span>())<span class="question-mark">?</span>;
 
             <span class="kw">let</span> <span class="ident">fullmatch</span> <span class="op">=</span> <span class="ident">captures</span>
                 .<span class="ident">get</span>(<span class="number">0</span>)
@@ -952,13 +801,8 @@
                 <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">STRING_LEFT_OF_MATCH</span>, <span class="kw-2">&amp;</span><span class="ident">pre_match</span>)<span class="question-mark">?</span>;
                 <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">STRING_RIGHT_OF_MATCH</span>, <span class="kw-2">&amp;</span><span class="ident">post_match</span>)<span class="question-mark">?</span>;
             }
-            <span class="kw">let</span> <span class="ident">matchdata</span> <span class="op">=</span> <span class="ident">MatchData</span>::<span class="ident">new</span>(
-                <span class="ident">haystack</span>.<span class="ident">into</span>(),
-                <span class="ident">Regexp</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">box_clone</span>()),
-                <span class="number">0</span>,
-                <span class="ident">haystack</span>.<span class="ident">len</span>(),
-            );
-            <span class="kw">let</span> <span class="ident">matchdata</span> <span class="op">=</span> <span class="ident">matchdata</span>.<span class="ident">try_into_ruby</span>(<span class="kw-2">&amp;</span><span class="ident">interp</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">matchdata</span> <span class="op">=</span> <span class="ident">MatchData</span>::<span class="ident">new</span>(<span class="ident">haystack</span>.<span class="ident">into</span>(), <span class="ident">Regexp</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">box_clone</span>()), ..);
+            <span class="kw">let</span> <span class="ident">matchdata</span> <span class="op">=</span> <span class="ident">MatchData</span>::<span class="ident">alloc_value</span>(<span class="ident">matchdata</span>, <span class="ident">interp</span>)<span class="question-mark">?</span>;
             <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>, <span class="kw-2">&amp;</span><span class="ident">matchdata</span>)<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>)
         } <span class="kw">else</span> {
@@ -968,33 +812,24 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">is_match</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
-        <span class="ident">haystack</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
-        <span class="ident">pos</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Int</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">is_match</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">haystack</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">pos</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Int</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">haystack</span> <span class="op">=</span> <span class="ident">str</span>::<span class="ident">from_utf8</span>(<span class="ident">haystack</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-            <span class="ident">ArgumentError</span>::<span class="ident">new</span>(
-                <span class="ident">interp</span>,
-                <span class="string">&quot;regex crate utf8 backend for Regexp only supports UTF-8 haystack&quot;</span>,
-            )
+            <span class="ident">ArgumentError</span>::<span class="ident">from</span>(<span class="string">&quot;regex crate utf8 backend for Regexp only supports UTF-8 haystack&quot;</span>)
         })<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">haystack_char_len</span> <span class="op">=</span> <span class="ident">haystack</span>.<span class="ident">chars</span>().<span class="ident">count</span>();
         <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="ident">pos</span>.<span class="ident">unwrap_or_default</span>();
         <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">pos</span>) <span class="op">=</span> <span class="ident">usize</span>::<span class="ident">try_from</span>(<span class="ident">pos</span>) {
             <span class="ident">pos</span>
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">pos</span>) <span class="op">=</span> <span class="ident">usize</span>::<span class="ident">try_from</span>(<span class="op">-</span><span class="ident">pos</span>) {
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">pos</span>) <span class="op">=</span> <span class="ident">haystack_char_len</span>.<span class="ident">checked_sub</span>(<span class="ident">pos</span>) {
+        } <span class="kw">else</span> {
+            <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="ident">pos</span>
+                .<span class="ident">checked_neg</span>()
+                .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">pos</span><span class="op">|</span> <span class="ident">usize</span>::<span class="ident">try_from</span>(<span class="ident">pos</span>).<span class="ident">ok</span>())
+                .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">pos</span><span class="op">|</span> <span class="ident">haystack_char_len</span>.<span class="ident">checked_sub</span>(<span class="ident">pos</span>));
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">pos</span>) <span class="op">=</span> <span class="ident">pos</span> {
                 <span class="ident">pos</span>
             } <span class="kw">else</span> {
                 <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>);
             }
-        } <span class="kw">else</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Exception</span>::<span class="ident">from</span>(<span class="ident">ArgumentError</span>::<span class="ident">new</span>(
-                <span class="ident">interp</span>,
-                <span class="string">&quot;invalid position&quot;</span>,
-            )));
         };
         <span class="kw">let</span> <span class="ident">offset</span> <span class="op">=</span> <span class="ident">haystack</span>.<span class="ident">chars</span>().<span class="ident">take</span>(<span class="ident">pos</span>).<span class="ident">map</span>(<span class="ident">char</span>::<span class="ident">len_utf8</span>).<span class="ident">sum</span>();
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">haystack</span>) <span class="op">=</span> <span class="ident">haystack</span>.<span class="ident">get</span>(<span class="ident">offset</span>..) {
@@ -1012,27 +847,23 @@
         <span class="ident">block</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Block</span><span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">haystack</span> <span class="op">=</span> <span class="ident">str</span>::<span class="ident">from_utf8</span>(<span class="ident">haystack</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-            <span class="ident">ArgumentError</span>::<span class="ident">new</span>(
-                <span class="ident">interp</span>,
-                <span class="string">&quot;regex crate utf8 backend for Regexp only supports UTF-8 haystacks&quot;</span>,
-            )
+            <span class="ident">ArgumentError</span>::<span class="ident">from</span>(<span class="string">&quot;regex crate utf8 backend for Regexp only supports UTF-8 haystacks&quot;</span>)
         })<span class="question-mark">?</span>;
         <span class="ident">regexp</span>::<span class="ident">clear_capture_globals</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">haystack_char_len</span> <span class="op">=</span> <span class="ident">haystack</span>.<span class="ident">chars</span>().<span class="ident">count</span>();
         <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="ident">pos</span>.<span class="ident">unwrap_or_default</span>();
         <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">pos</span>) <span class="op">=</span> <span class="ident">usize</span>::<span class="ident">try_from</span>(<span class="ident">pos</span>) {
             <span class="ident">pos</span>
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">pos</span>) <span class="op">=</span> <span class="ident">usize</span>::<span class="ident">try_from</span>(<span class="op">-</span><span class="ident">pos</span>) {
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">pos</span>) <span class="op">=</span> <span class="ident">haystack_char_len</span>.<span class="ident">checked_sub</span>(<span class="ident">pos</span>) {
+        } <span class="kw">else</span> {
+            <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="ident">pos</span>
+                .<span class="ident">checked_neg</span>()
+                .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">pos</span><span class="op">|</span> <span class="ident">usize</span>::<span class="ident">try_from</span>(<span class="ident">pos</span>).<span class="ident">ok</span>())
+                .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">pos</span><span class="op">|</span> <span class="ident">haystack_char_len</span>.<span class="ident">checked_sub</span>(<span class="ident">pos</span>));
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">pos</span>) <span class="op">=</span> <span class="ident">pos</span> {
                 <span class="ident">pos</span>
             } <span class="kw">else</span> {
-                <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>));
+                <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Value</span>::<span class="ident">nil</span>());
             }
-        } <span class="kw">else</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Exception</span>::<span class="ident">from</span>(<span class="ident">ArgumentError</span>::<span class="ident">new</span>(
-                <span class="ident">interp</span>,
-                <span class="string">&quot;invalid position&quot;</span>,
-            )));
         };
         <span class="kw">let</span> <span class="ident">offset</span> <span class="op">=</span> <span class="ident">haystack</span>.<span class="ident">chars</span>().<span class="ident">take</span>(<span class="ident">pos</span>).<span class="ident">map</span>(<span class="ident">char</span>::<span class="ident">len_utf8</span>).<span class="ident">sum</span>();
         <span class="kw">let</span> <span class="ident">target</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">haystack</span>) <span class="op">=</span> <span class="ident">haystack</span>.<span class="ident">get</span>(<span class="ident">offset</span>..) {
@@ -1041,7 +872,7 @@
             <span class="ident">interp</span>.<span class="ident">unset_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>)<span class="question-mark">?</span>;
             <span class="ident">interp</span>.<span class="ident">unset_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">STRING_LEFT_OF_MATCH</span>)<span class="question-mark">?</span>;
             <span class="ident">interp</span>.<span class="ident">unset_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">STRING_RIGHT_OF_MATCH</span>)<span class="question-mark">?</span>;
-            <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>));
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Value</span>::<span class="ident">nil</span>());
         };
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">captures</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">regex</span>.<span class="ident">captures</span>(<span class="ident">target</span>) {
             <span class="comment">// per the [docs] for `captures.len()`:</span>
@@ -1050,8 +881,7 @@
             <span class="comment">// &gt; capture group that corresponds to the full match.</span>
             <span class="comment">//</span>
             <span class="comment">// [docs]: https://docs.rs/regex/1.3.4/regex/struct.Captures.html#method.len</span>
-            <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">active_regexp_globals</span> <span class="op">=</span>
-                <span class="ident">captures</span>.<span class="ident">len</span>().<span class="ident">checked_sub</span>(<span class="number">1</span>).<span class="ident">and_then</span>(<span class="ident">NonZeroUsize</span>::<span class="ident">new</span>);
+            <span class="ident">interp</span>.<span class="ident">set_active_regexp_globals</span>(<span class="ident">captures</span>.<span class="ident">len</span>().<span class="ident">checked_sub</span>(<span class="number">1</span>).<span class="ident">unwrap_or_default</span>())<span class="question-mark">?</span>;
 
             <span class="kw">let</span> <span class="ident">fullmatch</span> <span class="op">=</span> <span class="ident">captures</span>
                 .<span class="ident">get</span>(<span class="number">0</span>)
@@ -1071,20 +901,15 @@
                 <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">nth_match_group</span>(<span class="ident">group</span>), <span class="kw-2">&amp;</span><span class="ident">value</span>)<span class="question-mark">?</span>;
             }
 
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">matchdata</span> <span class="op">=</span> <span class="ident">MatchData</span>::<span class="ident">new</span>(
-                <span class="ident">haystack</span>.<span class="ident">into</span>(),
-                <span class="ident">Regexp</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">box_clone</span>()),
-                <span class="number">0</span>,
-                <span class="ident">haystack</span>.<span class="ident">len</span>(),
-            );
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">matchdata</span> <span class="op">=</span> <span class="ident">MatchData</span>::<span class="ident">new</span>(<span class="ident">haystack</span>.<span class="ident">into</span>(), <span class="ident">Regexp</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">box_clone</span>()), ..);
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">match_pos</span>) <span class="op">=</span> <span class="ident">captures</span>.<span class="ident">get</span>(<span class="number">0</span>) {
                 <span class="kw">let</span> <span class="ident">pre_match</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert_mut</span>(<span class="kw-2">&amp;</span><span class="ident">target</span>[..<span class="ident">match_pos</span>.<span class="ident">start</span>()]);
                 <span class="kw">let</span> <span class="ident">post_match</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert_mut</span>(<span class="kw-2">&amp;</span><span class="ident">target</span>[<span class="ident">match_pos</span>.<span class="ident">end</span>()..]);
                 <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">STRING_LEFT_OF_MATCH</span>, <span class="kw-2">&amp;</span><span class="ident">pre_match</span>)<span class="question-mark">?</span>;
                 <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">STRING_RIGHT_OF_MATCH</span>, <span class="kw-2">&amp;</span><span class="ident">post_match</span>)<span class="question-mark">?</span>;
-                <span class="ident">matchdata</span>.<span class="ident">set_region</span>(<span class="ident">offset</span> <span class="op">+</span> <span class="ident">match_pos</span>.<span class="ident">start</span>(), <span class="ident">offset</span> <span class="op">+</span> <span class="ident">match_pos</span>.<span class="ident">end</span>());
+                <span class="ident">matchdata</span>.<span class="ident">set_region</span>(<span class="ident">offset</span> <span class="op">+</span> <span class="ident">match_pos</span>.<span class="ident">start</span>()..<span class="ident">offset</span> <span class="op">+</span> <span class="ident">match_pos</span>.<span class="ident">end</span>());
             }
-            <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">matchdata</span>.<span class="ident">try_into_ruby</span>(<span class="ident">interp</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">MatchData</span>::<span class="ident">alloc_value</span>(<span class="ident">matchdata</span>, <span class="ident">interp</span>)<span class="question-mark">?</span>;
             <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>, <span class="kw-2">&amp;</span><span class="ident">data</span>)<span class="question-mark">?</span>;
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">block</span>) <span class="op">=</span> <span class="ident">block</span> {
                 <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">block</span>.<span class="ident">yield_arg</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">data</span>)<span class="question-mark">?</span>;
@@ -1096,7 +921,7 @@
             <span class="ident">interp</span>.<span class="ident">unset_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>)<span class="question-mark">?</span>;
             <span class="ident">interp</span>.<span class="ident">unset_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">STRING_LEFT_OF_MATCH</span>)<span class="question-mark">?</span>;
             <span class="ident">interp</span>.<span class="ident">unset_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">STRING_RIGHT_OF_MATCH</span>)<span class="question-mark">?</span>;
-            <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>))
+            <span class="prelude-val">Ok</span>(<span class="ident">Value</span>::<span class="ident">nil</span>())
         }
     }
 
@@ -1104,12 +929,9 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Artichoke</span>,
         <span class="ident">haystack</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Int</span><span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">haystack</span> <span class="op">=</span> <span class="ident">str</span>::<span class="ident">from_utf8</span>(<span class="ident">haystack</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-            <span class="ident">ArgumentError</span>::<span class="ident">new</span>(
-                <span class="ident">interp</span>,
-                <span class="string">&quot;regex crate utf8 backend for Regexp only supports UTF-8 haystacks&quot;</span>,
-            )
+            <span class="ident">ArgumentError</span>::<span class="ident">from</span>(<span class="string">&quot;regex crate utf8 backend for Regexp only supports UTF-8 haystacks&quot;</span>)
         })<span class="question-mark">?</span>;
         <span class="ident">regexp</span>::<span class="ident">clear_capture_globals</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>;
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">captures</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">regex</span>.<span class="ident">captures</span>(<span class="ident">haystack</span>) {
@@ -1119,8 +941,7 @@
             <span class="comment">// &gt; capture group that corresponds to the full match.</span>
             <span class="comment">//</span>
             <span class="comment">// [docs]: https://docs.rs/regex/1.3.4/regex/struct.Captures.html#method.len</span>
-            <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">active_regexp_globals</span> <span class="op">=</span>
-                <span class="ident">captures</span>.<span class="ident">len</span>().<span class="ident">checked_sub</span>(<span class="number">1</span>).<span class="ident">and_then</span>(<span class="ident">NonZeroUsize</span>::<span class="ident">new</span>);
+            <span class="ident">interp</span>.<span class="ident">set_active_regexp_globals</span>(<span class="ident">captures</span>.<span class="ident">len</span>().<span class="ident">checked_sub</span>(<span class="number">1</span>).<span class="ident">unwrap_or_default</span>())<span class="question-mark">?</span>;
 
             <span class="kw">let</span> <span class="ident">fullmatch</span> <span class="op">=</span> <span class="ident">captures</span>
                 .<span class="ident">get</span>(<span class="number">0</span>)
@@ -1140,22 +961,15 @@
                 <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">nth_match_group</span>(<span class="ident">group</span>), <span class="kw-2">&amp;</span><span class="ident">value</span>)<span class="question-mark">?</span>;
             }
 
-            <span class="kw">let</span> <span class="ident">matchdata</span> <span class="op">=</span> <span class="ident">MatchData</span>::<span class="ident">new</span>(
-                <span class="ident">haystack</span>.<span class="ident">into</span>(),
-                <span class="ident">Regexp</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">box_clone</span>()),
-                <span class="number">0</span>,
-                <span class="ident">haystack</span>.<span class="ident">len</span>(),
-            );
-            <span class="kw">let</span> <span class="ident">matchdata</span> <span class="op">=</span> <span class="ident">matchdata</span>.<span class="ident">try_into_ruby</span>(<span class="ident">interp</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
-            <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>, <span class="kw-2">&amp;</span><span class="ident">matchdata</span>)<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">matchdata</span> <span class="op">=</span> <span class="ident">MatchData</span>::<span class="ident">new</span>(<span class="ident">haystack</span>.<span class="ident">into</span>(), <span class="ident">Regexp</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">box_clone</span>()), ..);
+            <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">MatchData</span>::<span class="ident">alloc_value</span>(<span class="ident">matchdata</span>, <span class="ident">interp</span>)<span class="question-mark">?</span>;
+            <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>, <span class="kw-2">&amp;</span><span class="ident">data</span>)<span class="question-mark">?</span>;
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">match_pos</span>) <span class="op">=</span> <span class="ident">captures</span>.<span class="ident">get</span>(<span class="number">0</span>) {
                 <span class="kw">let</span> <span class="ident">pre_match</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert_mut</span>(<span class="kw-2">&amp;</span><span class="ident">haystack</span>[..<span class="ident">match_pos</span>.<span class="ident">start</span>()]);
                 <span class="kw">let</span> <span class="ident">post_match</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert_mut</span>(<span class="kw-2">&amp;</span><span class="ident">haystack</span>[<span class="ident">match_pos</span>.<span class="ident">end</span>()..]);
                 <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">STRING_LEFT_OF_MATCH</span>, <span class="kw-2">&amp;</span><span class="ident">pre_match</span>)<span class="question-mark">?</span>;
                 <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">STRING_RIGHT_OF_MATCH</span>, <span class="kw-2">&amp;</span><span class="ident">post_match</span>)<span class="question-mark">?</span>;
-                <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="ident">Int</span>::<span class="ident">try_from</span>(<span class="ident">match_pos</span>.<span class="ident">start</span>()).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-                    <span class="ident">Fatal</span>::<span class="ident">new</span>(<span class="ident">interp</span>, <span class="string">&quot;Match position does not fit in Integer max&quot;</span>)
-                })<span class="question-mark">?</span>;
+                <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="ident">match_pos</span>.<span class="ident">start</span>();
                 <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">pos</span>))
             } <span class="kw">else</span> {
                 <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="number">0</span>))
@@ -1168,23 +982,13 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">named_captures</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">NameToCaptureLocations</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">named_captures</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">NameToCaptureLocations</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
         <span class="comment">// Use a Vec of key-value pairs because insertion order matters for spec</span>
         <span class="comment">// compliance.</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">map</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
         <span class="kw">for</span> <span class="ident">group</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">regex</span>.<span class="ident">capture_names</span>().<span class="ident">filter_map</span>(<span class="ident">convert</span>::<span class="ident">identity</span>) {
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">indexes</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">capture_indexes_for_name</span>(<span class="ident">interp</span>, <span class="ident">group</span>.<span class="ident">as_bytes</span>())<span class="question-mark">?</span> {
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">group_indexes</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">indexes</span>.<span class="ident">len</span>());
-                <span class="kw">for</span> <span class="ident">idx</span> <span class="kw">in</span> <span class="ident">indexes</span> {
-                    <span class="kw">let</span> <span class="ident">idx</span> <span class="op">=</span> <span class="ident">Int</span>::<span class="ident">try_from</span>(<span class="ident">idx</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-                        <span class="ident">Fatal</span>::<span class="ident">new</span>(
-                            <span class="ident">interp</span>,
-                            <span class="string">&quot;Regexp named capture index does not fit in Integer max&quot;</span>,
-                        )
-                    })<span class="question-mark">?</span>;
-                    <span class="ident">group_indexes</span>.<span class="ident">push</span>(<span class="ident">idx</span>);
-                }
-                <span class="ident">map</span>.<span class="ident">push</span>((<span class="ident">Vec</span>::<span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>::<span class="ident">from</span>(<span class="ident">group</span>), <span class="ident">group_indexes</span>));
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">indexes</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">capture_indexes_for_name</span>(<span class="ident">group</span>.<span class="ident">as_bytes</span>())<span class="question-mark">?</span> {
+                <span class="ident">map</span>.<span class="ident">push</span>((<span class="ident">group</span>.<span class="ident">into</span>(), <span class="ident">indexes</span>));
             }
         }
         <span class="prelude-val">Ok</span>(<span class="ident">map</span>)
@@ -1192,22 +996,19 @@
 
     <span class="kw">fn</span> <span class="ident">named_captures_for_haystack</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
         <span class="ident">haystack</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">NilableString</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">haystack</span> <span class="op">=</span> <span class="ident">str</span>::<span class="ident">from_utf8</span>(<span class="ident">haystack</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-            <span class="ident">ArgumentError</span>::<span class="ident">new</span>(
-                <span class="ident">interp</span>,
-                <span class="string">&quot;regex crate utf8 backend for Regexp only supports UTF-8 haystacks&quot;</span>,
-            )
+            <span class="ident">ArgumentError</span>::<span class="ident">from</span>(<span class="string">&quot;regex crate utf8 backend for Regexp only supports UTF-8 haystacks&quot;</span>)
         })<span class="question-mark">?</span>;
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">captures</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">regex</span>.<span class="ident">captures</span>(<span class="ident">haystack</span>) {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">map</span> <span class="op">=</span> <span class="ident">HashMap</span>::<span class="ident">with_capacity</span>(<span class="ident">captures</span>.<span class="ident">len</span>());
-            <span class="kw">for</span> (<span class="ident">group</span>, <span class="ident">group_indexes</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">named_captures</span>(<span class="ident">interp</span>)<span class="question-mark">?</span> {
-                <span class="kw">let</span> <span class="ident">capture</span> <span class="op">=</span> <span class="ident">group_indexes</span>.<span class="ident">iter</span>().<span class="ident">rev</span>().<span class="ident">copied</span>().<span class="ident">find_map</span>(<span class="op">|</span><span class="ident">index</span><span class="op">|</span> {
-                    <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="ident">usize</span>::<span class="ident">try_from</span>(<span class="ident">index</span>).<span class="ident">unwrap_or_default</span>();
-                    <span class="ident">captures</span>.<span class="ident">get</span>(<span class="ident">index</span>)
-                });
+            <span class="kw">for</span> (<span class="ident">group</span>, <span class="ident">group_indexes</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">named_captures</span>()<span class="question-mark">?</span> {
+                <span class="kw">let</span> <span class="ident">capture</span> <span class="op">=</span> <span class="ident">group_indexes</span>
+                    .<span class="ident">iter</span>()
+                    .<span class="ident">rev</span>()
+                    .<span class="ident">copied</span>()
+                    .<span class="ident">find_map</span>(<span class="op">|</span><span class="ident">index</span><span class="op">|</span> <span class="ident">captures</span>.<span class="ident">get</span>(<span class="ident">index</span>));
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">capture</span>) <span class="op">=</span> <span class="ident">capture</span> {
                     <span class="ident">map</span>.<span class="ident">insert</span>(<span class="ident">group</span>, <span class="prelude-val">Some</span>(<span class="ident">capture</span>.<span class="ident">as_str</span>().<span class="ident">into</span>()));
                 } <span class="kw">else</span> {
@@ -1220,12 +1021,12 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">names</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">names</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">names</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">capture_names</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">named_captures</span>(<span class="ident">interp</span>).<span class="ident">unwrap_or_default</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">capture_names</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">named_captures</span>().<span class="ident">unwrap_or_default</span>();
         <span class="ident">capture_names</span>.<span class="ident">sort_by</span>(<span class="op">|</span><span class="ident">left</span>, <span class="ident">right</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">left</span> <span class="op">=</span> <span class="ident">left</span>.<span class="number">1</span>.<span class="ident">iter</span>().<span class="ident">copied</span>().<span class="ident">fold</span>(<span class="ident">Int</span>::<span class="ident">max_value</span>(), <span class="ident">Int</span>::<span class="ident">min</span>);
-            <span class="kw">let</span> <span class="ident">right</span> <span class="op">=</span> <span class="ident">right</span>.<span class="number">1</span>.<span class="ident">iter</span>().<span class="ident">copied</span>().<span class="ident">fold</span>(<span class="ident">Int</span>::<span class="ident">max_value</span>(), <span class="ident">Int</span>::<span class="ident">min</span>);
+            <span class="kw">let</span> <span class="ident">left</span> <span class="op">=</span> <span class="ident">left</span>.<span class="number">1</span>.<span class="ident">iter</span>().<span class="ident">copied</span>().<span class="ident">fold</span>(<span class="ident">usize</span>::<span class="ident">max_value</span>(), <span class="ident">usize</span>::<span class="ident">min</span>);
+            <span class="kw">let</span> <span class="ident">right</span> <span class="op">=</span> <span class="ident">right</span>.<span class="number">1</span>.<span class="ident">iter</span>().<span class="ident">copied</span>().<span class="ident">fold</span>(<span class="ident">usize</span>::<span class="ident">max_value</span>(), <span class="ident">usize</span>::<span class="ident">min</span>);
             <span class="ident">left</span>.<span class="ident">partial_cmp</span>(<span class="kw-2">&amp;</span><span class="ident">right</span>).<span class="ident">unwrap_or</span>(<span class="ident">Ordering</span>::<span class="ident">Equal</span>)
         });
         <span class="kw">for</span> (<span class="ident">name</span>, <span class="kw">_</span>) <span class="kw">in</span> <span class="ident">capture_names</span> {
@@ -1236,17 +1037,9 @@
         <span class="ident">names</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">pos</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>,
-        <span class="ident">haystack</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
-        <span class="ident">at</span>: <span class="ident">usize</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="ident">usize</span>)<span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">pos</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">haystack</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">at</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="ident">usize</span>)<span class="op">&gt;</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">haystack</span> <span class="op">=</span> <span class="ident">str</span>::<span class="ident">from_utf8</span>(<span class="ident">haystack</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-            <span class="ident">ArgumentError</span>::<span class="ident">new</span>(
-                <span class="ident">interp</span>,
-                <span class="string">&quot;regex crate utf8 backend for Regexp only supports UTF-8 haystacks&quot;</span>,
-            )
+            <span class="ident">ArgumentError</span>::<span class="ident">from</span>(<span class="string">&quot;regex crate utf8 backend for Regexp only supports UTF-8 haystacks&quot;</span>)
         })<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">regex</span>
@@ -1259,44 +1052,25 @@
     <span class="kw">fn</span> <span class="ident">scan</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Artichoke</span>,
-        <span class="ident">value</span>: <span class="ident">Value</span>,
+        <span class="ident">haystack</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
         <span class="ident">block</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Block</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Value</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">haystack</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">haystack</span>) <span class="op">=</span> <span class="ident">value</span>.<span class="ident">clone</span>().<span class="ident">try_into</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>() {
-            <span class="ident">haystack</span>
-        } <span class="kw">else</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Exception</span>::<span class="ident">from</span>(<span class="ident">ArgumentError</span>::<span class="ident">new</span>(
-                <span class="ident">interp</span>,
-                <span class="string">&quot;Regexp scan expected String haystack&quot;</span>,
-            )));
-        };
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Scan</span>, <span class="ident">Exception</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">haystack</span> <span class="op">=</span> <span class="ident">str</span>::<span class="ident">from_utf8</span>(<span class="ident">haystack</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {
-            <span class="ident">ArgumentError</span>::<span class="ident">new</span>(
-                <span class="ident">interp</span>,
-                <span class="string">&quot;regex crate utf8 backend for Regexp only supports UTF-8 haystacks&quot;</span>,
-            )
+            <span class="ident">ArgumentError</span>::<span class="ident">from</span>(<span class="string">&quot;regex crate utf8 backend for Regexp only supports UTF-8 haystacks&quot;</span>)
         })<span class="question-mark">?</span>;
         <span class="ident">regexp</span>::<span class="ident">clear_capture_globals</span>(<span class="ident">interp</span>)<span class="question-mark">?</span>;
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">matchdata</span> <span class="op">=</span> <span class="ident">MatchData</span>::<span class="ident">new</span>(
-            <span class="ident">haystack</span>.<span class="ident">into</span>(),
-            <span class="ident">Regexp</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">box_clone</span>()),
-            <span class="number">0</span>,
-            <span class="ident">haystack</span>.<span class="ident">len</span>(),
-        );
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">matchdata</span> <span class="op">=</span> <span class="ident">MatchData</span>::<span class="ident">new</span>(<span class="ident">haystack</span>.<span class="ident">into</span>(), <span class="ident">Regexp</span>::<span class="ident">from</span>(<span class="self">self</span>.<span class="ident">box_clone</span>()), ..);
 
         <span class="comment">// regex crate always includes the zero group in the captures len.</span>
-        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="self">self</span>
-            .<span class="ident">regex</span>
-            .<span class="ident">captures_len</span>()
-            .<span class="ident">checked_sub</span>(<span class="number">1</span>)
-            .<span class="ident">and_then</span>(<span class="ident">NonZeroUsize</span>::<span class="ident">new</span>);
-        <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>().<span class="ident">active_regexp_globals</span> <span class="op">=</span> <span class="ident">len</span>;
+        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">regex</span>.<span class="ident">captures_len</span>().<span class="ident">checked_sub</span>(<span class="number">1</span>);
+        <span class="ident">interp</span>.<span class="ident">set_active_regexp_globals</span>(<span class="ident">len</span>.<span class="ident">unwrap_or_default</span>())<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">len</span>.<span class="ident">and_then</span>(<span class="ident">NonZeroUsize</span>::<span class="ident">new</span>);
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">block</span>) <span class="op">=</span> <span class="ident">block</span> {
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">len</span>) <span class="op">=</span> <span class="ident">len</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">regex</span>.<span class="ident">captures_iter</span>(<span class="ident">haystack</span>).<span class="ident">peekable</span>();
                 <span class="kw">if</span> <span class="ident">iter</span>.<span class="ident">peek</span>().<span class="ident">is_none</span>() {
                     <span class="ident">interp</span>.<span class="ident">unset_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>)<span class="question-mark">?</span>;
-                    <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">value</span>);
+                    <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Scan</span>::<span class="ident">Haystack</span>);
                 }
                 <span class="kw">for</span> <span class="ident">captures</span> <span class="kw">in</span> <span class="ident">iter</span> {
                     <span class="kw">let</span> <span class="ident">matched</span> <span class="op">=</span> <span class="ident">captures</span>
@@ -1320,32 +1094,32 @@
                         <span class="ident">groups</span>.<span class="ident">push</span>(<span class="ident">matched</span>);
                     }
 
-                    <span class="kw">let</span> <span class="ident">matched</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert_mut</span>(<span class="ident">groups</span>);
+                    <span class="kw">let</span> <span class="ident">matched</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">try_convert_mut</span>(<span class="ident">groups</span>)<span class="question-mark">?</span>;
                     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">pos</span>) <span class="op">=</span> <span class="ident">captures</span>.<span class="ident">get</span>(<span class="number">0</span>) {
-                        <span class="ident">matchdata</span>.<span class="ident">set_region</span>(<span class="ident">pos</span>.<span class="ident">start</span>(), <span class="ident">pos</span>.<span class="ident">end</span>());
+                        <span class="ident">matchdata</span>.<span class="ident">set_region</span>(<span class="ident">pos</span>.<span class="ident">start</span>()..<span class="ident">pos</span>.<span class="ident">end</span>());
                     }
-                    <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">matchdata</span>.<span class="ident">clone</span>().<span class="ident">try_into_ruby</span>(<span class="ident">interp</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+                    <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">MatchData</span>::<span class="ident">alloc_value</span>(<span class="ident">matchdata</span>.<span class="ident">clone</span>(), <span class="ident">interp</span>)<span class="question-mark">?</span>;
                     <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>, <span class="kw-2">&amp;</span><span class="ident">data</span>)<span class="question-mark">?</span>;
-                    <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">block</span>.<span class="ident">yield_arg</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">matched</span>)<span class="question-mark">?</span>;
+                    <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">block</span>.<span class="ident">yield_arg</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">matched</span>)<span class="question-mark">?</span>;
                     <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>, <span class="kw-2">&amp;</span><span class="ident">data</span>)<span class="question-mark">?</span>;
                 }
             } <span class="kw">else</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">regex</span>.<span class="ident">find_iter</span>(<span class="ident">haystack</span>).<span class="ident">peekable</span>();
                 <span class="kw">if</span> <span class="ident">iter</span>.<span class="ident">peek</span>().<span class="ident">is_none</span>() {
                     <span class="ident">interp</span>.<span class="ident">unset_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>)<span class="question-mark">?</span>;
-                    <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">value</span>);
+                    <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Scan</span>::<span class="ident">Haystack</span>);
                 }
                 <span class="kw">for</span> <span class="ident">pos</span> <span class="kw">in</span> <span class="ident">iter</span> {
                     <span class="kw">let</span> <span class="ident">scanned</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">haystack</span>[<span class="ident">pos</span>.<span class="ident">start</span>()..<span class="ident">pos</span>.<span class="ident">end</span>()];
                     <span class="kw">let</span> <span class="ident">matched</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert_mut</span>(<span class="ident">scanned</span>);
-                    <span class="ident">matchdata</span>.<span class="ident">set_region</span>(<span class="ident">pos</span>.<span class="ident">start</span>(), <span class="ident">pos</span>.<span class="ident">end</span>());
-                    <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">matchdata</span>.<span class="ident">clone</span>().<span class="ident">try_into_ruby</span>(<span class="ident">interp</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+                    <span class="ident">matchdata</span>.<span class="ident">set_region</span>(<span class="ident">pos</span>.<span class="ident">start</span>()..<span class="ident">pos</span>.<span class="ident">end</span>());
+                    <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">MatchData</span>::<span class="ident">alloc_value</span>(<span class="ident">matchdata</span>.<span class="ident">clone</span>(), <span class="ident">interp</span>)<span class="question-mark">?</span>;
                     <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>, <span class="kw-2">&amp;</span><span class="ident">data</span>)<span class="question-mark">?</span>;
-                    <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">block</span>.<span class="ident">yield_arg</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">matched</span>)<span class="question-mark">?</span>;
+                    <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">block</span>.<span class="ident">yield_arg</span>(<span class="ident">interp</span>, <span class="kw-2">&amp;</span><span class="ident">matched</span>)<span class="question-mark">?</span>;
                     <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>, <span class="kw-2">&amp;</span><span class="ident">data</span>)<span class="question-mark">?</span>;
                 }
             }
-            <span class="prelude-val">Ok</span>(<span class="ident">value</span>)
+            <span class="prelude-val">Ok</span>(<span class="ident">Scan</span>::<span class="ident">Haystack</span>)
         } <span class="kw">else</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">last_pos</span> <span class="op">=</span> (<span class="number">0</span>, <span class="number">0</span>);
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">len</span>) <span class="op">=</span> <span class="ident">len</span> {
@@ -1353,7 +1127,7 @@
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">regex</span>.<span class="ident">captures_iter</span>(<span class="ident">haystack</span>).<span class="ident">peekable</span>();
                 <span class="kw">if</span> <span class="ident">iter</span>.<span class="ident">peek</span>().<span class="ident">is_none</span>() {
                     <span class="ident">interp</span>.<span class="ident">unset_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>)<span class="question-mark">?</span>;
-                    <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert_mut</span>(<span class="kw-2">&amp;</span>[] <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">Value</span>]));
+                    <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Scan</span>::<span class="ident">Collected</span>(<span class="ident">Vec</span>::<span class="ident">new</span>()));
                 }
                 <span class="kw">for</span> <span class="ident">captures</span> <span class="kw">in</span> <span class="ident">iter</span> {
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">groups</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">len</span>.<span class="ident">get</span>() <span class="op">-</span> <span class="number">1</span>);
@@ -1362,7 +1136,8 @@
                             .<span class="ident">get</span>(<span class="ident">group</span>)
                             .<span class="ident">as_ref</span>()
                             .<span class="ident">map</span>(<span class="ident">regex</span>::<span class="ident">Match</span>::<span class="ident">as_str</span>)
-                            .<span class="ident">map</span>(<span class="ident">str</span>::<span class="ident">as_bytes</span>);
+                            .<span class="ident">map</span>(<span class="ident">str</span>::<span class="ident">as_bytes</span>)
+                            .<span class="ident">map</span>(<span class="ident">Vec</span>::<span class="ident">from</span>);
                         <span class="ident">groups</span>.<span class="ident">push</span>(<span class="ident">matched</span>);
                     }
 
@@ -1371,40 +1146,39 @@
                     }
                     <span class="ident">collected</span>.<span class="ident">push</span>(<span class="ident">groups</span>);
                 }
-                <span class="ident">matchdata</span>.<span class="ident">set_region</span>(<span class="ident">last_pos</span>.<span class="number">0</span>, <span class="ident">last_pos</span>.<span class="number">1</span>);
-                <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">matchdata</span>.<span class="ident">try_into_ruby</span>(<span class="ident">interp</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+                <span class="ident">matchdata</span>.<span class="ident">set_region</span>(<span class="ident">last_pos</span>.<span class="number">0</span>..<span class="ident">last_pos</span>.<span class="number">1</span>);
+                <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">MatchData</span>::<span class="ident">alloc_value</span>(<span class="ident">matchdata</span>, <span class="ident">interp</span>)<span class="question-mark">?</span>;
                 <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>, <span class="kw-2">&amp;</span><span class="ident">data</span>)<span class="question-mark">?</span>;
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="ident">collected</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>();
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="kw">_</span>, <span class="ident">fullcapture</span>)) <span class="op">=</span> <span class="ident">iter</span>.<span class="ident">next</span>() {
-                    <span class="kw">let</span> <span class="ident">fullcapture</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert_mut</span>(<span class="ident">fullcapture</span>.<span class="ident">as_slice</span>());
+                    <span class="kw">let</span> <span class="ident">fullcapture</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">try_convert_mut</span>(<span class="ident">fullcapture</span>.<span class="ident">as_slice</span>())<span class="question-mark">?</span>;
                     <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCHED_STRING</span>, <span class="kw-2">&amp;</span><span class="ident">fullcapture</span>)<span class="question-mark">?</span>;
                 }
                 <span class="kw">for</span> (<span class="ident">group</span>, <span class="ident">capture</span>) <span class="kw">in</span> <span class="ident">iter</span> {
-                    <span class="kw">let</span> <span class="ident">capture</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert_mut</span>(<span class="ident">capture</span>.<span class="ident">as_slice</span>());
+                    <span class="kw">let</span> <span class="ident">capture</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">try_convert_mut</span>(<span class="ident">capture</span>.<span class="ident">as_slice</span>())<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">group</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">NonZeroUsize</span>::<span class="ident">new_unchecked</span>(<span class="ident">group</span>) };
                     <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">nth_match_group</span>(<span class="ident">group</span>), <span class="kw-2">&amp;</span><span class="ident">capture</span>)<span class="question-mark">?</span>;
                 }
-                <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert_mut</span>(<span class="ident">collected</span>))
+                <span class="prelude-val">Ok</span>(<span class="ident">Scan</span>::<span class="ident">Collected</span>(<span class="ident">collected</span>))
             } <span class="kw">else</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">collected</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">regex</span>.<span class="ident">find_iter</span>(<span class="ident">haystack</span>).<span class="ident">peekable</span>();
                 <span class="kw">if</span> <span class="ident">iter</span>.<span class="ident">peek</span>().<span class="ident">is_none</span>() {
                     <span class="ident">interp</span>.<span class="ident">unset_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>)<span class="question-mark">?</span>;
-                    <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert_mut</span>(<span class="kw-2">&amp;</span>[] <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">Value</span>]));
+                    <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Scan</span>::<span class="ident">Patterns</span>(<span class="ident">Vec</span>::<span class="ident">new</span>()));
                 }
                 <span class="kw">for</span> <span class="ident">pos</span> <span class="kw">in</span> <span class="ident">iter</span> {
                     <span class="kw">let</span> <span class="ident">scanned</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">haystack</span>[<span class="ident">pos</span>.<span class="ident">start</span>()..<span class="ident">pos</span>.<span class="ident">end</span>()];
                     <span class="ident">last_pos</span> <span class="op">=</span> (<span class="ident">pos</span>.<span class="ident">start</span>(), <span class="ident">pos</span>.<span class="ident">end</span>());
-                    <span class="ident">collected</span>.<span class="ident">push</span>(<span class="ident">scanned</span>);
+                    <span class="ident">collected</span>.<span class="ident">push</span>(<span class="ident">Vec</span>::<span class="ident">from</span>(<span class="ident">scanned</span>.<span class="ident">as_bytes</span>()));
                 }
-                <span class="ident">matchdata</span>.<span class="ident">set_region</span>(<span class="ident">last_pos</span>.<span class="number">0</span>, <span class="ident">last_pos</span>.<span class="number">1</span>);
-                <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">matchdata</span>.<span class="ident">try_into_ruby</span>(<span class="ident">interp</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+                <span class="ident">matchdata</span>.<span class="ident">set_region</span>(<span class="ident">last_pos</span>.<span class="number">0</span>..<span class="ident">last_pos</span>.<span class="number">1</span>);
+                <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">MatchData</span>::<span class="ident">alloc_value</span>(<span class="ident">matchdata</span>, <span class="ident">interp</span>)<span class="question-mark">?</span>;
                 <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCH</span>, <span class="kw-2">&amp;</span><span class="ident">data</span>)<span class="question-mark">?</span>;
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">fullcapture</span>) <span class="op">=</span> <span class="ident">collected</span>.<span class="ident">last</span>().<span class="ident">copied</span>() {
-                    <span class="kw">let</span> <span class="ident">fullcapture</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert_mut</span>(<span class="ident">fullcapture</span>);
-                    <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCHED_STRING</span>, <span class="kw-2">&amp;</span><span class="ident">fullcapture</span>)<span class="question-mark">?</span>;
-                }
-                <span class="prelude-val">Ok</span>(<span class="ident">interp</span>.<span class="ident">convert_mut</span>(<span class="ident">collected</span>))
+                <span class="kw">let</span> <span class="ident">last_matched</span> <span class="op">=</span> <span class="ident">collected</span>.<span class="ident">last</span>().<span class="ident">map</span>(<span class="ident">Vec</span>::<span class="ident">as_slice</span>);
+                <span class="kw">let</span> <span class="ident">last_matched</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">convert_mut</span>(<span class="ident">last_matched</span>);
+                <span class="ident">interp</span>.<span class="ident">set_global_variable</span>(<span class="ident">regexp</span>::<span class="ident">LAST_MATCHED_STRING</span>, <span class="kw-2">&amp;</span><span class="ident">last_matched</span>)<span class="question-mark">?</span>;
+                <span class="prelude-val">Ok</span>(<span class="ident">Scan</span>::<span class="ident">Patterns</span>(<span class="ident">collected</span>))
             }
         }
     }

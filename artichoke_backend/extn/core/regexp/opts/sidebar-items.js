@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["parse",""],["parse_pattern",""]],"struct":[["Options",""]]});
+initSidebarItems({"struct":[["Options","Configuration options for Ruby Regexps."]]});

@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["lazy",""],["onig",""],["regex",""]],"trait":[["RegexpType",""]]});
+initSidebarItems({"enum":[["Scan",""]],"mod":[["lazy",""],["onig",""],["regex",""]],"trait":[["RegexpType",""]],"type":[["NameToCaptureLocations",""],["NilableString",""]]});

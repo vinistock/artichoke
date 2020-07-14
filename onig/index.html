@@ -1,0 +1,103 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `onig` crate."><meta name="keywords" content="rust, rustlang, rust-lang, onig"><title>onig - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../onig/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><p class='location'>Crate onig</p><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all onig's items</p></a><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'onig', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/onig/lib.rs.html#1-969' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>onig</a></span></h1><div class='docblock'><p>This crate provides a safe wrapper around the
+<a href="https://github.com/kkos/oniguruma">Oniguruma</a> regular expression library.</p>
+<h1 id="examples" class="section-header"><a href="#examples">Examples</a></h1>
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">onig</span>::<span class="ident">Regex</span>;
+
+<span class="kw">let</span> <span class="ident">regex</span> <span class="op">=</span> <span class="ident">Regex</span>::<span class="ident">new</span>(<span class="string">&quot;e(l+)&quot;</span>).<span class="ident">unwrap</span>();
+<span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">pos</span>) <span class="kw">in</span> <span class="ident">regex</span>.<span class="ident">captures</span>(<span class="string">&quot;hello&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">iter_pos</span>().<span class="ident">enumerate</span>() {
+    <span class="kw">match</span> <span class="ident">pos</span> {
+         <span class="prelude-val">Some</span>((<span class="ident">beg</span>, <span class="ident">end</span>)) <span class="op">=</span><span class="op">&gt;</span>
+             <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Group {} captured in position {}:{}&quot;</span>, <span class="ident">i</span>, <span class="ident">beg</span>, <span class="ident">end</span>),
+         <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span>
+             <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Group {} is not captured&quot;</span>, <span class="ident">i</span>)
+    }
+}</pre></div>
+<h1 id="match-vs-search" class="section-header"><a href="#match-vs-search">Match vs Search</a></h1>
+<p>There are two basic things you can do with a <code>Regex</code> pattern; test
+if the pattern matches the whole of a given string, and search for
+occurences of the pattern within a string. Oniguruma exposes these
+two concepts with the <em>match</em> and <em>search</em> APIs.</p>
+<p>In addition two these two base Onigurma APIs this crate exposes a
+third <em>find</em> API, built on top of the <em>search</em> API.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">pattern</span> <span class="op">=</span> <span class="ident">Regex</span>::<span class="ident">new</span>(<span class="string">&quot;hello&quot;</span>).<span class="ident">unwrap</span>();
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="bool-val">true</span>, <span class="ident">pattern</span>.<span class="ident">find</span>(<span class="string">&quot;hello world&quot;</span>).<span class="ident">is_some</span>());
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="bool-val">false</span>, <span class="ident">pattern</span>.<span class="ident">is_match</span>(<span class="string">&quot;hello world&quot;</span>));</pre></div>
+<h2 id="the-match-api" class="section-header"><a href="#the-match-api">The <em>Match</em> API</a></h2>
+<p>Functions in the match API check if a pattern matches the entire
+string. The simplest of these is <code>Regex::is_match</code>. This retuns a
+<code>true</code> if the pattern matches the string. For more complex useage
+then <code>Regex::match_with_options</code> and <code>Regex::match_with_encoding</code>
+can be used. These allow the capture groups to be inspected,
+matching with different options, and matching sub-sections of a
+given text.</p>
+<h2 id="the-search-api" class="section-header"><a href="#the-search-api">The <em>Search</em> API</a></h2>
+<p>Function in the search API search for a pattern anywhere within a
+string. The simplist of these is <code>Regex::find</code>. This returns the
+offset of the first occurence of the pattern within the string.
+For more complex useage <code>Regex::search_with_options</code> and
+<code>Regex::search_with_encoding</code> can be used. These allow capture
+groups to be inspected, searching with different options and
+searching within subsections of a given text.</p>
+<h2 id="the-find-api" class="section-header"><a href="#the-find-api">The <em>Find</em> API</a></h2>
+<p>The find API is built on top of the search API. Functions in this
+API allow iteration across all matches of the pattern within a
+string, not just the first one. The functions deal with some of
+the complexities of this, such as zero-length matches.</p>
+<p>The simplest step-up from the basic search API <code>Regex::find</code> is
+getting the captures relating to a match with the
+<code>Regex::captures</code> method. To find capture information for all
+matches within a string <code>Regex::find_iter</code> and
+<code>Regex::captures_iter</code> can be used. The former exposes the start
+and end of the match as <code>Regex::find</code> does, the latter exposes the
+whole capture group information as <code>Regex::captures</code> does.</p>
+<h1 id="the-stdpattern-api" class="section-header"><a href="#the-stdpattern-api">The <code>std::pattern</code> API</a></h1>
+<p>In addition to the main Oniguruma API it is possible to use the
+<code>Regex</code> object with the
+<a href="https://doc.rust-lang.org/std/str/pattern/"><code>std::pattern</code></a>
+API. To enable support compile with the <code>std-pattern</code> feature. If
+you're using Cargo you can do this by adding the following to your
+Cargo.toml:</p>
+<pre><code class="language-toml">[dependencies.onig]
+version = &quot;1.2&quot;
+features = [&quot;std-pattern&quot;]
+</code></pre>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table><tr class='module-item'><td><a class="struct" href="struct.CaptureTreeNode.html" title='onig::CaptureTreeNode struct'>CaptureTreeNode</a></td><td class='docblock-short'><p>Capture Tree Node</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.CaptureTreeNodeIter.html" title='onig::CaptureTreeNodeIter struct'>CaptureTreeNodeIter</a></td><td class='docblock-short'><p>Caputres iterator</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.Captures.html" title='onig::Captures struct'>Captures</a></td><td class='docblock-short'><p>Captures represents a group of captured strings for a single match.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.EncodedBytes.html" title='onig::EncodedBytes struct'>EncodedBytes</a></td><td class='docblock-short'><p>Byte Buffer</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.Error.html" title='onig::Error struct'>Error</a></td><td class='docblock-short'><p>This struture represents an error from the underlying Oniguruma libray.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.FindCaptures.html" title='onig::FindCaptures struct'>FindCaptures</a></td><td class='docblock-short'><p>An iterator that yields all non-overlapping capture groups matching a
+particular regular expression.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.FindMatches.html" title='onig::FindMatches struct'>FindMatches</a></td><td class='docblock-short'><p>An iterator over all non-overlapping matches for a particular string.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.MatchParam.html" title='onig::MatchParam struct'>MatchParam</a></td><td class='docblock-short'><p>Parameters for a Match or Search.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.MetaCharType.html" title='onig::MetaCharType struct'>MetaCharType</a></td><td class='docblock-short'><p>Syntax meta character types</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.Regex.html" title='onig::Regex struct'>Regex</a></td><td class='docblock-short'><p>This struct is a wrapper around an Oniguruma regular expression
+pointer. This represents a compiled regex which can be used in
+search and match operations.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.RegexOptions.html" title='onig::RegexOptions struct'>RegexOptions</a></td><td class='docblock-short'><p>Regex parsing and compilation options.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.RegexSplits.html" title='onig::RegexSplits struct'>RegexSplits</a></td><td class='docblock-short'><p>Yields all substrings delimited by a regular expression match.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.RegexSplitsN.html" title='onig::RegexSplitsN struct'>RegexSplitsN</a></td><td class='docblock-short'><p>Yields at most <code>N</code> substrings delimited by a regular expression match.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.Region.html" title='onig::Region struct'>Region</a></td><td class='docblock-short'><p>Represents a set of capture groups found in a search or match.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.SearchOptions.html" title='onig::SearchOptions struct'>SearchOptions</a></td><td class='docblock-short'><p>Regex evaluation options.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.SubCaptures.html" title='onig::SubCaptures struct'>SubCaptures</a></td><td class='docblock-short'><p>An iterator over capture groups for a particular match of a regular
+expression.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.SubCapturesPos.html" title='onig::SubCapturesPos struct'>SubCapturesPos</a></td><td class='docblock-short'><p>An iterator over capture group positions for a particular match of
+a regular expression.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.Syntax.html" title='onig::Syntax struct'>Syntax</a></td><td class='docblock-short'><p>Onig Syntax Wrapper</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.SyntaxBehavior.html" title='onig::SyntaxBehavior struct'>SyntaxBehavior</a></td><td class='docblock-short'><p>Defines the behaviour of regex operators.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.SyntaxOperator.html" title='onig::SyntaxOperator struct'>SyntaxOperator</a></td><td class='docblock-short'><p>Defines the different operators allowed within a regex syntax.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.TraverseCallbackAt.html" title='onig::TraverseCallbackAt struct'>TraverseCallbackAt</a></td><td class='docblock-short'><p>The order in which traverse callbacks are invoked</p>
+</td></tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table><tr class='module-item'><td><a class="enum" href="enum.MetaChar.html" title='onig::MetaChar enum'>MetaChar</a></td><td class='docblock-short'><p>Meta Character State</p>
+</td></tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table><tr class='module-item'><td><a class="trait" href="trait.EncodedChars.html" title='onig::EncodedChars trait'>EncodedChars</a></td><td class='docblock-short'><p>Encoded String Buffer</p>
+</td></tr><tr class='module-item'><td><a class="trait" href="trait.Replacer.html" title='onig::Replacer trait'>Replacer</a></td><td class='docblock-short'><p>Replacer describes types that can be used to replace matches in a string.</p>
+</td></tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table><tr class='module-item'><td><a class="fn" href="fn.copyright.html" title='onig::copyright fn'>copyright</a></td><td class='docblock-short'><p>Get Copyright</p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.define_user_property.html" title='onig::define_user_property fn'>define_user_property</a></td><td class='docblock-short'><p>Create a User Defined Proeprty</p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.version.html" title='onig::version fn'>version</a></td><td class='docblock-short'><p>Get Version</p>
+</td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "onig";</script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>

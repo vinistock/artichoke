@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["run","Run a REPL for the mruby interpreter exposed by the `mruby` crate."]],"struct":[["PromptConfig","Configuration for the REPL readline prompt."]]});
+initSidebarItems({"fn":[["run","Run a REPL for the mruby interpreter exposed by the `mruby` crate."]],"struct":[["ParserAllocError","Failed to initialize parser during REPL boot."],["ParserInternalError","Internal fatal parser error."],["ParserLineCountError","Parser processed too many lines of input."],["PromptConfig","Configuration for the REPL readline prompt."]]});

@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["is_require_path","Determine if an embedded ruby/spec should be tested."],["main","Main entrypoint."],["try_main","Result-returning entrypoint."]],"mod":[["model","Models for reading spec manifests."],["mspec","Embedded `MSpec` framework."],["rubyspec","Embedded copy of ruby/spec suites."]],"struct":[["Opt","CLI specification for `spec-runner`."]]});

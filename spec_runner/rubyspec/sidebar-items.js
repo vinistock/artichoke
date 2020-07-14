@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["init","Load ruby/spec sources into the Artichoke virtual filesystem."]],"struct":[["Specs","ruby/spec source code."]]});

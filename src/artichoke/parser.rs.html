@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/parser.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>parser.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../artichoke/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/parser.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>parser.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="https://www.artichokeruby.org/favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../artichoke/index.html'><div class='logo-container'><img src='https://www.artichokeruby.org/artichoke-logo.svg' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -189,8 +189,26 @@
 <span id="189">189</span>
 <span id="190">190</span>
 <span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="doccomment">//! Parser for Ruby code that determines if it is fit to eval on an interpreter.</span>
+<span class="doccomment">//! Detect if Ruby code parses successfully.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! The REPL needs to check if code is valid to determine whether it should</span>
+<span class="doccomment">//! enter multiline editing mode.</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">TryFrom</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">CStr</span>;
@@ -203,7 +221,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// This enum only encapsulates whether artichoke can parse the code. It may</span>
 <span class="doccomment">/// still have syntactic or semantic errors.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
     <span class="doccomment">/// Internal parser error. This is a fatal error.</span>
     <span class="ident">ParseError</span>,
@@ -226,6 +244,12 @@
 }
 
 <span class="kw">impl</span> <span class="ident">State</span> {
+    <span class="doccomment">/// Construct a new, default `State`.</span>
+    <span class="attribute">#[<span class="ident">must_use</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span>::<span class="ident">default</span>()
+    }
+
     <span class="doccomment">/// Whether this variant indicates a code block is open.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This method can be used by a REPL to check whether to buffer code or</span>
@@ -276,12 +300,15 @@
 <span class="kw">impl</span> <span class="ident">Parser</span> {
     <span class="doccomment">/// Create a new parser from an interpreter instance.</span>
     <span class="attribute">#[<span class="ident">must_use</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">borrow</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="number">0</span>.<span class="ident">borrow_mut</span>();
-        <span class="kw">let</span> <span class="ident">mrb</span> <span class="op">=</span> <span class="ident">borrow</span>.<span class="ident">mrb</span>;
-        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">borrow</span>.<span class="ident">parser</span>.<span class="ident">context_mut</span>();
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">interp</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Artichoke</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">interp</span>.<span class="ident">state</span>.<span class="ident">as_mut</span>()<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">state</span>.<span class="ident">parser</span>.<span class="ident">as_mut</span>()<span class="question-mark">?</span>.<span class="ident">context_mut</span>();
         <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">NonNull</span>::<span class="ident">new</span>(<span class="ident">context</span>)<span class="question-mark">?</span>;
-        <span class="kw">let</span> <span class="ident">parser</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">sys</span>::<span class="ident">mrb_parser_new</span>(<span class="ident">mrb</span>) };
+        <span class="kw">let</span> <span class="ident">parser</span> <span class="op">=</span> <span class="kw">unsafe</span> {
+            <span class="ident">interp</span>
+                .<span class="ident">with_ffi_boundary</span>(<span class="op">|</span><span class="ident">mrb</span><span class="op">|</span> <span class="ident">sys</span>::<span class="ident">mrb_parser_new</span>(<span class="ident">mrb</span>))
+                .<span class="ident">ok</span>()<span class="question-mark">?</span>
+        };
         <span class="kw">let</span> <span class="ident">parser</span> <span class="op">=</span> <span class="ident">NonNull</span>::<span class="ident">new</span>(<span class="ident">parser</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Some</span>(<span class="self">Self</span> { <span class="ident">parser</span>, <span class="ident">context</span> })
     }
@@ -297,7 +324,10 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// If the underlying parser returns a UTF-8 invalid error message, an error</span>
     <span class="doccomment">/// is returned.</span>
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">enum_glob_use</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">code</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">State</span> {
+        <span class="kw">use</span> <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="kw-2">*</span>;
+
         <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">len</span>) <span class="op">=</span> <span class="ident">isize</span>::<span class="ident">try_from</span>(<span class="ident">code</span>.<span class="ident">len</span>()) {
             <span class="ident">len</span>
         } <span class="kw">else</span> {
@@ -340,30 +370,30 @@
             <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">match_same_arms</span>)]</span>
             <span class="kw">let</span> <span class="ident">code_has_unterminated_expression</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">parser</span>.<span class="ident">lstate</span> {
                 <span class="comment">// beginning of a statement, that means previous line ended</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_BEG</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+                <span class="ident">EXPR_BEG</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
                 <span class="comment">// a message dot was the last token, there has to come more</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_DOT</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
+                <span class="ident">EXPR_DOT</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
                 <span class="comment">// class keyword is not enough! we need also a name of the class</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_CLASS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
+                <span class="ident">EXPR_CLASS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
                 <span class="comment">// a method name is necessary</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_FNAME</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
+                <span class="ident">EXPR_FNAME</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
                 <span class="comment">// if, elsif, etc. without condition</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_VALUE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
+                <span class="ident">EXPR_VALUE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
                 <span class="comment">// an argument is the last token</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_ARG</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+                <span class="ident">EXPR_ARG</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
                 <span class="comment">// a block/proc/lambda argument is the last token</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_CMDARG</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+                <span class="ident">EXPR_CMDARG</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
                 <span class="comment">// an expression was ended</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_END</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+                <span class="ident">EXPR_END</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
                 <span class="comment">// closing parenthesis</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_ENDARG</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+                <span class="ident">EXPR_ENDARG</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
                 <span class="comment">// definition end</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_ENDFN</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+                <span class="ident">EXPR_ENDFN</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
                 <span class="comment">// jump keyword like break, return, ...</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_MID</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+                <span class="ident">EXPR_MID</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
                 <span class="comment">// this token is unreachable and is used to do integer math on the</span>
                 <span class="comment">// values of `mrb_lex_state_enum`.</span>
-                <span class="ident">sys</span>::<span class="ident">mrb_lex_state_enum</span>::<span class="ident">EXPR_MAX_STATE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+                <span class="ident">EXPR_MAX_STATE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
             };
             <span class="kw">if</span> <span class="ident">code_has_unterminated_expression</span> {
                 <span class="ident">State</span>::<span class="ident">UnterminatedBlock</span>

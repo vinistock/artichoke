@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["parse",""]],"struct":[["Pattern","A Regexp pattern including its derived `Options`."]]});

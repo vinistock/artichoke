@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Captured",""],["Null",""],["Process",""]],"trait":[["Output",""]]});
+initSidebarItems({"struct":[["Captured",""],["Null",""],["Process",""]],"trait":[["Output",""]],"type":[["Strategy",""]]});

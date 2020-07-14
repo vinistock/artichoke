@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["new",""]],"struct":[["Rand",""]]});
+initSidebarItems({"fn":[["new",""]],"struct":[["Rand",""]],"type":[["Rng",""]]});

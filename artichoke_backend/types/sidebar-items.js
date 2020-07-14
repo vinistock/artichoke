@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Ruby","Classes of Ruby types."],["Rust","Classes of Rust types."]],"fn":[["ruby_from_mrb_value",""]],"type":[["Float",""],["Int",""]]});
+initSidebarItems({"enum":[["Ruby","Classes of Ruby types."],["Rust","Classes of Rust types."]],"fn":[["ruby_from_mrb_value","Parse a [`Ruby`] type classifier from a [`sys::mrb_value`]."]],"type":[["Fp","Artichoke native floating point type."],["Int","Artichoke native integer type."]]});

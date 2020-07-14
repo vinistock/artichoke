@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["day",""],["hour",""],["microsecond",""],["minute",""],["month",""],["nanosecond",""],["now",""],["second",""],["weekday",""],["year",""],["year_day",""]]});
+initSidebarItems({"fn":[["day",""],["hour",""],["is_friday",""],["is_monday",""],["is_saturday",""],["is_sunday",""],["is_thursday",""],["is_tuesday",""],["is_wednesday",""],["microsecond",""],["minute",""],["month",""],["nanosecond",""],["now",""],["second",""],["weekday",""],["year",""],["year_day",""]]});

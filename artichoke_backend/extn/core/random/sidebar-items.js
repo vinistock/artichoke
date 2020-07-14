@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["bytes",""],["eql",""],["initialize",""],["new_seed",""],["rand",""],["seed",""],["srand",""],["urandom",""]],"mod":[["backend",""],["mruby",""]],"struct":[["Random",""]]});
+initSidebarItems({"enum":[["RandomNumber",""],["RandomNumberMax",""],["Seed",""]],"fn":[["srand",""],["urandom",""]],"mod":[["backend",""],["mruby",""],["trampoline",""]],"struct":[["Random",""]]});
